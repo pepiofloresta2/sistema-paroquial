@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Paroquial</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<header>
+    <img src="assets/logo.png" alt="Logo">
+    <h2>Sistema Paroquial</h2>
+</header>
+
+<div class="container">
+
+    <!-- DIZIMISTAS -->
+    <div class="card">
+        <h3>Cadastro de Dizimistas</h3>
+
+        <div class="grid">
+            <input id="dz_codigo" placeholder="Código do Dizimista">
+            <input id="dz_nome" placeholder="Nome Completo">
+            <input id="dz_tel" placeholder="Telefone">
+        </div>
+
+        <div class="botoes">
+            <button onclick="Dizimistas.adicionar()">Cadastrar</button>
+            <button onclick="Dizimistas.listar()">Ver Lista</button>
+        </div>
+
+        <div id="listaDizimistas"></div>
+    </div>
+
+    <!-- LANÇAMENTOS -->
+    <div class="card">
+        <h3>Lançamentos Financeiros</h3>
+
+        <div class="grid">
+
+            <input id="data" type="date">
+
+            <select id="tipo">
+                <option>Entrada</option>
+                <option>Saída</option>
+            </select>
+
+            <select id="categoria">
+                <option>Dízimo</option>
+                <option>Doação</option>
+                <option>Coleta</option>
+                <option>Energia</option>
+                <option>Água</option>
+                <option>Aluguel</option>
+                <option>Outros</option>
+            </select>
+
+            <select id="forma">
+                <option>Dinheiro</option>
+                <option>PIX</option>
+            </select>
+
+            <input
+                id="codigo"
+                placeholder="Código Dizimista"
+                onblur="UI.buscarDizimista()"
+            >
+
+            <input
+                id="nomeLanc"
+                placeholder="Nome automático"
+                readonly
+            >
+
+            <input
+                id="valor"
+                placeholder="R$ 0,00"
+            >
+
+        </div>
+
+        <div class="botoes">
+            <button onclick="UI.lancar()">Lançar</button>
+        </div>
+    </div>
+
+    <!-- RELATÓRIO -->
+    <div class="card">
+        <h3>Relatório Mensal</h3>
+
+        <div class="grid">
+            <input type="month" id="mesFiltro">
+        </div>
+
+        <div class="botoes">
+            <button onclick="UI.relatorio()">Gerar Relatório</button>
+            <button onclick="PDF.gerar()">Gerar PDF</button>
+            <button onclick="UI.imprimir()">Imprimir</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="res" class="card"></div>
+
+</div>
+
+<!-- ORDEM DOS SCRIPTS É MUITO IMPORTANTE -->
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+
+<script src="js/dizimistas.js"></script>
+<script src="js/lancamentos.js"></script>
+<script src="js/relatorio.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
