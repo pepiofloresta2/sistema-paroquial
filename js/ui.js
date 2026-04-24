@@ -4,12 +4,13 @@ const UI = {
 
         let codigo = document.getElementById("codigo").value.trim();
 
-        if (!codigo) {
-            document.getElementById("nomeLanc").value = "";
-            return;
-        }
+        if (!codigo) return;
 
-        Dizimistas.buscarPorCodigo(codigo);
+        fetch(CONFIG.API_URL + "?acao=buscar_dizimista&codigo=" + codigo)
+            .then(res => res.json())
+            .then(d => {
+                document.getElementById("nomeLanc").value = d.nome || "";
+            });
     },
 
     lancar() {

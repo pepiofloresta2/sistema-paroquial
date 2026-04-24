@@ -52,7 +52,34 @@ const Dizimistas = {
     },
 
     listar() {
-        alert("A listagem completa entraremos na versão PRO administrativa.");
-    }
+
+    fetch(CONFIG.API_URL + "?acao=listar_dizimistas")
+        .then(res => res.json())
+        .then(d => {
+
+            let html = `
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                    </tr>
+            `;
+
+            d.lista.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.codigo}</td>
+                        <td>${item.nome}</td>
+                        <td>${item.tel}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</table>`;
+
+            document.getElementById("listaDizimistas").innerHTML = html;
+        });
+}
 
 };
