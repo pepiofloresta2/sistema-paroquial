@@ -24,59 +24,24 @@ const UI = {
     imprimir() {
 
         if (!window.__RELATORIO_PRONTO__) {
-            alert("Gere o relatório primeiro.");
+            alert("Gere o relatório primeiro");
             return;
         }
 
-        let area = document.getElementById("doc");
+        let conteudo = document.getElementById("doc");
 
-        if (!area) {
-            alert("Relatório não encontrado.");
+        if (!conteudo) {
+            alert("Relatório não encontrado");
             return;
         }
 
-        let janela = window.open("", "", "width=900,height=700");
+        let janela = window.open("", "_blank");
 
-        janela.document.write(`
-            <html>
-                <head>
-                    <title>Impressão</title>
-                    <style>
-                        body {
-                            font-family: Arial;
-                            padding: 20px;
-                        }
-
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-
-                        th, td {
-                            border: 1px solid #000;
-                            padding: 6px;
-                            text-align: left;
-                        }
-
-                        th {
-                            background: #f0f0f0;
-                        }
-
-                        h3, h4 {
-                            text-align: center;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${area.outerHTML}
-                </body>
-            </html>
-        `);
-
+        janela.document.open();
+        janela.document.body.innerHTML = conteudo.outerHTML;
         janela.document.close();
 
         setTimeout(() => {
-            janela.focus();
             janela.print();
         }, 500);
     }
