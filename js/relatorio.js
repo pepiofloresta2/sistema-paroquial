@@ -5,11 +5,13 @@ const Relatorio = {
         let mesInput = document.getElementById("mesFiltro").value;
 
         if (!mesInput) {
-            alert("Selecione o mês.");
+            alert("Selecione o mês");
             return;
         }
 
-        let [ano, mes] = mesInput.split("-");
+        let partes = mesInput.split("-");
+        let ano = partes[0];
+        let mes = partes[1];
 
         API.enviar({
             acao: "buscar_relatorio",
@@ -17,6 +19,8 @@ const Relatorio = {
             ano: ano
         })
         .then(res => {
+
+            console.log("RELATORIO:", res);
 
             if (!res || !res.lista || res.lista.length === 0) {
                 document.getElementById("res").innerHTML =
@@ -31,25 +35,22 @@ const Relatorio = {
 
             res.lista.forEach(item => {
 
-                let tipo = item.tipo || "";
-                let categoria = item.categoria || "";
                 let valor = parseFloat(item.valor || 0);
+                let entrada = "";
+                let saida = "";
 
-                // Dízimo entra somado, não individual
-                if (categoria === "Dízimo") {
+                // Dízimo consolidado
+                if (item.categoria === "Dízimo") {
                     totalDizimo += valor;
                     return;
                 }
 
-                let entrada = "";
-                let saida = "";
-
-                if (tipo === "Entrada") {
+                if (item.tipo === "Entrada") {
                     entrada = "R$ " + valor.toFixed(2);
                     totalEntradas += valor;
                 }
 
-                if (tipo === "Saída") {
+                if (item.tipo === "Saída") {
                     saida = "R$ " + valor.toFixed(2);
                     totalSaidas += valor;
                 }
@@ -57,14 +58,13 @@ const Relatorio = {
                 linhas += `
                     <tr>
                         <td>${item.data || ""}</td>
-                        <td>${categoria}</td>
+                        <td>${item.categoria || ""}</td>
                         <td>${entrada}</td>
                         <td>${saida}</td>
                     </tr>
                 `;
             });
 
-            // adiciona o total de dízimo consolidado
             if (totalDizimo > 0) {
                 linhas += `
                     <tr>
@@ -74,12 +74,13 @@ const Relatorio = {
                         <td></td>
                     </tr>
                 `;
+
                 totalEntradas += totalDizimo;
             }
 
             let saldo = totalEntradas - totalSaidas;
 
-            let html = `
+            document.getElementById("res").innerHTML = `
                 <div id="doc" class="relatorio">
 
                     <h3 style="text-align:center;">
@@ -87,7 +88,7 @@ const Relatorio = {
                     </h3>
 
                     <h4 style="text-align:center;">
-                        Relatório Mensal - ${mes}/${ano}
+                        Relatório ${mes}/${ano}
                     </h4>
 
                     <table>
@@ -123,10 +124,7 @@ const Relatorio = {
                 </div>
             `;
 
-            document.getElementById("res").innerHTML = html;
             window.__RELATORIO_PRONTO__ = true;
-
         });
     }
-
 };
