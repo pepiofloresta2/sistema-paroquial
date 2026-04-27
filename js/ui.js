@@ -6,11 +6,12 @@ const UI = {
 
         if (!codigo) return;
 
-        fetch(CONFIG.API_URL + "?acao=buscar_dizimista&codigo=" + codigo)
-            .then(res => res.json())
-            .then(d => {
-                document.getElementById("nomeLanc").value = d.nome || "";
-            });
+        API.enviar({
+            acao: "buscar_dizimista",
+            codigo
+        }).then(res => {
+            document.getElementById("nomeLanc").value = res.nome || "";
+        });
     },
 
     lancar() {
@@ -28,9 +29,9 @@ const UI = {
             return;
         }
 
-        let conteudo = document.getElementById("doc");
+        let area = document.getElementById("doc");
 
-        if (!conteudo) {
+        if (!area) {
             alert("Relatório não encontrado");
             return;
         }
@@ -38,7 +39,16 @@ const UI = {
         let janela = window.open("", "_blank");
 
         janela.document.open();
-        janela.document.body.innerHTML = conteudo.outerHTML;
+        janela.document.write(`
+            <html>
+                <head>
+                    <title>Impressão</title>
+                </head>
+                <body>
+                    ${area.outerHTML}
+                </body>
+            </html>
+        `);
         janela.document.close();
 
         setTimeout(() => {

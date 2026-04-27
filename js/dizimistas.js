@@ -7,56 +7,32 @@ const Dizimistas = {
         let tel = document.getElementById("dz_tel").value.trim();
 
         if (!codigo || !nome) {
-            alert("Informe código e nome do dizimista.");
+            alert("Informe código e nome");
             return;
         }
 
         API.enviar({
             acao: "cadastrar_dizimista",
-            codigo: codigo,
-            nome: nome,
-            tel: tel
-        })
-        .then(res => {
+            codigo,
+            nome,
+            tel
+        }).then(res => {
             if (res && res.status === "ok") {
-                alert("Dizimista cadastrado com sucesso!");
-                this.limpar();
-            } else {
-                alert("Erro ao cadastrar dizimista.");
+                alert("Dizimista cadastrado com sucesso");
+                document.getElementById("dz_codigo").value = "";
+                document.getElementById("dz_nome").value = "";
+                document.getElementById("dz_tel").value = "";
             }
         });
-    },
-
-    buscarPorCodigo(codigo) {
-
-        if (!codigo) return;
-
-        API.enviar({
-            acao: "buscar_dizimista",
-            codigo: codigo
-        })
-        .then(res => {
-            if (res && res.nome) {
-                document.getElementById("nomeLanc").value = res.nome;
-            } else {
-                document.getElementById("nomeLanc").value = "";
-                alert("Dizimista não encontrado.");
-            }
-        });
-    },
-
-    limpar() {
-        document.getElementById("dz_codigo").value = "";
-        document.getElementById("dz_nome").value = "";
-        document.getElementById("dz_tel").value = "";
     },
 
     listar() {
 
-    fetch(CONFIG.API_URL + "?acao=listar_dizimistas")
-        .then(res => res.json())
-        .then(d => {
+        API.enviar({
+            acao: "listar_dizimistas"
+        }).then(res => {
 
+            let lista = res.lista || [];
             let html = `
                 <table>
                     <tr>
@@ -66,20 +42,19 @@ const Dizimistas = {
                     </tr>
             `;
 
-            d.lista.forEach(item => {
+            lista.forEach(item => {
                 html += `
                     <tr>
-                        <td>${item.codigo}</td>
-                        <td>${item.nome}</td>
-                        <td>${item.tel}</td>
+                        <td>${item.codigo || ""}</td>
+                        <td>${item.nome || ""}</td>
+                        <td>${item.tel || ""}</td>
                     </tr>
                 `;
             });
 
             html += `</table>`;
-
             document.getElementById("listaDizimistas").innerHTML = html;
         });
-}
+    }
 
 };
