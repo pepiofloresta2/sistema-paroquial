@@ -1,4 +1,3 @@
-console.log("RELATORIO CARREGADO");
 const Relatorio = {
 
     gerar() {

@@ -4,19 +4,12 @@ const API = {
 
         let url = CONFIG.API_URL + "?" + new URLSearchParams(params);
 
-        return fetch(url, {
-            method: "GET",
-            mode: "no-cors"
-        })
-        .then(() => {
-            return {
-                status: "ok"
-            };
-        })
-        .catch(err => {
-            console.error("Erro de comunicação:", err);
-            alert("Erro ao conectar com Google Sheets.");
-        });
+        return fetch(url)
+            .then(res => res.json())
+            .catch(err => {
+                console.error("Erro:", err);
+                alert("Erro ao conectar com Google Sheets.");
+            });
     }
 
 };
