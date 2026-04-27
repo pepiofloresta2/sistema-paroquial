@@ -18,7 +18,7 @@ const Relatorio = {
         })
         .then(res => {
 
-            if (!res || !res.dados || res.dados.length === 0) {
+            if (!res || !res.lista || res.lista.length === 0) {
                 document.getElementById("res").innerHTML =
                     "<p>Sem lançamentos neste período.</p>";
                 return;
@@ -29,7 +29,7 @@ const Relatorio = {
             let totalSaidas = 0;
             let totalDizimo = 0;
 
-            res.dados.forEach(item => {
+            res.lista.forEach(item => {
 
                 let tipo = item.tipo || "";
                 let categoria = item.categoria || "";
