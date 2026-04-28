@@ -133,7 +133,7 @@
         Relatório Financeiro
       </button>
 
-      <button onclick="Dizimistas.listar()" class="px-5 py-3 rounded-xl border">
+      <button onclick="Dizimistas.listar(); document.getElementById('blocoListaDizimistas').classList.remove('hidden');" class="px-5 py-3 rounded-xl border">
         Lista de Dizimistas
       </button>
 
@@ -148,11 +148,11 @@
 
     
 
-    <div class="mt-8 bg-white rounded-2xl shadow p-6">
+    <div id="blocoListaDizimistas" class="hidden mt-8 bg-white rounded-2xl shadow p-6">
       <h4 class="text-xl font-bold mb-4 text-center">Lista de Dizimistas</h4>
 
       <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
+        <table class="w-full border-collapse text-sm md:text-base">
           
           <tbody id="listaDizimistas"></tbody>
         </table>
