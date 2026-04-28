@@ -16,17 +16,27 @@ const PDF = {
             return;
         }
 
+        let elemento = area.cloneNode(true);
+
+        elemento.style.background = "#ffffff";
+        elemento.style.padding = "20px";
+        elemento.style.width = "100%";
+        elemento.style.display = "block";
+        elemento.style.visibility = "visible";
+
+        document.body.appendChild(elemento);
+
         const opt = {
             margin: 10,
             filename: "relatorio-paroquial.pdf",
             image: {
                 type: "jpeg",
-                quality: 0.98
+                quality: 1
             },
             html2canvas: {
-                scale: 2,
-                useCORS: true,
-                logging: false
+                scale: 3,
+                logging: false,
+                useCORS: true
             },
             jsPDF: {
                 unit: "mm",
@@ -37,8 +47,11 @@ const PDF = {
 
         html2pdf()
             .set(opt)
-            .from(area)
-            .save();
+            .from(elemento)
+            .save()
+            .then(() => {
+                document.body.removeChild(elemento);
+            });
     }
 
 };
