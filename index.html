@@ -1,105 +1,170 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema Paroquial</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Paroquial</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-  <div class="flex min-h-screen">
+<div class="flex min-h-screen">
 
-    <!-- Sidebar -->
+    <!-- MENU LATERAL -->
     <aside class="w-72 bg-slate-900 text-white p-6 shadow-xl">
-      <h1 class="text-2xl font-bold mb-8">Sistema Paroquial</h1>
+        <h1 class="text-2xl font-bold mb-8">Sistema Paroquial</h1>
 
-      <nav class="space-y-3">
-        <button onclick="mostrarTela('dizimistas')" class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
-          Cadastro de Dizimistas
-        </button>
+        <nav class="space-y-3">
+            <button onclick="mostrarTela('dizimistas')"
+                class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
+                Cadastro de Dizimistas
+            </button>
 
-        <button onclick="mostrarTela('lancamentos')" class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
-          Lançamentos
-        </button>
+            <button onclick="mostrarTela('lancamentos')"
+                class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
+                Lançamentos
+            </button>
 
-        <button onclick="mostrarTela('relatorios')" class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
-          Relatórios
-        </button>
-      </nav>
+            <button onclick="mostrarTela('relatorios')"
+                class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition">
+                Relatórios
+            </button>
+        </nav>
     </aside>
 
-    <!-- Conteúdo -->
+    <!-- CONTEÚDO -->
     <main class="flex-1 p-8">
 
-      <!-- Dizimistas -->
-      <section id="dizimistas" class="tela bg-white rounded-2xl shadow p-8">
-        <h2 class="text-2xl font-semibold mb-6">Cadastro de Dizimistas</h2>
+        <!-- DIZIMISTAS -->
+        <section id="dizimistas" class="tela bg-white rounded-2xl shadow p-8">
+            <h2 class="text-2xl font-semibold mb-6">Cadastro de Dizimistas</h2>
 
-        <div class="grid md:grid-cols-3 gap-4">
-          <input id="dz_codigo" placeholder="Código" class="border rounded-xl p-3" />
-          <input id="dz_nome" placeholder="Nome" class="border rounded-xl p-3" />
-          <input id="dz_tel" placeholder="Telefone" class="border rounded-xl p-3" />
-        </div>
+            <div class="grid md:grid-cols-3 gap-4">
+                <input id="dz_codigo" placeholder="Código" class="border rounded-xl p-3">
+                <input id="dz_nome" placeholder="Nome" class="border rounded-xl p-3">
+                <input id="dz_tel" placeholder="Telefone" class="border rounded-xl p-3">
+            </div>
 
-        <div class="mt-6 flex gap-3">
-          <button onclick="Dizimistas.adicionar()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-            Cadastrar
-          </button>
+            <div class="mt-6 flex gap-3 flex-wrap">
+                <button onclick="Dizimistas.adicionar()"
+                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+                    Cadastrar
+                </button>
 
-          <button onclick="Dizimistas.listar()" class="px-5 py-3 rounded-xl border">
-            Ver Lista
-          </button>
-        </div>
+                <button onclick="Dizimistas.listar()"
+                    class="px-5 py-3 rounded-xl border">
+                    Ver Lista
+                </button>
+            </div>
 
-        <div id="listaDizimistas" class="mt-8"></div>
-      </section>
+            <div id="listaDizimistas" class="mt-8"></div>
+        </section>
 
-      <!-- Lançamentos -->
-      <section id="lancamentos" class="tela hidden bg-white rounded-2xl shadow p-8">
-        <h2 class="text-2xl font-semibold mb-6">Lançamentos</h2>
+        <!-- LANÇAMENTOS -->
+        <section id="lancamentos" class="tela hidden bg-white rounded-2xl shadow p-8">
+            <h2 class="text-2xl font-semibold mb-6">Lançamentos</h2>
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <input id="data" type="date" class="border rounded-xl p-3" />
-          <input id="valor" placeholder="Valor" class="border rounded-xl p-3" />
-        </div>
-      </section>
+            <div class="grid md:grid-cols-2 gap-4">
+                <input id="data" type="date" class="border rounded-xl p-3">
 
-      <!-- Relatórios -->
-      <section id="relatorios" class="tela hidden bg-white rounded-2xl shadow p-8">
-        <h2 class="text-2xl font-semibold mb-6">Relatórios</h2>
+                <select id="tipo" class="border rounded-xl p-3">
+                    <option>Entrada</option>
+                    <option>Saída</option>
+                </select>
 
-        <input type="month" id="mesFiltro" class="border rounded-xl p-3" />
+                <select id="categoria" class="border rounded-xl p-3">
+                    <option>Dízimo</option>
+                    <option>Coleta</option>
+                    <option>Doação</option>
+                    <option>Energia</option>
+                    <option>Água</option>
+                    <option>Aluguel</option>
+                    <option>Outros</option>
+                </select>
 
-        <div class="mt-6 flex gap-3 flex-wrap">
-          <button onclick="UI.relatorio()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-            Relatório Financeiro
-          </button>
+                <select id="forma" class="border rounded-xl p-3">
+                    <option>Dinheiro</option>
+                    <option>PIX</option>
+                </select>
 
-          <button onclick="RelatorioDizimistas.gerar()" class="px-5 py-3 rounded-xl border">
-            Relatório Dizimistas
-          </button>
+                <input id="codigo"
+                    placeholder="Código Dizimista"
+                    onblur="UI.buscarDizimista()"
+                    class="border rounded-xl p-3">
 
-          <button onclick="UI.imprimir()" class="px-5 py-3 rounded-xl border">
-            Imprimir / Salvar PDF
-          </button>
-        </div>
+                <input id="nomeLanc"
+                    placeholder="Nome automático"
+                    readonly
+                    class="border rounded-xl p-3 bg-slate-100">
 
-        <div id="res" class="mt-8"></div>
-      </section>
+                <input id="valor"
+                    placeholder="Valor"
+                    class="border rounded-xl p-3">
+            </div>
+
+            <div class="mt-6">
+                <button onclick="UI.lancar()"
+                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+                    Lançar
+                </button>
+            </div>
+        </section>
+
+        <!-- RELATÓRIOS -->
+        <section id="relatorios" class="tela hidden bg-white rounded-2xl shadow p-8">
+            <h2 class="text-2xl font-semibold mb-6">Relatórios</h2>
+
+            <div class="max-w-sm">
+                <input type="month" id="mesFiltro"
+                    class="border rounded-xl p-3 w-full">
+            </div>
+
+            <div class="mt-6 flex gap-3 flex-wrap">
+                <button onclick="UI.relatorio()"
+                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+                    Relatório Financeiro
+                </button>
+
+                <button onclick="RelatorioDizimistas.gerar()"
+                    class="px-5 py-3 rounded-xl border">
+                    Relatório Dizimistas
+                </button>
+
+                <button onclick="UI.imprimir()"
+                    class="px-5 py-3 rounded-xl border">
+                    Imprimir / Salvar PDF
+                </button>
+            </div>
+
+            <div id="res" class="mt-8"></div>
+        </section>
 
     </main>
-  </div>
+</div>
 
-  <script>
-    function mostrarTela(id) {
-      document.querySelectorAll('.tela').forEach(el => {
+<script>
+function mostrarTela(id) {
+    document.querySelectorAll('.tela').forEach(el => {
         el.classList.add('hidden');
-      });
+    });
 
-      document.getElementById(id).classList.remove('hidden');
-    }
-  </script>
+    document.getElementById(id).classList.remove('hidden');
+}
+</script>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+
+<script src="js/dizimistas.js"></script>
+<script src="js/lancamentos.js"></script>
+
+<script src="js/relatorio.js"></script>
+<script src="js/relatorio-dizimistas.js"></script>
+
+<script src="js/ui.js"></script>
 
 </body>
 </html>
