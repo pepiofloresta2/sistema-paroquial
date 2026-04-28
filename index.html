@@ -1,173 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Paroquial</title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Paroquial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-<div class="flex min-h-screen">
+<div class="min-h-screen flex flex-col md:flex-row">
 
-    <!-- MENU LATERAL -->
-    <aside class="w-72 bg-slate-950 text-white p-5 shadow-xl">
-        <div class="flex items-center gap-4 mb-10">
-            <img src="assets/logo.png" alt="Logo" class="w-14 h-14 object-contain rounded-2xl bg-white p-2">
-            <h1 class="text-3xl font-bold leading-tight">Sistema<br>Paroquial</h1>
-        </div>
+  <!-- Sidebar -->
+  <aside class="w-full md:w-72 bg-slate-950 text-white p-5 shadow-xl">
+    <div class="flex items-center gap-4 mb-8">
+      <img src="assets/logo.png" alt="Logo" class="w-14 h-14 rounded-2xl bg-white p-2 object-contain">
+      <h1 class="text-3xl font-bold leading-tight">
+        Sistema<br>Paroquial
+      </h1>
+    </div>
 
-        <nav class="space-y-5">
-            <button onclick="mostrarTela('dizimistas')"
-                class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800/80 hover:bg-slate-700 transition text-lg font-medium shadow">
-                Cadastro de Dizimistas
-            </button>
+    <div class="grid gap-4">
+      <button onclick="abrirModal('modalDizimistas')"
+        class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 transition text-lg font-medium">
+        Cadastro de Dizimistas
+      </button>
 
-            <button onclick="mostrarTela('lancamentos')"
-                class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800/80 hover:bg-slate-700 transition text-lg font-medium shadow">
-                Lançamentos
-            </button>
+      <button onclick="abrirModal('modalLancamentos')"
+        class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 transition text-lg font-medium">
+        Lançamentos
+      </button>
 
-            <button onclick="mostrarTela('relatorios')"
-                class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800/80 hover:bg-slate-700 transition text-lg font-medium shadow">
-                Relatórios
-            </button>
-        </nav>
-    </aside>
+      <button onclick="abrirModal('modalRelatorios')"
+        class="w-full text-left px-5 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 transition text-lg font-medium">
+        Relatórios
+      </button>
+    </div>
+  </aside>
 
-    <!-- CONTEÚDO -->
-    <main class="flex-1 p-8">
+  <!-- Área principal -->
+  <main class="flex-1 p-6 md:p-10 flex items-center justify-center">
+    <div class="bg-white rounded-3xl shadow-lg p-8 w-full max-w-3xl text-center">
+      <h2 class="text-3xl font-bold mb-4">Bem-vindo</h2>
+      <p class="text-slate-600 text-lg">
+        Selecione uma opção no menu para gerenciar o sistema paroquial.
+      </p>
+    </div>
+  </main>
 
-        <!-- DIZIMISTAS -->
-        <section id="dizimistas" class="tela bg-white rounded-2xl shadow p-8">
-            <h2 class="text-2xl font-semibold mb-6">Cadastro de Dizimistas</h2>
+</div>
 
-            <div class="grid md:grid-cols-3 gap-4">
-                <input id="dz_codigo" placeholder="Código" class="border rounded-xl p-3">
-                <input id="dz_nome" placeholder="Nome" class="border rounded-xl p-3">
-                <input id="dz_tel" placeholder="Telefone" class="border rounded-xl p-3">
-            </div>
+<!-- Modal Dizimistas -->
+<div id="modalDizimistas" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl p-6 w-full max-w-2xl shadow-xl">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold">Cadastro de Dizimistas</h3>
+      <button onclick="fecharModal('modalDizimistas')" class="text-2xl">×</button>
+    </div>
 
-            <div class="mt-6 flex gap-3 flex-wrap">
-                <button onclick="Dizimistas.adicionar()"
-                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-                    Cadastrar
-                </button>
+    <div class="grid md:grid-cols-3 gap-4">
+      <input id="dz_codigo" placeholder="Código" class="border rounded-xl p-3">
+      <input id="dz_nome" placeholder="Nome" class="border rounded-xl p-3">
+      <input id="dz_tel" placeholder="Telefone" class="border rounded-xl p-3">
+    </div>
 
-                <button onclick="Dizimistas.listar()"
-                    class="px-5 py-3 rounded-xl border">
-                    Ver Lista
-                </button>
-            </div>
+    <div class="mt-6 flex gap-3 flex-wrap">
+      <button onclick="Dizimistas.adicionar()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+        Cadastrar
+      </button>
+      <button onclick="Dizimistas.listar()" class="px-5 py-3 rounded-xl border">
+        Ver Lista
+      </button>
+    </div>
 
-            <div id="listaDizimistas" class="mt-8"></div>
-        </section>
+    <div id="listaDizimistas" class="mt-6"></div>
+  </div>
+</div>
 
-        <!-- LANÇAMENTOS -->
-        <section id="lancamentos" class="tela hidden bg-white rounded-2xl shadow p-8">
-            <h2 class="text-2xl font-semibold mb-6">Lançamentos</h2>
+<!-- Modal Lançamentos -->
+<div id="modalLancamentos" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl p-6 w-full max-w-3xl shadow-xl">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold">Lançamentos</h3>
+      <button onclick="fecharModal('modalLancamentos')" class="text-2xl">×</button>
+    </div>
 
-            <div class="grid md:grid-cols-2 gap-4">
-                <input id="data" type="date" class="border rounded-xl p-3">
+    <div class="grid md:grid-cols-2 gap-4">
+      <input id="data" type="date" class="border rounded-xl p-3">
 
-                <select id="tipo" class="border rounded-xl p-3">
-                    <option>Entrada</option>
-                    <option>Saída</option>
-                </select>
+      <select id="tipo" class="border rounded-xl p-3">
+        <option>Entrada</option>
+        <option>Saída</option>
+      </select>
 
-                <select id="categoria" class="border rounded-xl p-3">
-                    <option>Dízimo</option>
-                    <option>Coleta</option>
-                    <option>Doação</option>
-                    <option>Energia</option>
-                    <option>Água</option>
-                    <option>Aluguel</option>
-                    <option>Outros</option>
-                </select>
+      <select id="categoria" class="border rounded-xl p-3">
+        <option>Dízimo</option>
+        <option>Coleta</option>
+        <option>Doação</option>
+        <option>Energia</option>
+        <option>Água</option>
+        <option>Aluguel</option>
+        <option>Outros</option>
+      </select>
 
-                <select id="forma" class="border rounded-xl p-3">
-                    <option>Dinheiro</option>
-                    <option>PIX</option>
-                </select>
+      <select id="forma" class="border rounded-xl p-3">
+        <option>Dinheiro</option>
+        <option>PIX</option>
+      </select>
 
-                <input id="codigo"
-                    placeholder="Código Dizimista"
-                    onblur="UI.buscarDizimista()"
-                    class="border rounded-xl p-3">
+      <input id="codigo" placeholder="Código Dizimista" onblur="UI.buscarDizimista()" class="border rounded-xl p-3">
+      <input id="nomeLanc" placeholder="Nome automático" readonly class="border rounded-xl p-3 bg-slate-100">
+      <input id="valor" placeholder="Valor" class="border rounded-xl p-3">
+    </div>
 
-                <input id="nomeLanc"
-                    placeholder="Nome automático"
-                    readonly
-                    class="border rounded-xl p-3 bg-slate-100">
+    <div class="mt-6">
+      <button onclick="UI.lancar()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+        Lançar
+      </button>
+    </div>
+  </div>
+</div>
 
-                <input id="valor"
-                    placeholder="Valor"
-                    class="border rounded-xl p-3">
-            </div>
+<!-- Modal Relatórios -->
+<div id="modalRelatorios" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl p-6 w-full max-w-4xl shadow-xl">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold">Relatórios</h3>
+      <button onclick="fecharModal('modalRelatorios')" class="text-2xl">×</button>
+    </div>
 
-            <div class="mt-6">
-                <button onclick="UI.lancar()"
-                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-                    Lançar
-                </button>
-            </div>
-        </section>
+    <input type="month" id="mesFiltro" class="border rounded-xl p-3 w-full max-w-sm">
 
-        <!-- RELATÓRIOS -->
-        <section id="relatorios" class="tela hidden bg-white rounded-2xl shadow p-8">
-            <h2 class="text-2xl font-semibold mb-6">Relatórios</h2>
+    <div class="mt-6 flex gap-3 flex-wrap">
+      <button onclick="UI.relatorio()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+        Relatório Financeiro
+      </button>
 
-            <div class="max-w-sm">
-                <input type="month" id="mesFiltro"
-                    class="border rounded-xl p-3 w-full">
-            </div>
+      <button onclick="RelatorioDizimistas.gerar()" class="px-5 py-3 rounded-xl border">
+        Relatório Dizimistas
+      </button>
 
-            <div class="mt-6 flex gap-3 flex-wrap">
-                <button onclick="UI.relatorio()"
-                    class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-                    Relatório Financeiro
-                </button>
+      <button onclick="UI.imprimir()" class="px-5 py-3 rounded-xl border">
+        Imprimir / Salvar PDF
+      </button>
+    </div>
 
-                <button onclick="RelatorioDizimistas.gerar()"
-                    class="px-5 py-3 rounded-xl border">
-                    Relatório Dizimistas
-                </button>
-
-                <button onclick="UI.imprimir()"
-                    class="px-5 py-3 rounded-xl border">
-                    Imprimir / Salvar PDF
-                </button>
-            </div>
-
-            <div id="res" class="mt-8"></div>
-        </section>
-
-    </main>
+    <div id="res" class="mt-8"></div>
+  </div>
 </div>
 
 <script>
-function mostrarTela(id) {
-    document.querySelectorAll('.tela').forEach(el => {
-        el.classList.add('hidden');
-    });
+function abrirModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+}
 
-    document.getElementById(id).classList.remove('hidden');
+function fecharModal(id) {
+  document.getElementById(id).classList.add('hidden');
 }
 </script>
-
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/app.js"></script>
-
-<script src="js/dizimistas.js"></script>
-<script src="js/lancamentos.js"></script>
-
-<script src="js/relatorio.js"></script>
-<script src="js/relatorio-dizimistas.js"></script>
-
-<script src="js/ui.js"></script>
 
 </body>
 </html>
