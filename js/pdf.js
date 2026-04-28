@@ -16,42 +16,46 @@ const PDF = {
             return;
         }
 
-        let elemento = area.cloneNode(true);
+        let janela = window.open("", "_blank");
 
-        elemento.style.background = "#ffffff";
-        elemento.style.padding = "20px";
-        elemento.style.width = "100%";
-        elemento.style.display = "block";
-        elemento.style.visibility = "visible";
+        janela.document.write(`
+            <html>
+                <head>
+                    <title>PDF</title>
+                    <style>
+                        body {
+                            font-family: Arial;
+                            padding: 30px;
+                        }
 
-        document.body.appendChild(elemento);
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
 
-        const opt = {
-            margin: 10,
-            filename: "relatorio-paroquial.pdf",
-            image: {
-                type: "jpeg",
-                quality: 1
-            },
-            html2canvas: {
-                scale: 3,
-                logging: false,
-                useCORS: true
-            },
-            jsPDF: {
-                unit: "mm",
-                format: "a4",
-                orientation: "portrait"
-            }
-        };
+                        th, td {
+                            border: 1px solid #ccc;
+                            padding: 8px;
+                            text-align: left;
+                        }
 
-        html2pdf()
-            .set(opt)
-            .from(elemento)
-            .save()
-            .then(() => {
-                document.body.removeChild(elemento);
-            });
+                        h3, h4 {
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${area.outerHTML}
+                </body>
+            </html>
+        `);
+
+        janela.document.close();
+
+        setTimeout(() => {
+            janela.print();
+            janela.close();
+        }, 1000);
     }
 
 };
