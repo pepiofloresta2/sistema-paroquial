@@ -1,8 +1,10 @@
+// js/api.js
+
 const API = {
 
     enviar(params) {
 
-        const url = CONFIG.API_URL + "?" + new URLSearchParams(params);
+        let url = CONFIG.API_URL + "?" + new URLSearchParams(params);
 
         return fetch(url)
             .then(res => res.json())

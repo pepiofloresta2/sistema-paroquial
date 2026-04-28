@@ -1,3 +1,5 @@
+// js/dizimistas.js
+
 const Dizimistas = {
 
     adicionar() {
@@ -17,8 +19,10 @@ const Dizimistas = {
             nome,
             tel
         }).then(res => {
+
             if (res && res.status === "ok") {
                 alert("Dizimista cadastrado com sucesso");
+
                 document.getElementById("dz_codigo").value = "";
                 document.getElementById("dz_nome").value = "";
                 document.getElementById("dz_tel").value = "";
@@ -32,7 +36,8 @@ const Dizimistas = {
             acao: "listar_dizimistas"
         }).then(res => {
 
-            let lista = res.lista || [];
+            let lista = res.lista || "";
+
             let html = `
                 <table>
                     <tr>
@@ -53,6 +58,7 @@ const Dizimistas = {
             });
 
             html += `</table>`;
+
             document.getElementById("listaDizimistas").innerHTML = html;
         });
     }
