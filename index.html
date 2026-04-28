@@ -129,15 +129,15 @@
     <input type="month" id="mesFiltro" class="border rounded-xl p-3 w-full max-w-sm">
 
     <div class="mt-6 flex gap-3 flex-wrap">
-      <button onclick="UI.relatorio()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
+      <button onclick="document.getElementById('blocoListaDizimistas').classList.add('hidden'); UI.relatorio()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
         Relatório Financeiro
       </button>
 
-      <button onclick="Dizimistas.listar(); document.getElementById('blocoListaDizimistas').classList.remove('hidden');" class="px-5 py-3 rounded-xl border">
+      <button onclick="document.getElementById('res').innerHTML=''; Dizimistas.listar(); document.getElementById('blocoListaDizimistas').classList.remove('hidden');" class="px-5 py-3 rounded-xl border">
         Lista de Dizimistas
       </button>
 
-      <button onclick="RelatorioDizimistas.gerar()" class="px-5 py-3 rounded-xl border">
+      <button onclick="document.getElementById('blocoListaDizimistas').classList.add('hidden'); RelatorioDizimistas.gerar()" class="px-5 py-3 rounded-xl border">
         Relatório Dízimo
       </button>
 
@@ -154,7 +154,7 @@
       <div class="overflow-x-auto">
         <table class="w-full border-collapse text-sm md:text-base">
           
-          <tbody id="listaDizimistas"></tbody>
+          <tbody id="listaDizimistas" class="divide-y"></tbody>
         </table>
       </div>
     </div>
