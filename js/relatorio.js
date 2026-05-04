@@ -30,22 +30,8 @@ const Relatorio = {
             let totalSaidas = 0;
             let totalDizimo = 0;
 
+            // 🔹 LINHAS NORMAIS
             res.lista.forEach(item => {
-
-                // LINHAS EM BRANCO (estilo livro caixa)
-                let linhasExtras = 20;
-
-                for (let i = 0; i < linhasExtras; i++) {
-                    linhas += `
-                        <tr>
-                            <td style="border:1px solid #000;">&nbsp;</td>
-                            <td style="border:1px solid #000;"></td>
-                            <td style="border:1px solid #000;"></td>
-                            <td style="border:1px solid #000;"></td>
-                            <td style="border:1px solid #000;"></td>
-                        </tr>
-                    `;
-                }
 
                 let valor = parseFloat(item.valor || 0);
 
@@ -70,27 +56,42 @@ const Relatorio = {
 
                 linhas += `
                     <tr>
-                        <td>${item.data || ""}</td>
-                        <td>${item.categoria || ""}</td>
-                        <td style="text-align:center;">${item.codigo || ""}</td>
-                        <td style="text-align:right;">${entrada}</td>
-                        <td style="text-align:right; color:red;">${saida}</td>
+                        <td style="border:1px solid #000; padding:4px;">${item.data || ""}</td>
+                        <td style="border:1px solid #000; padding:4px;">${item.categoria || ""}</td>
+                        <td style="border:1px solid #000; padding:4px; text-align:center;">${item.codigo || ""}</td>
+                        <td style="border:1px solid #000; padding:4px; text-align:right;">${entrada}</td>
+                        <td style="border:1px solid #000; padding:4px; text-align:right; color:red;">${saida}</td>
                     </tr>
                 `;
             });
 
-            // 🔥 DÍZIMO NO FINAL DO MÊS (COM DATA)
+            // 🔹 DÍZIMO NO FINAL DO MÊS
             if (totalDizimo > 0) {
                 linhas += `
                     <tr>
-                        <td>${ultimoDia}</td>
-                        <td><strong>DÍZIMO (CONSOLIDADO)</strong></td>
-                        <td></td>
-                        <td style="text-align:right;"><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
-                        <td></td>
+                        <td style="border:1px solid #000; padding:4px;">${ultimoDia}</td>
+                        <td style="border:1px solid #000; padding:4px;"><strong>DÍZIMO (CONSOLIDADO)</strong></td>
+                        <td style="border:1px solid #000;"></td>
+                        <td style="border:1px solid #000; text-align:right;"><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
+                        <td style="border:1px solid #000;"></td>
                     </tr>
                 `;
                 totalEntradas += totalDizimo;
+            }
+
+            // 🔹 LINHAS EM BRANCO (livro caixa)
+            let linhasExtras = Math.max(0, 20 - res.lista.length);
+
+            for (let i = 0; i < linhasExtras; i++) {
+                linhas += `
+                    <tr>
+                        <td style="border:1px solid #000;">&nbsp;</td>
+                        <td style="border:1px solid #000;"></td>
+                        <td style="border:1px solid #000;"></td>
+                        <td style="border:1px solid #000;"></td>
+                        <td style="border:1px solid #000;"></td>
+                    </tr>
+                `;
             }
 
             let saldo = totalEntradas - totalSaidas;
@@ -114,25 +115,20 @@ const Relatorio = {
                     padding:10px;
                 ">
 
-                    <!-- LOGO ESQUERDA -->
                     <img src="assets/logo.png" style="height:60px;">
 
-                    <!-- TEXTO CENTRAL -->
                     <div style="text-align:center;">
-                        <h2 style="margin:0;">COM. SÃO PIO DE PIETRELCINA</h2>
+                        <h2 style="margin:0;">COM. SÃO PADRE PIO DE PIETRELCINA</h2>
                         <h4 style="margin:0;">MOVIMENTO DO CAIXA</h4>
                     </div>
 
-                    <!-- LOGO DIREITA + INFO -->
                     <div style="display:flex; align-items:center; gap:10px;">
-
                         <div style="text-align:left; border:1px solid #000; padding:5px;">
                             <div><strong>MÊS:</strong> ${mes}/${ano}</div>
                             <div><strong>Nº:</strong> ______</div>
                         </div>
 
                         <img src="assets/diocese.png" style="height:60px;">
-
                     </div>
 
                 </div>
