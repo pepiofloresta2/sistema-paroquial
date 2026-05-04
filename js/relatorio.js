@@ -147,12 +147,11 @@ const Relatorio = {
                                 <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
                             </tr>
                         </thead>
-                    </table>                
 
-                    <table>
                         <tbody>
                             ${linhas}
-                        </tbody>                                          
+                        </tbody>
+
                     </table>
                 </div>
 
