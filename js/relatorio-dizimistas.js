@@ -11,72 +11,77 @@ const RelatorioDizimistas = {
             return;
         }
 
-        let [ano, mes] = mesInput.split("-");
+        let partes = mesInput.split("-");
+        let ano = partes[0];
+        let mes = partes[1];
 
         API.enviar({
-            acao: "relatorio_dizimo",
+            acao: "buscar_relatorio",
             mes,
             ano
         }).then(res => {
-            console.log("RELATORIO DIZIMO:", res);
+
             let lista = res.lista || [];
-
-            if (lista.length === 0) {
-                document.getElementById("res").innerHTML =
-                    "<p>Sem dados de dízimo neste mês.</p>";
-                return;
-            }
-
-            let total = 0;
             let linhas = "";
+            let totalDizimo = 0;
 
             lista.forEach(item => {
 
+                if (item.categoria !== "Dízimo") return;
+
                 let valor = parseFloat(item.valor || 0);
-                total += valor;
+                totalDizimo += valor;
 
                 linhas += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3">${item.codigo || ""}</td>
-                        <td class="p-3">${item.nome || ""}</td>
-                        <td class="p-3 text-right">R$ ${valor.toFixed(2)}</td>
+                    <tr>
+                        <td>${item.codigo || ""}</td>
+                        <td>${item.nome || ""}</td>
+                        <td>${item.data || ""}</td>
+                        <td>${item.forma || ""}</td>
+                        <td>R$ ${valor.toFixed(2)}</td>
                     </tr>
                 `;
             });
 
-            let html = `
-                <div class="bg-white rounded-2xl shadow p-6">
+            if (!linhas) {
+                document.getElementById("res").innerHTML =
+                    "<p>Sem dízimos neste período.</p>";
+                return;
+            }
 
-                    <h3 class="text-xl font-bold text-center mb-4">
-                        Relatório de Dízimo - ${mes}/${ano}
+            document.getElementById("res").innerHTML = `
+                <div id="doc" class="relatorio">
+
+                    <h3 style="text-align:center;">
+                        RELATÓRIO DE DIZIMISTAS
                     </h3>
 
-                    <table class="w-full border-collapse text-sm md:text-base">
+                    <h4 style="text-align:center;">
+                        ${mes}/${ano}
+                    </h4>
 
-                        <thead>
-                            <tr class="border-b bg-slate-100">
-                                <th class="text-left p-3 w-24">Código</th>
-                                <th class="text-left p-3">Nome</th>
-                                <th class="text-right p-3 w-40">Valor</th>
-                            </tr>
-                        </thead>
+                    <table>
+                        <tr>
+                            <th>CÓDIGO</th>
+                            <th>NOME</th>
+                            <th>DATA</th>
+                            <th>FORMA</th>
+                            <th>VALOR</th>
+                        </tr>
 
-                        <tbody class="divide-y">
-                            ${linhas}
-                        </tbody>
-
+                        ${linhas}
                     </table>
 
-                    <div class="mt-6 flex justify-end">
-                        <div class="text-lg font-bold">
-                            Total: R$ ${total.toFixed(2)}
-                        </div>
-                    </div>
+                    <br>
+
+                    <h3>
+                        TOTAL DE DÍZIMO: R$ ${totalDizimo.toFixed(2)}
+                    </h3>
 
                 </div>
             `;
 
-            document.getElementById("res").innerHTML = html;
+            window.__RELATORIO_PRONTO__ = true;
         });
     }
 
