@@ -18,7 +18,7 @@ const RelatorioDizimistas = {
             mes,
             ano
         }).then(res => {
-
+            console.log("RELATORIO DIZIMO:", res);
             let lista = res.lista || [];
 
             if (lista.length === 0) {
