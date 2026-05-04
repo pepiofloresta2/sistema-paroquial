@@ -32,6 +32,21 @@ const Relatorio = {
 
             res.lista.forEach(item => {
 
+                // LINHAS EM BRANCO (estilo livro caixa)
+                let linhasExtras = 20;
+
+                for (let i = 0; i < linhasExtras; i++) {
+                    linhas += `
+                        <tr>
+                            <td style="border:1px solid #000;">&nbsp;</td>
+                            <td style="border:1px solid #000;"></td>
+                            <td style="border:1px solid #000;"></td>
+                            <td style="border:1px solid #000;"></td>
+                            <td style="border:1px solid #000;"></td>
+                        </tr>
+                    `;
+                }
+
                 let valor = parseFloat(item.valor || 0);
 
                 // Dízimo consolidado
@@ -81,27 +96,49 @@ const Relatorio = {
             let saldo = totalEntradas - totalSaidas;
 
             let html = `
-            <div id="doc" style="background:#fff; padding:20px; font-family:Arial; border:2px solid #000;">
+            <div id="doc" style="
+                background:#fff;
+                padding:10mm;
+                font-family:Arial;
+                width:190mm;
+                margin:auto;
+                border:1px solid #000;
+            ">
 
                 <!-- CABEÇALHO -->
-                <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #000; padding:10px;">
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    border:1px solid #000;
+                    padding:10px;
+                ">
 
+                    <!-- LOGO ESQUERDA -->
                     <img src="assets/logo.png" style="height:60px;">
 
+                    <!-- TEXTO CENTRAL -->
                     <div style="text-align:center;">
                         <h2 style="margin:0;">COM. SÃO PIO DE PIETRELCINA</h2>
                         <h4 style="margin:0;">MOVIMENTO DO CAIXA</h4>
                     </div>
 
-                    <div style="text-align:left; border:1px solid #000; padding:5px;">
-                        <div><strong>MÊS:</strong> ${mes}/${ano}</div>
-                        <div><strong>Nº:</strong> ______</div>
+                    <!-- LOGO DIREITA + INFO -->
+                    <div style="display:flex; align-items:center; gap:10px;">
+
+                        <div style="text-align:left; border:1px solid #000; padding:5px;">
+                            <div><strong>MÊS:</strong> ${mes}/${ano}</div>
+                            <div><strong>Nº:</strong> ______</div>
+                        </div>
+
+                        <img src="assets/diocese.png" style="height:60px;">
+
                     </div>
 
                 </div>
 
                 <!-- TABELA -->
-                <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">
+                <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
 
                     <thead>
                         <tr style="background:#eee;">

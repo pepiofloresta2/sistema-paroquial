@@ -5,6 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema Paroquial</title>
   <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+  @media print {
+
+      body {
+          background: white !important;
+      }
+
+      #doc {
+          width: 210mm;
+          min-height: 297mm;
+          margin: 0;
+          padding: 10mm;
+          border: none !important;
+          box-shadow: none !important;
+      }
+
+      @page {
+          size: A4;
+          margin: 10mm;
+      }
+
+      button, aside {
+          display: none !important;
+      }
+
+  }
+  </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
