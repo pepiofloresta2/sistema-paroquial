@@ -146,7 +146,19 @@ const Relatorio = {
                                 <th style="border:1px solid #000; padding:6px;">ENTRADAS</th>
                                 <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
                             </tr>
-                        </thead>                    
+                        </thead>
+
+                        <div id="area-impressao">
+                            <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
+
+                                <thead>...</thead>
+
+                                <tbody>
+                                    ${linhas}
+                                </tbody>
+
+                            </table>
+                        </div>                    
 
                     </table>
                 </div>
