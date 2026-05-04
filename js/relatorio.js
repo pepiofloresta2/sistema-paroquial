@@ -98,6 +98,7 @@ const Relatorio = {
             let saldo = totalEntradas - totalSaidas;
 
             let html = `
+            <div id="area-impressao">
             <div id="doc" style="
                 background:#fff;
                 padding:10mm;
@@ -135,7 +136,7 @@ const Relatorio = {
                 </div>
 
                 <!-- TABELA -->
-                <div id="area-impressao">
+                
                     <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
 
                         <thead>
