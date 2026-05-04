@@ -1,3 +1,4 @@
+// js/relatorio.js
 const Relatorio = {
 
     gerar() {
@@ -134,23 +135,21 @@ const Relatorio = {
                 </div>
 
                 <!-- TABELA -->
-                <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
+                <div id="area-impressao">
+                    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
 
-                    <thead>
-                        <tr style="background:#eee;">
-                            <th style="border:1px solid #000; padding:6px;">DATA</th>
-                            <th style="border:1px solid #000; padding:6px;">HISTÓRICO</th>
-                            <th style="border:1px solid #000; padding:6px;">DOC. Nº</th>
-                            <th style="border:1px solid #000; padding:6px;">ENTRADAS</th>
-                            <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr style="background:#eee;">
+                                <th style="border:1px solid #000; padding:6px;">DATA</th>
+                                <th style="border:1px solid #000; padding:6px;">HISTÓRICO</th>
+                                <th style="border:1px solid #000; padding:6px;">DOC. Nº</th>
+                                <th style="border:1px solid #000; padding:6px;">ENTRADAS</th>
+                                <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
+                            </tr>
+                        </thead>                    
 
-                    <tbody>
-                        ${linhas}
-                    </tbody>
-
-                </table>
+                    </table>
+                </div>
 
                 <!-- RODAPÉ -->
                 <table style="width:100%; border-collapse:collapse; margin-top:10px;">

@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema Paroquial</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+  @media print {
+
+      body * {
+          visibility: hidden;
+      }
+
+      #area-impressao, #area-impressao * {
+          visibility: visible;
+      }
+
+      #area-impressao {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 190mm;
+          background: white;
+      }
+
+  }
+</style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 

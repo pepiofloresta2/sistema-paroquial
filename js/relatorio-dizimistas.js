@@ -1,5 +1,3 @@
-// js/relatorio-dizimistas.js
-
 const RelatorioDizimistas = {
 
     gerar() {
@@ -34,11 +32,11 @@ const RelatorioDizimistas = {
 
                 linhas += `
                     <tr>
-                        <td>${item.codigo || ""}</td>
-                        <td>${item.nome || ""}</td>
-                        <td>${item.data || ""}</td>
-                        <td>${item.forma || ""}</td>
-                        <td>R$ ${valor.toFixed(2)}</td>
+                        <td style="border:1px solid #000; padding:6px;">${item.codigo || ""}</td>
+                        <td style="border:1px solid #000; padding:6px;">${item.nome || ""}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${item.data || ""}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${item.forma || ""}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:right;">R$ ${valor.toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -50,32 +48,35 @@ const RelatorioDizimistas = {
             }
 
             document.getElementById("res").innerHTML = `
-                <div id="doc" class="relatorio">
+                <div id="doc">
 
-                    <h3 style="text-align:center;">
-                        RELATÓRIO DE DIZIMISTAS
-                    </h3>
+                    <h3 style="text-align:center;">RELATÓRIO DE DIZIMISTAS</h3>
+                    <h4 style="text-align:center;">${mes}/${ano}</h4>
 
-                    <h4 style="text-align:center;">
-                        ${mes}/${ano}
-                    </h4>
+                    <div id="area-impressao">
+                        <table style="width:100%; border-collapse:collapse; font-size:12px;">
 
-                    <table>
-                        <tr>
-                            <th>CÓDIGO</th>
-                            <th>NOME</th>
-                            <th>DATA</th>
-                            <th>FORMA</th>
-                            <th>VALOR</th>
-                        </tr>
+                            <thead>
+                                <tr style="background:#eee;">
+                                    <th style="border:1px solid #000; padding:6px; text-align:left;">CÓDIGO</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:left;">NOME</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:center;">DATA</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:center;">FORMA</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:right;">VALOR</th>
+                                </tr>
+                            </thead>
 
-                        ${linhas}
-                    </table>
+                            <tbody>
+                                ${linhas}
+                            </tbody>
+
+                        </table>
+                    </div>
 
                     <br>
 
-                    <h3>
-                        TOTAL DE DÍZIMO: R$ ${totalDizimo.toFixed(2)}
+                    <h3 style="text-align:right;">
+                        TOTAL: R$ ${totalDizimo.toFixed(2)}
                     </h3>
 
                 </div>

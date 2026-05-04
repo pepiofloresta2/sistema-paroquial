@@ -1,5 +1,3 @@
-// js/dizimistas.js
-
 const Dizimistas = {
 
     adicionar() {
@@ -36,28 +34,38 @@ const Dizimistas = {
             acao: "listar_dizimistas"
         }).then(res => {
 
-            let lista = res.lista || "";
+            let lista = res.lista || [];
 
             let html = `
-                <table>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Telefone</th>
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+
+                <thead>
+                    <tr style="background:#eee;">
+                        <th style="border:1px solid #000; padding:6px; text-align:left;">Código</th>
+                        <th style="border:1px solid #000; padding:6px; text-align:left;">Nome</th>
+                        <th style="border:1px solid #000; padding:6px; text-align:right;">Telefone</th>
                     </tr>
+                </thead>
+
+                <tbody>
             `;
 
             lista.forEach(item => {
                 html += `
                     <tr>
-                        <td>${item.codigo || ""}</td>
-                        <td>${item.nome || ""}</td>
-                        <td>${item.tel || ""}</td>
+                        <td style="border:1px solid #000; padding:6px;">${item.codigo || ""}</td>
+                        <td style="border:1px solid #000; padding:6px;">${item.nome || ""}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:right;">
+                            ${item.tel || "-"}
+                        </td>
                     </tr>
                 `;
             });
 
-            html += `</table>`;
+            html += `
+                </tbody>
+            </table>
+            `;
 
             document.getElementById("listaDizimistas").innerHTML = html;
         });
