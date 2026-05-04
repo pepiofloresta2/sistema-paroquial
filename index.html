@@ -127,8 +127,16 @@
         <option>PIX</option>
       </select>
 
-      <input id="codigo" placeholder="Código Dizimista" onblur="UI.buscarDizimista()" class="border rounded-xl p-3">
-      <input id="nomeLanc" placeholder="Nome automático" readonly class="border rounded-xl p-3 bg-slate-100">
+      <input id="buscaNome"
+        placeholder="Buscar dizimista pelo nome"
+        oninput="UI.buscarPorNome()"
+        onkeydown="UI.navegarSugestoes(event)"
+        class="border rounded-xl p-3">
+
+      <div id="sugestoes" class="bg-white border rounded-xl shadow mt-1 max-h-40 overflow-y-auto"></div>
+
+      <input id="codigo" placeholder="Código" readonly class="border rounded-xl p-3 bg-slate-100">
+      <input id="nomeLanc" placeholder="Nome" readonly class="border rounded-xl p-3 bg-slate-100">
       <input id="valor" placeholder="Valor" class="border rounded-xl p-3">
     </div>
 
