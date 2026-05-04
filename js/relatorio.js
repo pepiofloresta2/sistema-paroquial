@@ -1,5 +1,3 @@
-// js/relatorio.js
-
 const Relatorio = {
 
     gerar() {
@@ -11,19 +9,16 @@ const Relatorio = {
             return;
         }
 
-        let partes = mesInput.split("-");
-        let ano = partes[0];
-        let mes = partes[1];
+        let [ano, mes] = mesInput.split("-");
 
         API.enviar({
             acao: "buscar_relatorio",
-            mes,
-            ano
-        }).then(res => {
+            mes: mes,
+            ano: ano
+        })
+        .then(res => {
 
-            let lista = res.lista || [];
-
-            if (lista.length === 0) {
+            if (!res || !res.lista || res.lista.length === 0) {
                 document.getElementById("res").innerHTML =
                     "<p>Sem lançamentos neste período.</p>";
                 return;
@@ -34,10 +29,11 @@ const Relatorio = {
             let totalSaidas = 0;
             let totalDizimo = 0;
 
-            lista.forEach(item => {
+            res.lista.forEach(item => {
 
                 let valor = parseFloat(item.valor || 0);
 
+                // Dízimo separado
                 if (item.categoria === "Dízimo") {
                     totalDizimo += valor;
                     return;
@@ -60,72 +56,81 @@ const Relatorio = {
                     <tr>
                         <td>${item.data || ""}</td>
                         <td>${item.categoria || ""}</td>
-                        <td>${entrada}</td>
-                        <td>${saida}</td>
+                        <td>${item.codigo || ""}</td>
+                        <td class="text-right">${entrada}</td>
+                        <td class="text-right text-red-600">${saida}</td>
                     </tr>
                 `;
             });
 
+            // Dízimo consolidado
             if (totalDizimo > 0) {
-                linhas += `
+                linhas = `
                     <tr>
                         <td></td>
-                        <td><strong>DÍZIMO TOTAL</strong></td>
-                        <td><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
+                        <td><strong>DÍZIMO (TOTAL)</strong></td>
+                        <td></td>
+                        <td class="text-right"><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
                         <td></td>
                     </tr>
-                `;
+                ` + linhas;
 
                 totalEntradas += totalDizimo;
             }
 
             let saldo = totalEntradas - totalSaidas;
 
-            document.getElementById("res").innerHTML = `
-                <div id="doc" class="relatorio">
+            let html = `
+            <div id="doc" style="background:#fff; padding:20px; font-family:Arial;">
 
-                    <h3 style="text-align:center;">
-                        COMUNIDADE SÃO PADRE PIO DE PIETRELCINA
-                    </h3>
-
-                    <h4 style="text-align:center;">
-                        Relatório ${mes}/${ano}
-                    </h4>
-
-                    <table>
-                        <tr>
-                            <th>DATA</th>
-                            <th>HISTÓRICO</th>
-                            <th>ENTRADAS</th>
-                            <th>SAÍDAS</th>
-                        </tr>
-
-                        ${linhas}
-                    </table>
-
-                    <br>
-
-                    <table>
-                        <tr>
-                            <td><strong>TOTAL ENTRADAS</strong></td>
-                            <td><strong>R$ ${totalEntradas.toFixed(2)}</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>TOTAL SAÍDAS</strong></td>
-                            <td><strong>R$ ${totalSaidas.toFixed(2)}</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>SALDO FINAL</strong></td>
-                            <td><strong>R$ ${saldo.toFixed(2)}</strong></td>
-                        </tr>
-                    </table>
-
+                <div style="text-align:center; margin-bottom:20px;">
+                    <h2 style="margin:0;">COM. SÃO PADRE PIO DE PIETRELCINA</h2>
+                    <h3 style="margin:0;">MOVIMENTO DO CAIXA</h3>
+                    <p>Mês: ${mes}/${ano}</p>
                 </div>
+
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <thead>
+                        <tr style="background:#eee;">
+                            <th style="border:1px solid #000; padding:6px;">DATA</th>
+                            <th style="border:1px solid #000; padding:6px;">HISTÓRICO</th>
+                            <th style="border:1px solid #000; padding:6px;">DOC. Nº</th>
+                            <th style="border:1px solid #000; padding:6px;">ENTRADAS</th>
+                            <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${linhas}
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr>
+                        <td style="border:1px solid #000; padding:8px;"><strong>SUBTOTAL</strong></td>
+                        <td style="border:1px solid #000; padding:8px; text-align:right;">
+                            R$ ${totalEntradas.toFixed(2)}
+                        </td>
+                        <td style="border:1px solid #000; padding:8px; text-align:right; color:red;">
+                            R$ ${totalSaidas.toFixed(2)}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="border:1px solid #000; padding:8px;"><strong>SALDO MÊS</strong></td>
+                        <td colspan="2" style="border:1px solid #000; padding:8px; text-align:right;">
+                            <strong>R$ ${saldo.toFixed(2)}</strong>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
             `;
 
+            document.getElementById("res").innerHTML = html;
             window.__RELATORIO_PRONTO__ = true;
+
         });
     }
 
