@@ -149,7 +149,7 @@ const Relatorio = {
                         </thead>
                     </table>                
 
-                    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;">
+                    <table>
                         <tbody>
                             ${linhas}
                         </tbody>                                          
