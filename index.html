@@ -6,32 +6,37 @@
   <title>Sistema Paroquial</title>
   <script src="https://cdn.tailwindcss.com"></script>
     <style>
-  @media print {
+    @media print {
 
-      body {
-          background: white !important;
-      }
+        /* Esconde TUDO */
+        body * {
+            visibility: hidden;
+        }
 
-      #doc {
-          width: 210mm;
-          min-height: 297mm;
-          margin: 0;
-          padding: 10mm;
-          border: none !important;
-          box-shadow: none !important;
-      }
+        /* Mostra só o relatório */
+        #doc, #doc * {
+            visibility: visible;
+        }
 
-      @page {
-          size: A4;
-          margin: 10mm;
-      }
+        /* Posiciona corretamente na página */
+        #doc {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 190mm;
+            margin: 0;
+            padding: 10mm;
+            background: white;
+        }
 
-      button, aside {
-          display: none !important;
-      }
+        /* Configuração A4 */
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
 
-  }
-  </style>
+    }
+    </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
