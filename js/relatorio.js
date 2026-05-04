@@ -97,8 +97,7 @@ const Relatorio = {
 
             let saldo = totalEntradas - totalSaidas;
 
-            let html = `
-            <div id="area-impressao">
+            let html = `            
             <div id="doc" style="
                 background:#fff;
                 padding:10mm;
@@ -109,6 +108,7 @@ const Relatorio = {
             ">
 
                 <!-- CABEÇALHO -->
+                <div id="area-impressao">
                 <div style="
                     display:flex;
                     justify-content:space-between;
@@ -154,7 +154,7 @@ const Relatorio = {
                         </tbody>
 
                     </table>
-                </div>
+                
 
                 <!-- RODAPÉ -->
                 <table style="width:100%; border-collapse:collapse; margin-top:10px;">
@@ -177,7 +177,7 @@ const Relatorio = {
                     </tr>
 
                 </table>
-
+                </div>
             </div>
             `;
 
