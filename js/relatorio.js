@@ -10,6 +10,7 @@ const Relatorio = {
         }
 
         let [ano, mes] = mesInput.split("-");
+        let ultimoDia = new Date(ano, mes, 0).toLocaleDateString("pt-BR");
 
         API.enviar({
             acao: "buscar_relatorio",
@@ -33,7 +34,7 @@ const Relatorio = {
 
                 let valor = parseFloat(item.valor || 0);
 
-                // Dízimo separado
+                // Dízimo consolidado
                 if (item.categoria === "Dízimo") {
                     totalDizimo += valor;
                     return;
@@ -56,40 +57,52 @@ const Relatorio = {
                     <tr>
                         <td>${item.data || ""}</td>
                         <td>${item.categoria || ""}</td>
-                        <td>${item.codigo || ""}</td>
-                        <td class="text-right">${entrada}</td>
-                        <td class="text-right text-red-600">${saida}</td>
+                        <td style="text-align:center;">${item.codigo || ""}</td>
+                        <td style="text-align:right;">${entrada}</td>
+                        <td style="text-align:right; color:red;">${saida}</td>
                     </tr>
                 `;
             });
 
-            // Dízimo consolidado
+            // 🔥 DÍZIMO NO FINAL DO MÊS (COM DATA)
             if (totalDizimo > 0) {
-                linhas = `
+                linhas += `
                     <tr>
+                        <td>${ultimoDia}</td>
+                        <td><strong>DÍZIMO (CONSOLIDADO)</strong></td>
                         <td></td>
-                        <td><strong>DÍZIMO (TOTAL)</strong></td>
-                        <td></td>
-                        <td class="text-right"><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>R$ ${totalDizimo.toFixed(2)}</strong></td>
                         <td></td>
                     </tr>
-                ` + linhas;
-
+                `;
                 totalEntradas += totalDizimo;
             }
 
             let saldo = totalEntradas - totalSaidas;
 
             let html = `
-            <div id="doc" style="background:#fff; padding:20px; font-family:Arial;">
+            <div id="doc" style="background:#fff; padding:20px; font-family:Arial; border:2px solid #000;">
 
-                <div style="text-align:center; margin-bottom:20px;">
-                    <h2 style="margin:0;">COM. SÃO PADRE PIO DE PIETRELCINA</h2>
-                    <h3 style="margin:0;">MOVIMENTO DO CAIXA</h3>
-                    <p>Mês: ${mes}/${ano}</p>
+                <!-- CABEÇALHO -->
+                <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #000; padding:10px;">
+
+                    <img src="assets/logo.png" style="height:60px;">
+
+                    <div style="text-align:center;">
+                        <h2 style="margin:0;">COM. SÃO PIO DE PIETRELCINA</h2>
+                        <h4 style="margin:0;">MOVIMENTO DO CAIXA</h4>
+                    </div>
+
+                    <div style="text-align:left; border:1px solid #000; padding:5px;">
+                        <div><strong>MÊS:</strong> ${mes}/${ano}</div>
+                        <div><strong>Nº:</strong> ______</div>
+                    </div>
+
                 </div>
 
-                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                <!-- TABELA -->
+                <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">
+
                     <thead>
                         <tr style="background:#eee;">
                             <th style="border:1px solid #000; padding:6px;">DATA</th>
@@ -99,14 +112,16 @@ const Relatorio = {
                             <th style="border:1px solid #000; padding:6px;">SAÍDAS</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         ${linhas}
                     </tbody>
+
                 </table>
 
-                <br>
+                <!-- RODAPÉ -->
+                <table style="width:100%; border-collapse:collapse; margin-top:10px;">
 
-                <table style="width:100%; border-collapse:collapse;">
                     <tr>
                         <td style="border:1px solid #000; padding:8px;"><strong>SUBTOTAL</strong></td>
                         <td style="border:1px solid #000; padding:8px; text-align:right;">
@@ -123,6 +138,7 @@ const Relatorio = {
                             <strong>R$ ${saldo.toFixed(2)}</strong>
                         </td>
                     </tr>
+
                 </table>
 
             </div>
