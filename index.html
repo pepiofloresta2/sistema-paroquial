@@ -111,8 +111,16 @@ Cadastrar
 <option>PIX</option>
 </select>
 
-<input id="codigo" placeholder="Código" class="border p-2">
-<input id="nomeLanc" placeholder="Nome" class="border p-2">
+<input id="buscaNome"
+placeholder="Buscar dizimista pelo nome"
+oninput="UI.buscarPorNome()"
+onkeydown="UI.navegarSugestoes(event)"
+class="border p-2">
+
+<div id="sugestoes" class="border bg-white max-h-40 overflow-y-auto"></div>
+
+<input id="codigo" placeholder="Código" readonly class="border p-2 bg-gray-100">
+<input id="nomeLanc" placeholder="Nome" readonly class="border p-2 bg-gray-100">
 
 <input id="valor" placeholder="Valor" class="border p-2">
 </div>
@@ -135,9 +143,17 @@ Salvar
 <input type="month" id="mesFiltro" class="border p-2 rounded mb-4">
 
 <div class="flex gap-2 flex-wrap mb-4">
-<button onclick="Dizimistas.listar()" class="border px-4 py-2 rounded">Dizimistas</button>
-<button onclick="Relatorio.gerar()" class="bg-slate-900 text-white px-4 py-2 rounded">Financeiro</button>
-<button onclick="RelatorioDizimistas.gerar()" class="border px-4 py-2 rounded">Dízimo</button>
+<button onclick="UI.limparTela(); UI.ativarBotao(this); Dizimistas.listar()">
+Dizimistas
+</button>
+
+<button onclick="UI.limparTela(); UI.ativarBotao(this); Relatorio.gerar()">
+Financeiro
+</button>
+
+<button onclick="UI.limparTela(); UI.ativarBotao(this); RelatorioDizimistas.gerar()">
+Dízimo
+</button>
 <button onclick="UI.imprimir()" class="border px-4 py-2 rounded">PDF</button>
 </div>
 
