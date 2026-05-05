@@ -1,89 +1,60 @@
 const RelatorioDizimistas = {
 
-    gerar() {
+gerar(){
 
-        let mesInput = document.getElementById("mesFiltro").value;
+let mesInput = document.getElementById("mesFiltro").value;
+if(!mesInput) return alert("Selecione o mês");
 
-        if (!mesInput) {
-            alert("Selecione o mês");
-            return;
-        }
+let [ano, mes] = mesInput.split("-");
 
-        let partes = mesInput.split("-");
-        let ano = partes[0];
-        let mes = partes[1];
+API.enviar({
+    acao:"buscar_relatorio",
+    mes, ano
+}).then(res=>{
 
-        API.enviar({
-            acao: "buscar_relatorio",
-            mes,
-            ano
-        }).then(res => {
+let linhas="";
+let total=0;
 
-            let lista = res.lista || [];
-            let linhas = "";
-            let totalDizimo = 0;
+(res.lista||[]).forEach(item=>{
 
-            lista.forEach(item => {
+if(item.categoria!=="Dízimo") return;
 
-                if (item.categoria !== "Dízimo") return;
+let valor = parseFloat(item.valor||0);
+total+=valor;
 
-                let valor = parseFloat(item.valor || 0);
-                totalDizimo += valor;
+linhas+=`
+<tr>
+<td>${item.codigo}</td>
+<td>${item.nome}</td>
+<td>${item.data}</td>
+<td>${item.forma}</td>
+<td style="text-align:right">R$ ${valor.toFixed(2)}</td>
+</tr>`;
+});
 
-                linhas += `
-                    <tr>
-                        <td style="border:1px solid #000; padding:6px;">${item.codigo || ""}</td>
-                        <td style="border:1px solid #000; padding:6px;">${item.nome || ""}</td>
-                        <td style="border:1px solid #000; padding:6px; text-align:center;">${item.data || ""}</td>
-                        <td style="border:1px solid #000; padding:6px; text-align:center;">${item.forma || ""}</td>
-                        <td style="border:1px solid #000; padding:6px; text-align:right;">R$ ${valor.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
+document.getElementById("res").innerHTML = `
+<div id="doc">
 
-            if (!linhas) {
-                document.getElementById("res").innerHTML =
-                    "<p>Sem dízimos neste período.</p>";
-                return;
-            }
+<h2 style="text-align:center">RELATÓRIO DE DÍZIMO</h2>
 
-            document.getElementById("res").innerHTML = `
-                <div id="doc">
+<table style="width:100%;border-collapse:collapse">
 
-                    <h3 style="text-align:center;">RELATÓRIO DE DIZIMISTAS</h3>
-                    <h4 style="text-align:center;">${mes}/${ano}</h4>
+<tr>
+<th>CÓDIGO</th><th>NOME</th><th>DATA</th><th>FORMA</th><th>VALOR</th>
+</tr>
 
-                    <div id="area-impressao">
-                        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+${linhas}
 
-                            <thead>
-                                <tr style="background:#eee;">
-                                    <th style="border:1px solid #000; padding:6px; text-align:left;">CÓDIGO</th>
-                                    <th style="border:1px solid #000; padding:6px; text-align:left;">NOME</th>
-                                    <th style="border:1px solid #000; padding:6px; text-align:center;">DATA</th>
-                                    <th style="border:1px solid #000; padding:6px; text-align:center;">FORMA</th>
-                                    <th style="border:1px solid #000; padding:6px; text-align:right;">VALOR</th>
-                                </tr>
-                            </thead>
+<tr>
+<td colspan="4"><b>TOTAL</b></td>
+<td>R$ ${total.toFixed(2)}</td>
+</tr>
 
-                            <tbody>
-                                ${linhas}
-                            </tbody>
+</table>
 
-                        </table>
-                    </div>
+</div>
+`;
 
-                    <br>
-
-                    <h3 style="text-align:right;">
-                        TOTAL: R$ ${totalDizimo.toFixed(2)}
-                    </h3>
-
-                </div>
-            `;
-
-            window.__RELATORIO_PRONTO__ = true;
-        });
-    }
-
+});
+}
 };

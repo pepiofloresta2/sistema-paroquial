@@ -1,222 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema Paroquial</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-  @media print {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Paroquial</title>
 
-      body * {
-          visibility: hidden;
-      }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-      #area-impressao, #area-impressao * {
-          visibility: visible;
-      }
+<style>
+@media print {
+  body * { visibility: hidden; }
+  #doc, #doc * { visibility: visible; }
 
-      #area-impressao {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 190mm;
-          background: white;
-      }
-
+  #doc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 190mm;
+    background: white;
   }
+}
 </style>
 </head>
+
 <body class="bg-slate-100 min-h-screen">
 
-<div class="min-h-screen flex flex-col md:flex-row">
+<div class="flex">
 
-  <div class="space-y-4">
+<!-- MENU -->
+<aside class="w-64 bg-slate-900 text-white p-5 space-y-6 min-h-screen">
 
-  <!-- CADASTRO -->
-    <div>
-      <h3 class="text-xs text-gray-400 mb-2 uppercase">Cadastro</h3>
+<h1 class="text-2xl font-bold">Sistema Paroquial</h1>
 
-      <button onclick="abrirModal('modalDizimistas')"
-        class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700">
-        Dizimistas
-      </button>
-    </div>
+<div>
+<h3 class="text-xs text-gray-400 uppercase mb-2">Cadastro</h3>
+<button onclick="abrirModal('modalDizimistas')" class="w-full bg-slate-800 p-3 rounded-xl">
+Dizimistas
+</button>
+</div>
 
-    <!-- LANÇAMENTOS -->
-    <div>
-      <h3 class="text-xs text-gray-400 mb-2 uppercase">Lançamentos</h3>
+<div>
+<h3 class="text-xs text-gray-400 uppercase mb-2">Lançamentos</h3>
+<button onclick="abrirModal('modalLancamentos')" class="w-full bg-slate-800 p-3 rounded-xl">
+Entradas / Saídas
+</button>
+</div>
 
-      <button onclick="abrirModal('modalLancamentos')"
-        class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700">
-        Entradas / Saídas
-      </button>
+<div>
+<h3 class="text-xs text-gray-400 uppercase mb-2">Relatórios</h3>
+<button onclick="abrirModal('modalRelatorios')" class="w-full bg-slate-800 p-3 rounded-xl">
+Relatórios
+</button>
+</div>
 
-    </div>
+</aside>
 
-    <!-- RELATÓRIOS -->
-    <div>
-      <h3 class="text-xs text-gray-400 mb-2 uppercase">Relatórios</h3>
-
-      <button onclick="abrirModal('modalRelatorios')"
-        class="w-full text-left px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700">
-        Relatórios Gerais
-      </button>
-    </div>
-
-  </div>
-
-  <!-- Área principal -->
-  <main class="flex-1 p-6 md:p-10 flex items-center justify-center">
-    <div class="bg-white rounded-3xl shadow-lg p-8 w-full max-w-3xl text-center">
-      <h2 class="text-3xl font-bold mb-4">Bem-vindo</h2>
-      <p class="text-slate-600 text-lg">
-        Selecione uma opção no menu para gerenciar o sistema paroquial.
-      </p>
-    </div>
-  </main>
+<!-- CONTEÚDO -->
+<main class="flex-1 flex items-center justify-center">
+<h2 class="text-xl text-gray-500">Bem-vindo ao sistema</h2>
+</main>
 
 </div>
 
-<!-- Modal Dizimistas -->
-<div id="modalDizimistas" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl p-6 w-full max-w-2xl shadow-xl">
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-2xl font-bold">Cadastro de Dizimistas</h3>
-      <button onclick="fecharModal('modalDizimistas')" class="text-2xl">×</button>
-    </div>
+<!-- MODAL RELATÓRIOS -->
+<div id="modalRelatorios" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+<div class="bg-white p-6 rounded-2xl w-full max-w-4xl">
 
-    <div class="grid md:grid-cols-3 gap-4">
-      <input id="dz_codigo" placeholder="Código" class="border rounded-xl p-3">
-      <input id="dz_nome" placeholder="Nome" class="border rounded-xl p-3">
-      <input id="dz_tel" placeholder="Telefone" class="border rounded-xl p-3">
-    </div>
+<h2 class="text-xl font-bold mb-4">Relatórios</h2>
 
-    <div class="mt-6 flex gap-3 flex-wrap">
-      <button onclick="Dizimistas.adicionar()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-        Cadastrar
-      </button>
-      
-    </div>
+<input type="month" id="mesFiltro" class="border p-2 rounded mb-4">
 
-    </div>
-  </div>
+<div class="flex gap-2 flex-wrap mb-4">
+<button onclick="Dizimistas.listar()" class="border px-4 py-2 rounded">Dizimistas</button>
+<button onclick="Relatorio.gerar()" class="bg-slate-900 text-white px-4 py-2 rounded">Financeiro</button>
+<button onclick="RelatorioDizimistas.gerar()" class="border px-4 py-2 rounded">Dízimo</button>
+<button onclick="UI.imprimir()" class="border px-4 py-2 rounded">PDF</button>
 </div>
 
-<!-- Modal Lançamentos -->
-<div id="modalLancamentos" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl p-6 w-full max-w-3xl shadow-xl">
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-2xl font-bold">Lançamentos</h3>
-      <button onclick="fecharModal('modalLancamentos')" class="text-2xl">×</button>
-    </div>
+<div id="listaDizimistas"></div>
+<div id="res"></div>
 
-    <div class="grid md:grid-cols-2 gap-4">
-      <input id="data" type="date" class="border rounded-xl p-3">
+<button onclick="fecharModal('modalRelatorios')" class="mt-4">Fechar</button>
 
-      <select id="tipo" class="border rounded-xl p-3">
-        <option>Entrada</option>
-        <option>Saída</option>
-      </select>
-
-      <select id="categoria" class="border rounded-xl p-3">
-        <option>Dízimo</option>
-        <option>Coleta</option>
-        <option>Doação</option>
-        <option>Energia</option>
-        <option>Água</option>
-        <option>Aluguel</option>
-        <option>Outros</option>
-      </select>
-
-      <select id="forma" class="border rounded-xl p-3">
-        <option>Dinheiro</option>
-        <option>PIX</option>
-      </select>
-
-      <input id="buscaNome"
-        placeholder="Buscar dizimista pelo nome"
-        oninput="UI.buscarPorNome()"
-        onkeydown="UI.navegarSugestoes(event)"
-        class="border rounded-xl p-3">
-
-      <div id="sugestoes" class="bg-white border rounded-xl shadow mt-1 max-h-40 overflow-y-auto"></div>
-
-      <input id="codigo" placeholder="Código" readonly class="border rounded-xl p-3 bg-slate-100">
-      <input id="nomeLanc" placeholder="Nome" readonly class="border rounded-xl p-3 bg-slate-100">
-      <input id="valor" placeholder="Valor" class="border rounded-xl p-3">
-    </div>
-
-    <div class="mt-6">
-      <button onclick="UI.lancar()" class="px-5 py-3 rounded-xl bg-slate-900 text-white">
-        Lançar
-      </button>
-    </div>
-  </div>
 </div>
-
-<!-- Modal Relatórios -->
-<div id="modalRelatorios" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl p-6 w-full max-w-4xl shadow-xl">
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-2xl font-bold">Relatórios</h3>
-      <button onclick="fecharModal('modalRelatorios')" class="text-2xl">×</button>
-    </div>
-
-    <input type="month" id="mesFiltro" class="border rounded-xl p-3 w-full max-w-sm">
-
-    <div class="mt-6 flex gap-3 flex-wrap">
-      <button onclick="Dizimistas.listar()" class="px-5 py-3 border rounded-xl">
-        Dizimistas
-      </button>
-
-      <button onclick="Relatorio.gerar()" class="px-5 py-3 bg-slate-900 text-white rounded-xl">
-        Financeiro
-      </button>
-
-      <button onclick="RelatorioDizimistas.gerar()" class="px-5 py-3 border rounded-xl">
-        Dízimo
-      </button>
-
-      <button onclick="UI.imprimir()" class="px-5 py-3 border rounded-xl">
-        Gerar PDF
-      </button>
-    </div>
-
-    
-
-    <div id="blocoListaDizimistas" class="hidden mt-8 bg-white rounded-2xl shadow p-6">
-      <h4 class="text-xl font-bold mb-4 text-center">Lista de Dizimistas</h4>
-
-      <div class="overflow-x-auto">
-        <table class="w-full border-collapse text-sm md:text-base">
-          
-          <tbody id="listaDizimistas" class="divide-y"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="res" class="mt-8"></div>
-  </div>
 </div>
 
 <script>
-function abrirModal(id) {
-  document.getElementById(id).classList.remove('hidden');
-}
-
-function fecharModal(id) {
-  document.getElementById(id).classList.add('hidden');
-}
+function abrirModal(id){ document.getElementById(id).classList.remove('hidden'); }
+function fecharModal(id){ document.getElementById(id).classList.add('hidden'); }
 </script>
 
-<script src="js/config.js"></script>
 <script src="js/api.js"></script>
-<script src="js/app.js"></script>
-
 <script src="js/dizimistas.js"></script>
-<script src="js/lancamentos.js"></script>
 <script src="js/relatorio.js"></script>
 <script src="js/relatorio-dizimistas.js"></script>
 <script src="js/ui.js"></script>
