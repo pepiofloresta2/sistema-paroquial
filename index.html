@@ -79,8 +79,7 @@ Relatórios
 Cadastrar
 </button>
 
-<div id="listaDizimistas" class="mt-6"></div>
-
+<div id="listaDizimistasCadastro" class="mt-6"></div>
 <button onclick="fecharModal('modalDizimistas')" class="mt-4">Fechar</button>
 
 </div>
@@ -143,7 +142,7 @@ Salvar
 <input type="month" id="mesFiltro" class="border p-2 rounded mb-4">
 
 <div class="flex gap-2 flex-wrap mb-4">
-<button onclick="UI.limparTela(); UI.ativarBotao(this); Dizimistas.listar()">
+<button onclick="UI.limparTela(); UI.ativarBotao(this); Dizimistas.listar('res')">
 Dizimistas
 </button>
 
@@ -165,14 +164,17 @@ Dízimo
 </div>
 
 <script>
-function abrirModal(id){
-  let el = document.getElementById(id);
-  if(el) el.classList.remove('hidden');
+function abrirModal(id){ 
+    document.getElementById(id).classList.remove('hidden'); 
+
+    // 🔥 AQUI É O PASSO 4
+    if(id === "modalDizimistas"){
+        Dizimistas.listar(); // carrega lista automaticamente
+    }
 }
 
-function fecharModal(id){
-  let el = document.getElementById(id);
-  if(el) el.classList.add('hidden');
+function fecharModal(id){ 
+    document.getElementById(id).classList.add('hidden'); 
 }
 </script>
 
