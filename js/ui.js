@@ -4,11 +4,14 @@ listaDizimistasCache: [],
 indiceSelecionado: -1,
 
 // 🔵 LIMPA ÁREA
-limparTela(){
-document.getElementById("res").innerHTML = "";
-document.getElementById("listaDizimistas").innerHTML = "";
-this.removerAtivo();
-},
+limparTela() {
+let res = document.getElementById("res");
+if (res) res.innerHTML = "";
+let lista = document.getElementById("listaDizimistas");
+if (lista) lista.innerHTML = "";
+let listaCad = document.getElementById("listaDizimistasCadastro");
+if (listaCad) listaCad.innerHTML = "";
+}
 
 // 🔵 BOTÃO ATIVO
 ativarBotao(el){

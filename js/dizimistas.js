@@ -10,10 +10,10 @@ listar(destino = "listaDizimistasCadastro") {
         <table style="width:100%; border-collapse:collapse; font-size:12px;">
             <thead>
                 <tr style="background:#eee;">
-                    <th style="border:1px solid #000;">Código</th>
-                    <th style="border:1px solid #000;">Nome</th>
-                    <th style="border:1px solid #000;">Telefone</th>
-                    <th style="border:1px solid #000;">Ações</th>
+                    <th style="border:1px solid #000; padding:6px;">Código</th>
+                    <th style="border:1px solid #000; padding:6px;">Nome</th>
+                    <th style="border:1px solid #000; padding:6px;">Telefone</th>
+                    <th style="border:1px solid #000; padding:6px;">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +35,7 @@ listar(destino = "listaDizimistasCadastro") {
 
         html += `</tbody></table>`;
 
-        document.getElementById(destino).innerHTML = html;
+        let el = document.getElementById(destino);
+        if (el) el.innerHTML = html;
     });
 }
