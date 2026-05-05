@@ -63,9 +63,72 @@ Relatórios
 
 </div>
 
-<!-- MODAL RELATÓRIOS -->
+<!-- 🔵 MODAL DIZIMISTAS -->
+<div id="modalDizimistas" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+<div class="bg-white p-6 rounded-2xl w-full max-w-3xl">
+
+<h2 class="text-xl font-bold mb-4">Cadastro de Dizimistas</h2>
+
+<div class="grid grid-cols-3 gap-3">
+<input id="dz_codigo" placeholder="Código" class="border p-2">
+<input id="dz_nome" placeholder="Nome" class="border p-2">
+<input id="dz_tel" placeholder="Telefone" class="border p-2">
+</div>
+
+<button onclick="Dizimistas.adicionar()" class="mt-4 bg-slate-900 text-white px-4 py-2 rounded">
+Cadastrar
+</button>
+
+<div id="listaDizimistas" class="mt-6"></div>
+
+<button onclick="fecharModal('modalDizimistas')" class="mt-4">Fechar</button>
+
+</div>
+</div>
+
+<!-- 🔵 MODAL LANÇAMENTOS -->
+<div id="modalLancamentos" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+<div class="bg-white p-6 rounded-2xl w-full max-w-3xl">
+
+<h2 class="text-xl font-bold mb-4">Lançamentos</h2>
+
+<div class="grid grid-cols-2 gap-3">
+<input id="data" type="date" class="border p-2">
+
+<select id="tipo" class="border p-2">
+<option>Entrada</option>
+<option>Saída</option>
+</select>
+
+<select id="categoria" class="border p-2">
+<option>Dízimo</option>
+<option>Doação</option>
+<option>Outros</option>
+</select>
+
+<select id="forma" class="border p-2">
+<option>Dinheiro</option>
+<option>PIX</option>
+</select>
+
+<input id="codigo" placeholder="Código" class="border p-2">
+<input id="nomeLanc" placeholder="Nome" class="border p-2">
+
+<input id="valor" placeholder="Valor" class="border p-2">
+</div>
+
+<button onclick="Lancamentos.adicionar()" class="mt-4 bg-slate-900 text-white px-4 py-2 rounded">
+Salvar
+</button>
+
+<button onclick="fecharModal('modalLancamentos')" class="mt-4">Fechar</button>
+
+</div>
+</div>
+
+<!-- 🔵 MODAL RELATÓRIOS -->
 <div id="modalRelatorios" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-<div class="bg-white p-6 rounded-2xl w-full max-w-4xl">
+<div class="bg-white p-6 rounded-2xl w-full max-w-5xl">
 
 <h2 class="text-xl font-bold mb-4">Relatórios</h2>
 
@@ -78,7 +141,6 @@ Relatórios
 <button onclick="UI.imprimir()" class="border px-4 py-2 rounded">PDF</button>
 </div>
 
-<div id="listaDizimistas"></div>
 <div id="res"></div>
 
 <button onclick="fecharModal('modalRelatorios')" class="mt-4">Fechar</button>
@@ -87,12 +149,24 @@ Relatórios
 </div>
 
 <script>
-function abrirModal(id){ document.getElementById(id).classList.remove('hidden'); }
-function fecharModal(id){ document.getElementById(id).classList.add('hidden'); }
+function abrirModal(id){
+  let el = document.getElementById(id);
+  if(el) el.classList.remove('hidden');
+}
+
+function fecharModal(id){
+  let el = document.getElementById(id);
+  if(el) el.classList.add('hidden');
+}
 </script>
 
+<!-- ⚠️ ORDEM CORRETA -->
+<script src="js/config.js"></script>
 <script src="js/api.js"></script>
+<script src="js/app.js"></script>
+
 <script src="js/dizimistas.js"></script>
+<script src="js/lancamentos.js"></script>
 <script src="js/relatorio.js"></script>
 <script src="js/relatorio-dizimistas.js"></script>
 <script src="js/ui.js"></script>
