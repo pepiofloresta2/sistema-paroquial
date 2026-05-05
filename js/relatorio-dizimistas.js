@@ -24,36 +24,42 @@ total+=valor;
 
 linhas+=`
 <tr>
-<td>${item.codigo}</td>
-<td>${item.nome}</td>
-<td>${item.data}</td>
-<td>${item.forma}</td>
-<td style="text-align:right">R$ ${valor.toFixed(2)}</td>
+<td style="border:1px solid #000">${item.codigo}</td>
+<td style="border:1px solid #000">${item.nome}</td>
+<td style="border:1px solid #000">${item.data}</td>
+<td style="border:1px solid #000">${item.forma}</td>
+<td style="border:1px solid #000;text-align:right">R$ ${valor.toFixed(2)}</td>
 </tr>`;
 });
 
 document.getElementById("res").innerHTML = `
-<div id="doc">
+<div id="doc" style="padding:10mm;width:190mm;margin:auto;border:1px solid #000">
 
-<h2 style="text-align:center">RELATÓRIO DE DÍZIMO</h2>
+<h3 style="text-align:center">RELATÓRIO DE DÍZIMO</h3>
 
-<table style="width:100%;border-collapse:collapse">
+<table style="width:100%;border-collapse:collapse;margin-top:10px">
 
-<tr>
-<th>CÓDIGO</th><th>NOME</th><th>DATA</th><th>FORMA</th><th>VALOR</th>
+<tr style="background:#eee">
+<th style="border:1px solid #000">CÓDIGO</th>
+<th style="border:1px solid #000">NOME</th>
+<th style="border:1px solid #000">DATA</th>
+<th style="border:1px solid #000">FORMA</th>
+<th style="border:1px solid #000">VALOR</th>
 </tr>
 
 ${linhas}
 
 <tr>
-<td colspan="4"><b>TOTAL</b></td>
-<td>R$ ${total.toFixed(2)}</td>
+<td colspan="4" style="border:1px solid #000"><b>TOTAL</b></td>
+<td style="border:1px solid #000;text-align:right"><b>R$ ${total.toFixed(2)}</b></td>
 </tr>
 
 </table>
 
 </div>
 `;
+
+window.__RELATORIO_PRONTO__ = true;
 
 });
 }
