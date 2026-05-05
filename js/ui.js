@@ -11,7 +11,7 @@ let lista = document.getElementById("listaDizimistas");
 if (lista) lista.innerHTML = "";
 let listaCad = document.getElementById("listaDizimistasCadastro");
 if (listaCad) listaCad.innerHTML = "";
-}
+},
 
 // 🔵 BOTÃO ATIVO
 ativarBotao(el){
