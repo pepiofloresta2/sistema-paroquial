@@ -67,6 +67,70 @@
 <!-- DASHBOARD -->
 <section
     id="dashboard"
+    <!-- KPIs -->
+<div class="grid md:grid-cols-4 gap-5 mb-8">
+
+    <div class="bg-white rounded-3xl p-6 shadow-xl">
+
+        <div class="text-sm text-slate-500 mb-2">
+            Dizimistas
+        </div>
+
+        <div
+            id="kpiDizimistas"
+            class="text-4xl font-bold"
+        >
+            0
+        </div>
+
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-xl">
+
+        <div class="text-sm text-slate-500 mb-2">
+            Entradas
+        </div>
+
+        <div
+            id="kpiEntradas"
+            class="text-4xl font-bold text-green-600"
+        >
+            R$ 0,00
+        </div>
+
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-xl">
+
+        <div class="text-sm text-slate-500 mb-2">
+            Saídas
+        </div>
+
+        <div
+            id="kpiSaidas"
+            class="text-4xl font-bold text-red-600"
+        >
+            R$ 0,00
+        </div>
+
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-xl">
+
+        <div class="text-sm text-slate-500 mb-2">
+            Saldo
+        </div>
+
+        <div
+            id="kpiSaldo"
+            class="text-4xl font-bold text-blue-600"
+        >
+            R$ 0,00
+        </div>
+
+    </div>
+
+</div>
     class="max-w-7xl mx-auto p-6"
 >
 
@@ -430,6 +494,7 @@ function voltarDashboard(){
 
 document.getElementById("dataHoje").innerHTML =
 new Date().toLocaleDateString("pt-BR");
+UI.carregarDashboard();
 
 </script>
 

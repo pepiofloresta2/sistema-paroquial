@@ -140,3 +140,64 @@ UI.mascaraTelefone = function(input){
 
     input.value = valor;
 };
+
+UI.carregarDashboard = function(){
+
+    // TOTAL DIZIMISTAS
+    API.enviar({
+        acao:"listar_dizimistas"
+    }).then(res=>{
+
+        let total = (res.lista || []).length;
+
+        document.getElementById("kpiDizimistas")
+            .innerText = total;
+    });
+
+    // MÊS ATUAL
+    let hoje = new Date();
+
+    let mes =
+        String(hoje.getMonth()+1)
+        .padStart(2,"0");
+
+    let ano = hoje.getFullYear();
+
+    API.enviar({
+        acao:"buscar_relatorio",
+        mes,
+        ano
+    }).then(res=>{
+
+        let entradas = 0;
+        let saidas = 0;
+
+        (res.lista || []).forEach(item=>{
+
+            let valor =
+                parseFloat(item.valor || 0);
+
+            if(item.tipo === "Entrada"){
+                entradas += valor;
+            }
+
+            if(item.tipo === "Saída"){
+                saidas += valor;
+            }
+        });
+
+        let saldo = entradas - saidas;
+
+        document.getElementById("kpiEntradas")
+            .innerText =
+            "R$ " + entradas.toFixed(2);
+
+        document.getElementById("kpiSaidas")
+            .innerText =
+            "R$ " + saidas.toFixed(2);
+
+        document.getElementById("kpiSaldo")
+            .innerText =
+            "R$ " + saldo.toFixed(2);
+    });
+};
