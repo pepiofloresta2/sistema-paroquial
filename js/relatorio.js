@@ -13,15 +13,25 @@ let [ano, mes] = mesInput.split("-");
 let ultimoDia = new Date(ano, mes, 0)
 .toLocaleDateString("pt-BR");
 
-let numeroRelatorio =
-Date.now().toString().slice(-5);
+let numeroRelatorio = "145";
+
+const meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+];
 
 let mesReferencia =
-new Date(`${ano}-${mes}-01`)
-.toLocaleDateString("pt-BR", {
-    month:"long",
-    year:"numeric"
-});
+meses[parseInt(mes)-1] + "/" + ano;
 
 API.enviar({
     acao:"buscar_relatorio",

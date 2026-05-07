@@ -353,17 +353,30 @@
         <div class="flex flex-wrap gap-3 mb-6">
 
             <button
-                onclick="Relatorio.gerar()"
-                class="bg-slate-900 text-white px-5 py-3 rounded-xl"
-            >
+                onclick="
+                UI.botaoRelatorio(this);
+                Relatorio.gerar();
+                "
+                class="btnRelatorio border px-5 py-3 rounded-xl"
+                >
                 Financeiro
-            </button>
+                </button>
 
-            <button
-                onclick="RelatorioDizimistas.gerar()"
-                class="border px-5 py-3 rounded-xl"
-            >
+                <button
+                onclick="
+                UI.botaoRelatorio(this);
+                RelatorioDizimistas.gerar();
+                "
+                class="btnRelatorio border px-5 py-3 rounded-xl"
+                >
                 Dízimo
+                </button>
+
+                <button
+                onclick="UI.imprimir()"
+                class="border px-5 py-3 rounded-xl"
+                >
+                PDF
             </button>
 
             <button

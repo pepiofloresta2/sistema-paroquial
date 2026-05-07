@@ -320,3 +320,21 @@ imprimir(){
 }
 
 };
+
+UI.botaoRelatorio = function(botao){
+
+    document
+    .querySelectorAll(".btnRelatorio")
+    .forEach(btn=>{
+
+        btn.classList.remove(
+            "bg-slate-900",
+            "text-white"
+        );
+    });
+
+    botao.classList.add(
+        "bg-slate-900",
+        "text-white"
+    );
+};
