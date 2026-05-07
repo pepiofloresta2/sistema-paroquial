@@ -64,19 +64,30 @@ Relatórios
 </div>
 
 <!-- 🔵 MODAL DIZIMISTAS -->
+<!-- 🔵 MODAL DIZIMISTAS -->
 <div id="modalDizimistas" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-<div class="bg-white p-6 rounded-2xl w-full max-w-3xl">
 
-<h2 class="text-xl font-bold mb-4">Cadastro de Dizimistas</h2>
+    <div class="bg-white p-6 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-auto">
 
-<button onclick="Dizimistas.adicionar()" class="mt-4 bg-slate-900 text-white px-4 py-2 rounded">
-Cadastrar
-</button>
+        <div class="flex justify-between items-center mb-4">
 
-<div id="listaDizimistasCadastro" class="mt-6"></div>
-<button onclick="fecharModal('modalDizimistas')" class="mt-4">Fechar</button>
+            <h2 class="text-xl font-bold">
+                Cadastro de Dizimistas
+            </h2>
 
-</div>
+            <button
+                onclick="fecharModal('modalDizimistas')"
+                class="text-2xl"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div id="listaDizimistasCadastro"></div>
+
+    </div>
+
 </div>
 
 <!-- 🔵 MODAL LANÇAMENTOS -->
