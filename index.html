@@ -495,7 +495,14 @@ function voltarDashboard(){
 
 document.getElementById("dataHoje").innerHTML =
 new Date().toLocaleDateString("pt-BR");
-UI.carregarDashboard();
+
+window.onload = () => {
+
+    if(typeof UI !== "undefined"){
+        UI.carregarDashboard();
+    }
+
+};
 
 </script>
 
