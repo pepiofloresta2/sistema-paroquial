@@ -215,14 +215,16 @@ carregarDashboard(){
 
         (res.lista || []).forEach(item=>{
 
-            let valor =
-                parseFloat(item.valor || 0);
+            let valor = parseFloat(
+                String(item.valor || 0)
+                .replace(",", ".")
+            );
 
-            if(item.tipo === "Entrada"){
+            if(String(item.tipo).trim() === "Entrada"){
                 entradas += valor;
             }
 
-            if(item.tipo === "Saída"){
+            if(String(item.tipo).trim() === "Saída"){
                 saidas += valor;
             }
         });

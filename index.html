@@ -493,16 +493,14 @@ function voltarDashboard(){
         .classList.remove("hidden");
 }
 
-document.getElementById("dataHoje").innerHTML =
-new Date().toLocaleDateString("pt-BR");
+window.addEventListener("load", () => {
 
-window.onload = () => {
+    document.getElementById("dataHoje").innerHTML =
+        new Date().toLocaleDateString("pt-BR");
 
-    if(typeof UI !== "undefined"){
-        UI.carregarDashboard();
-    }
+    UI.carregarDashboard();
 
-};
+});
 
 </script>
 
