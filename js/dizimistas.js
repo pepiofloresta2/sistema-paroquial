@@ -10,19 +10,18 @@ listar(destino = "listaDizimistasCadastro") {
 
         let html = `
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-5">
 
             <input
                 type="text"
-                id="buscaDizimistaCadastro"
                 placeholder="Buscar dizimista..."
-                class="border p-3 rounded-xl w-80"
+                class="border rounded-xl p-3 w-80"
                 onkeyup="Dizimistas.filtrar(this.value)"
             >
 
             <button
-                onclick="Dizimistas.novo()"
-                class="bg-slate-900 text-white px-5 py-3 rounded-xl text-xl"
+                onclick="Dizimistas.abrirNovo()"
+                class="bg-slate-900 text-white w-14 h-14 rounded-full text-3xl shadow-xl"
             >
                 +
             </button>
@@ -65,25 +64,29 @@ listar(destino = "listaDizimistasCadastro") {
                     ${item.tel || "-"}
                 </td>
 
-                <td class="border p-3 text-center space-x-2">
+                <td class="border p-3 text-center">
 
-                    <button
-                        onclick="Dizimistas.editar(
-                            '${item.codigo}',
-                            '${item.nome}',
-                            '${item.tel || ""}'
-                        )"
-                        class="bg-blue-600 text-white px-3 py-1 rounded"
-                    >
-                        Editar
-                    </button>
+                    <div class="flex justify-center gap-2">
 
-                    <button
-                        onclick="Dizimistas.excluir('${item.codigo}')"
-                        class="bg-red-600 text-white px-3 py-1 rounded"
-                    >
-                        Excluir
-                    </button>
+                        <button
+                            onclick="Dizimistas.abrirEditar(
+                                '${item.codigo}',
+                                '${item.nome}',
+                                '${item.tel || ""}'
+                            )"
+                            class="bg-blue-600 text-white px-3 py-2 rounded-lg"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            onclick="Dizimistas.excluir('${item.codigo}')"
+                            class="bg-red-600 text-white px-3 py-2 rounded-lg"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
 
                 </td>
 
@@ -96,26 +99,21 @@ listar(destino = "listaDizimistasCadastro") {
         </table>
         `;
 
-        let el = document.getElementById(destino);
-
-        if(el){
-            el.innerHTML = html;
-        }
-
-        window.listaCompletaDizimistas = lista;
-
+        document.getElementById(destino).innerHTML = html;
     });
 },
 
-filtrar(texto) {
+filtrar(texto){
 
     texto = texto.toLowerCase();
 
     let linhas = document.querySelectorAll("#tbodyDizimistas tr");
 
-    linhas.forEach(linha => {
+    linhas.forEach(linha=>{
 
-        let nome = linha.children[1].innerText.toLowerCase();
+        let nome = linha.children[1]
+            .innerText
+            .toLowerCase();
 
         linha.style.display =
             nome.includes(texto)
@@ -124,82 +122,107 @@ filtrar(texto) {
     });
 },
 
-novo() {
+abrirNovo(){
 
-    let codigo = prompt("Código:");
-    if (!codigo) return;
+    document.getElementById("tituloModalDizimista").innerText =
+        "Novo Dizimista";
 
-    let nome = prompt("Nome:");
-    if (!nome) return;
+    document.getElementById("codigoAntigo").value = "";
 
-    let tel = prompt("Telefone:");
+    document.getElementById("formCodigo").value = "";
+    document.getElementById("formNome").value = "";
+    document.getElementById("formTel").value = "";
+
+    document
+        .getElementById("modalFormDizimista")
+        .classList.remove("hidden");
+},
+
+abrirEditar(codigo,nome,tel){
+
+    document.getElementById("tituloModalDizimista").innerText =
+        "Editar Dizimista";
+
+    document.getElementById("codigoAntigo").value = codigo;
+
+    document.getElementById("formCodigo").value = codigo;
+    document.getElementById("formNome").value = nome;
+    document.getElementById("formTel").value = tel;
+
+    document
+        .getElementById("modalFormDizimista")
+        .classList.remove("hidden");
+},
+
+fecharForm(){
+
+    document
+        .getElementById("modalFormDizimista")
+        .classList.add("hidden");
+},
+
+salvar(){
+
+    let codigoAntigo =
+        document.getElementById("codigoAntigo").value;
+
+    let codigo =
+        document.getElementById("formCodigo").value.trim();
+
+    let nome =
+        document.getElementById("formNome").value.trim();
+
+    let tel =
+        document.getElementById("formTel").value.trim();
+
+    if(!codigo || !nome){
+
+        alert("Informe código e nome");
+        return;
+    }
+
+    let acao =
+        codigoAntigo
+        ? "editar_dizimista"
+        : "cadastrar_dizimista";
 
     API.enviar({
-        acao: "cadastrar_dizimista",
+        acao,
+        codigo_antigo: codigoAntigo,
         codigo,
         nome,
         tel
-    }).then(res => {
+    }).then(res=>{
 
-        if (res.status === "ok") {
+        if(res.status === "ok"){
 
-            alert("Dizimista cadastrado");
+            alert("Salvo com sucesso");
 
-            this.listar();
-        }
-    });
-},
-
-editar(codigoAtual, nomeAtual, telAtual) {
-
-    let novoCodigo = prompt("Código:", codigoAtual);
-    if (novoCodigo === null) return;
-
-    let nome = prompt("Nome:", nomeAtual);
-    if (nome === null) return;
-
-    let tel = prompt("Telefone:", telAtual);
-    if (tel === null) return;
-
-    API.enviar({
-        acao: "editar_dizimista",
-        codigo_antigo: codigoAtual,
-        codigo: novoCodigo,
-        nome,
-        tel
-    }).then(res => {
-
-        if (res.status === "ok") {
-
-            alert("Atualizado");
+            this.fecharForm();
 
             this.listar();
 
-        } else {
+        }else{
 
             alert(res.mensagem || "Erro");
         }
     });
 },
 
-excluir(codigo) {
+excluir(codigo){
 
-    if (!confirm("Excluir dizimista?")) return;
+    if(!confirm("Excluir dizimista?")) return;
 
     API.enviar({
-        acao: "excluir_dizimista",
+        acao:"excluir_dizimista",
         codigo
-    }).then(res => {
+    }).then(res=>{
 
-        if (res.status === "ok") {
+        if(res.status==="ok"){
 
             alert("Excluído");
 
             this.listar();
-
-        } else {
-
-            alert("Erro ao excluir");
         }
     });
 }

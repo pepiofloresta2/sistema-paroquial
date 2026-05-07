@@ -203,5 +203,105 @@ function fecharModal(id){
 <script src="js/relatorio-dizimistas.js"></script>
 <script src="js/ui.js"></script>
 
+<!-- 🔵 MODAL FORM DIZIMISTA -->
+<div
+    id="modalFormDizimista"
+    class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center"
+>
+
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6">
+
+        <div class="flex justify-between items-center mb-6">
+
+            <h2
+                id="tituloModalDizimista"
+                class="text-2xl font-bold"
+            >
+                Novo Dizimista
+            </h2>
+
+            <button
+                onclick="Dizimistas.fecharForm()"
+                class="text-3xl leading-none"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="space-y-4">
+
+            <input
+                type="hidden"
+                id="codigoAntigo"
+            >
+
+            <div>
+
+                <label class="block mb-1 font-semibold">
+                    Código
+                </label>
+
+                <input
+                    id="formCodigo"
+                    class="w-full border rounded-xl p-3"
+                    placeholder="Código"
+                >
+
+            </div>
+
+            <div>
+
+                <label class="block mb-1 font-semibold">
+                    Nome
+                </label>
+
+                <input
+                    id="formNome"
+                    class="w-full border rounded-xl p-3"
+                    placeholder="Nome completo"
+                >
+
+            </div>
+
+            <div>
+
+                <label class="block mb-1 font-semibold">
+                    Telefone
+                </label>
+
+                <input
+                    id="formTel"
+                    class="w-full border rounded-xl p-3"
+                    placeholder="(00) 00000-0000"
+                    oninput="UI.mascaraTelefone(this)"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="flex justify-end gap-3 mt-8">
+
+            <button
+                onclick="Dizimistas.fecharForm()"
+                class="border px-5 py-3 rounded-xl"
+            >
+                Cancelar
+            </button>
+
+            <button
+                onclick="Dizimistas.salvar()"
+                class="bg-slate-900 text-white px-5 py-3 rounded-xl"
+            >
+                Salvar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
