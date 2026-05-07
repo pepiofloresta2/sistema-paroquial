@@ -1,87 +1,16 @@
 const Dizimistas = {
 
-    listaCache: [],
+    // 🔵 CADASTRAR
+    adicionar() {
 
-    carregar() {
+        let codigo = document.getElementById("dz_codigo").value.trim();
+        let nome = document.getElementById("dz_nome").value.trim();
+        let tel = document.getElementById("dz_tel").value.trim();
 
-        API.enviar({ acao: "listar_dizimistas" }).then(res => {
-
-            this.listaCache = res.lista || [];
-            this.render(this.listaCache);
-
-        });
-    },
-
-    render(lista) {
-
-        let html = `
-        <div style="margin-bottom:10px;">
-            <input id="buscaDizimista"
-                placeholder="Buscar dizimista..."
-                oninput="Dizimistas.filtrar()"
-                style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
-        </div>
-
-        <table style="width:100%; border-collapse:collapse; font-size:13px;">
-            <thead>
-                <tr style="background:#eee;">
-                    <th style="border:1px solid #000; padding:6px;">Código</th>
-                    <th style="border:1px solid #000; padding:6px;">Nome</th>
-                    <th style="border:1px solid #000; padding:6px;">Telefone</th>
-                    <th style="border:1px solid #000; padding:6px;">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-        `;
-
-        lista.forEach(d => {
-            html += `
-            <tr>
-                <td style="border:1px solid #000; padding:6px;">${d.codigo}</td>
-                <td style="border:1px solid #000; padding:6px;">${d.nome}</td>
-                <td style="border:1px solid #000; padding:6px;">${d.tel || "-"}</td>
-                <td style="border:1px solid #000; padding:6px; text-align:center;">
-                    <button onclick="Dizimistas.editar('${d.codigo}','${d.nome}','${d.tel || ""}')">✏️</button>
-                    <button onclick="Dizimistas.excluir('${d.codigo}')">🗑️</button>
-                </td>
-            </tr>
-            `;
-        });
-
-        html += `</tbody></table>`;
-
-        html += `
-        <button onclick="Dizimistas.novo()" 
-        style="position:fixed; bottom:30px; right:30px;
-        background:#2c3e50; color:white; border:none;
-        border-radius:50%; width:60px; height:60px; font-size:28px;">
-        +
-        </button>
-        `;
-
-        document.getElementById("listaDizimistasCadastro").innerHTML = html;
-    },
-
-    filtrar() {
-
-        let termo = document.getElementById("buscaDizimista").value.toLowerCase();
-
-        let filtrados = this.listaCache.filter(d =>
-            d.nome.toLowerCase().includes(termo)
-        );
-
-        this.render(filtrados);
-    },
-
-    novo() {
-
-        let codigo = prompt("Código:");
-        if (!codigo) return;
-
-        let nome = prompt("Nome:");
-        if (!nome) return;
-
-        let tel = prompt("Telefone:");
+        if (!codigo || !nome) {
+            alert("Informe código e nome");
+            return;
+        }
 
         API.enviar({
             acao: "cadastrar_dizimista",
@@ -89,13 +18,177 @@ const Dizimistas = {
             nome,
             tel
         }).then(res => {
-            if (res.status === "ok") {
-                alert("Cadastrado");
-                this.carregar();
+
+            if (res && res.status === "ok") {
+
+                alert("Dizimista cadastrado");
+
+                document.getElementById("dz_codigo").value = "";
+                document.getElementById("dz_nome").value = "";
+                document.getElementById("dz_tel").value = "";
+
+                this.listar();
             }
         });
     },
 
+    // 🔵 LISTAR
+    listar() {
+
+        API.enviar({
+            acao: "listar_dizimistas"
+        }).then(res => {
+
+            let lista = res.lista || [];
+
+            let html = `
+
+            <div class="mb-4">
+                <input
+                    id="buscaDizimista"
+                    placeholder="Buscar dizimista..."
+                    oninput="Dizimistas.filtrar()"
+                    class="w-full border rounded-xl p-3"
+                >
+            </div>
+
+            <div class="overflow-auto max-h-[500px] border rounded-2xl">
+
+            <table class="w-full border-collapse text-sm">
+
+                <thead class="bg-slate-100 sticky top-0">
+                    <tr>
+                        <th class="border p-3 text-left">Código</th>
+                        <th class="border p-3 text-left">Nome</th>
+                        <th class="border p-3 text-left">Telefone</th>
+                        <th class="border p-3 text-center">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tbodyDizimistas">
+            `;
+
+            lista.forEach(item => {
+
+                html += `
+                    <tr class="hover:bg-slate-50">
+
+                        <td class="border p-2">
+                            ${item.codigo || ""}
+                        </td>
+
+                        <td class="border p-2">
+                            ${item.nome || ""}
+                        </td>
+
+                        <td class="border p-2">
+                            ${item.tel || "-"}
+                        </td>
+
+                        <td class="border p-2 text-center">
+
+                            <button
+                                onclick="Dizimistas.editar(
+                                    '${item.codigo}',
+                                    '${item.nome}',
+                                    '${item.tel || ""}'
+                                )"
+                                class="bg-blue-500 text-white px-3 py-1 rounded-lg mr-2"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                onclick="Dizimistas.excluir('${item.codigo}')"
+                                class="bg-red-500 text-white px-3 py-1 rounded-lg"
+                            >
+                                Excluir
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+            });
+
+            html += `
+                </tbody>
+            </table>
+            </div>
+
+            <!-- BOTÃO FLUTUANTE -->
+            <button
+                onclick="document.getElementById('formNovo').classList.toggle('hidden')"
+                class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-slate-900 text-white text-4xl shadow-xl"
+            >
+                +
+            </button>
+
+            <!-- FORM NOVO -->
+            <div id="formNovo" class="hidden mt-6 border rounded-2xl p-4 bg-slate-50">
+
+                <h3 class="text-lg font-bold mb-4">
+                    Novo Dizimista
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+                    <input
+                        id="dz_codigo"
+                        placeholder="Código"
+                        class="border rounded-xl p-3"
+                    >
+
+                    <input
+                        id="dz_nome"
+                        placeholder="Nome"
+                        class="border rounded-xl p-3"
+                    >
+
+                    <input
+                        id="dz_tel"
+                        placeholder="Telefone"
+                        class="border rounded-xl p-3"
+                    >
+
+                </div>
+
+                <button
+                    onclick="Dizimistas.adicionar()"
+                    class="mt-4 bg-slate-900 text-white px-5 py-3 rounded-xl"
+                >
+                    Salvar
+                </button>
+
+            </div>
+            `;
+
+            document.getElementById("listaDizimistasCadastro").innerHTML = html;
+        });
+    },
+
+    // 🔵 FILTRAR
+    filtrar() {
+
+        let termo = document
+            .getElementById("buscaDizimista")
+            .value
+            .toLowerCase();
+
+        let linhas = document.querySelectorAll("#tbodyDizimistas tr");
+
+        linhas.forEach(linha => {
+
+            let texto = linha.innerText.toLowerCase();
+
+            linha.style.display =
+                texto.includes(termo)
+                ? ""
+                : "none";
+        });
+    },
+
+    // 🔵 EDITAR
     editar(codigo, nomeAtual, telAtual) {
 
         let nome = prompt("Nome:", nomeAtual);
@@ -111,32 +204,33 @@ const Dizimistas = {
             tel
         }).then(res => {
 
-            if (res.status === "ok") {
-                alert("Atualizado");
-                this.carregar();
-            } else {
-                alert("Erro ao atualizar");
-            }
+            if (res && res.status === "ok") {
 
+                alert("Dizimista atualizado");
+
+                this.listar();
+            }
         });
     },
 
+    // 🔵 EXCLUIR
     excluir(codigo) {
 
-        if (!confirm("Excluir dizimista?")) return;
+        if (!confirm("Excluir dizimista?")) {
+            return;
+        }
 
         API.enviar({
             acao: "excluir_dizimista",
             codigo
         }).then(res => {
 
-            if (res.status === "ok") {
-                alert("Excluído");
-                this.carregar();
-            } else {
-                alert("Erro ao excluir");
-            }
+            if (res && res.status === "ok") {
 
+                alert("Dizimista excluído");
+
+                this.listar();
+            }
         });
     }
 
