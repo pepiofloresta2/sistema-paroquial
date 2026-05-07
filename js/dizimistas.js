@@ -150,7 +150,10 @@ novo() {
     });
 },
 
-editar(codigo, nomeAtual, telAtual) {
+editar(codigoAtual, nomeAtual, telAtual) {
+
+    let novoCodigo = prompt("Código:", codigoAtual);
+    if (novoCodigo === null) return;
 
     let nome = prompt("Nome:", nomeAtual);
     if (nome === null) return;
@@ -160,7 +163,8 @@ editar(codigo, nomeAtual, telAtual) {
 
     API.enviar({
         acao: "editar_dizimista",
-        codigo,
+        codigo_antigo: codigoAtual,
+        codigo: novoCodigo,
         nome,
         tel
     }).then(res => {
@@ -170,12 +174,13 @@ editar(codigo, nomeAtual, telAtual) {
             alert("Atualizado");
 
             this.listar();
+
         } else {
 
-            alert("Erro ao atualizar");
+            alert(res.mensagem || "Erro");
         }
     });
-},
+}
 
 excluir(codigo) {
 
