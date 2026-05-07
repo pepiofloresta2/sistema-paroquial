@@ -180,7 +180,7 @@ editar(codigoAtual, nomeAtual, telAtual) {
             alert(res.mensagem || "Erro");
         }
     });
-}
+},
 
 excluir(codigo) {
 
