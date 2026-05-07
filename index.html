@@ -169,18 +169,33 @@ Dízimo
 </div>
 
 <script>
-function abrirModal(id){ 
-    document.getElementById(id).classList.remove('hidden'); 
 
-    // 🔥 AQUI É O PASSO 4
+function abrirModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .remove('hidden');
+
+    // carregar lista automaticamente
     if(id === "modalDizimistas"){
-        Dizimistas.listar(); // carrega lista automaticamente
+
+        Dizimistas.listar(
+            "listaDizimistasCadastro"
+        );
+
     }
 }
 
-function fecharModal(id){ 
-    document.getElementById(id).classList.add('hidden'); 
+function fecharModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .add('hidden');
+
 }
+
 </script>
 
 <!-- ⚠️ ORDEM CORRETA -->
