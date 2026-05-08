@@ -206,7 +206,7 @@ align-items:center;
     <div style="text-align:center">
 
         <h2 style="margin:0">
-            COMUNIDADE SÃO PADRE PIO
+            COMUNIDADE SÃO PIO
         </h2>
 
         <div style="margin-top:5px">
