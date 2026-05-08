@@ -31,7 +31,7 @@ adicionar(){
             document.getElementById("codigo")?.value || "",
 
         nome:
-            document.getElementById("nomeLanc")?.value || "",
+            document.getElementById("buscaNome")?.value || "",
 
         // SAÍDA
         nota:
