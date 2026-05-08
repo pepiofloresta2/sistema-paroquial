@@ -80,6 +80,13 @@ listar(destino = "listaDizimistasCadastro") {
                         </button>
 
                         <button
+                            onclick="Dizimistas.historico('${item.codigo}')"
+                            class="bg-emerald-600 text-white px-3 py-2 rounded-lg"
+                        >
+                            Histórico
+                        </button>
+
+                        <button
                             onclick="Dizimistas.excluir('${item.codigo}')"
                             class="bg-red-600 text-white px-3 py-2 rounded-lg"
                         >
@@ -226,5 +233,87 @@ excluir(codigo){
         }
     });
 }
+
+};
+
+Dizimistas.historico = function(codigo){
+
+    API.enviar({
+        acao:"historico_dizimista",
+        codigo
+    }).then(res=>{
+
+        let html = "";
+
+        (res.lista || []).forEach(item=>{
+
+            html += `
+
+            <tr>
+
+                <td class="border p-3">
+                    ${item.data}
+                </td>
+
+                <td class="border p-3">
+                    ${item.forma}
+                </td>
+
+                <td class="border p-3 text-right">
+                    R$ ${parseFloat(item.valor).toFixed(2)}
+                </td>
+
+            </tr>
+            `;
+        });
+
+        document.getElementById("tituloHistorico")
+            .innerText =
+            "Histórico do Dizimista";
+
+        document.getElementById("conteudoHistorico")
+            .innerHTML = `
+
+            <div class="mb-6">
+
+                <div class="text-lg">
+                    Total Contribuído
+                </div>
+
+                <div class="text-4xl font-bold text-green-600">
+
+                    R$ ${parseFloat(res.total || 0).toFixed(2)}
+
+                </div>
+
+            </div>
+
+            <table class="w-full border-collapse">
+
+                <tr class="bg-slate-100">
+
+                    <th class="border p-3">
+                        Data
+                    </th>
+
+                    <th class="border p-3">
+                        Forma
+                    </th>
+
+                    <th class="border p-3">
+                        Valor
+                    </th>
+
+                </tr>
+
+                ${html}
+
+            </table>
+            `;
+
+        document.getElementById("modalHistorico")
+            .classList.remove("hidden");
+
+    });
 
 };

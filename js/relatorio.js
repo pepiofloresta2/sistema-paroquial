@@ -2,7 +2,8 @@ const Relatorio = {
 
 gerar(){
 
-let mesInput = document.getElementById("mesFiltro").value;
+let mesInput =
+    document.getElementById("mesFiltro").value;
 
 if(!mesInput){
     return alert("Selecione o mês");
@@ -10,35 +11,21 @@ if(!mesInput){
 
 let [ano, mes] = mesInput.split("-");
 
-let ultimoDia = new Date(ano, mes, 0)
-.toLocaleDateString("pt-BR");
-
-let numeroRelatorio = "145";
-
-const meses = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-];
-
-let mesReferencia =
-meses[parseInt(mes)-1] + "/" + ano;
+let referencia =
+    new Date(ano, mes - 1)
+    .toLocaleDateString(
+        "pt-BR",
+        {
+            month:"long",
+            year:"numeric"
+        }
+    );
 
 API.enviar({
     acao:"buscar_relatorio",
     mes,
     ano
-})
-.then(res=>{
+}).then(res=>{
 
 let linhas = "";
 
@@ -46,119 +33,137 @@ let entradas = 0;
 let saidas = 0;
 let totalDizimo = 0;
 
+let contador = 1;
+
+// 🔵 PROCESSA LANÇAMENTOS
 (res.lista || []).forEach(item=>{
 
-    let valor = parseFloat(
-        String(item.valor || 0)
-        .replace(",", ".")
-    );
+    let valor =
+        parseFloat(item.valor || 0);
 
-    // DÍZIMO CONSOLIDADO
+    // 🔵 DÍZIMO CONSOLIDADO
     if(item.categoria === "Dízimo"){
 
         totalDizimo += valor;
         return;
     }
 
-    let entrada =
-        item.tipo === "Entrada"
-        ? valor
-        : "";
+    // 🔵 ENTRADAS
+    if(item.tipo === "Entrada"){
 
-    let saida =
-        item.tipo === "Saída"
-        ? valor
-        : "";
-
-    if(entrada){
         entradas += valor;
+
+        linhas += `
+        <tr>
+
+            <td style="border:1px solid #000;padding:3px;text-align:center">
+                ${contador++}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.data || ""}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.categoria || ""}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.nome || "-"}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px;text-align:right">
+                R$ ${valor.toFixed(2)}
+            </td>
+
+            <td style="border:1px solid #000"></td>
+
+        </tr>
+        `;
     }
 
-    if(saida){
+    // 🔴 SAÍDAS
+    if(item.tipo === "Saída"){
+
         saidas += valor;
+
+        linhas += `
+        <tr>
+
+            <td style="border:1px solid #000;padding:3px;text-align:center">
+                ${contador++}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.data || ""}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.descricao || ""}
+            </td>
+
+            <td style="border:1px solid #000;padding:3px">
+                ${item.fornecedor || "-"}
+            </td>
+
+            <td style="border:1px solid #000"></td>
+
+            <td style="border:1px solid #000;padding:3px;text-align:right;color:red">
+                R$ ${valor.toFixed(2)}
+            </td>
+
+        </tr>
+        `;
     }
 
-    linhas += `
-    <tr>
-
-        <td class="td">
-            ${item.data || ""}
-        </td>
-
-        <td class="td">
-            ${item.categoria || ""}
-        </td>
-
-        <td class="td center">
-            ${item.forma || ""}
-        </td>
-
-        <td class="td">
-            ${item.nome || ""}
-        </td>
-
-        <td class="td right green">
-            ${entrada
-                ? "R$ " + valor.toFixed(2)
-                : ""
-            }
-        </td>
-
-        <td class="td right red">
-            ${saida
-                ? "R$ " + valor.toFixed(2)
-                : ""
-            }
-        </td>
-
-    </tr>
-    `;
 });
 
-
-// DÍZIMO CONSOLIDADO
+// 🔵 LANÇA DÍZIMO CONSOLIDADO
 if(totalDizimo > 0){
 
+    entradas += totalDizimo;
+
     linhas += `
-    <tr>
+    <tr style="background:#f8fafc">
 
-        <td class="td">
-            ${ultimoDia}
+        <td style="border:1px solid #000;padding:3px;text-align:center">
+            ${contador++}
         </td>
 
-        <td class="td bold">
-            DÍZIMO CONSOLIDADO
+        <td style="border:1px solid #000;padding:3px">
+            -
         </td>
 
-        <td class="td"></td>
-
-        <td class="td"></td>
-
-        <td class="td right bold green">
-            R$ ${totalDizimo.toFixed(2)}
+        <td style="border:1px solid #000;padding:3px">
+            <b>DÍZIMO CONSOLIDADO</b>
         </td>
 
-        <td class="td"></td>
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000;padding:3px;text-align:right">
+            <b>R$ ${totalDizimo.toFixed(2)}</b>
+        </td>
+
+        <td style="border:1px solid #000"></td>
 
     </tr>
     `;
-
-    entradas += totalDizimo;
 }
 
-
-// LINHAS EXTRAS
-for(let i=0;i<18;i++){
+// 🔵 LINHAS VAZIAS ESTILO LIVRO CAIXA
+for(let i=0;i<15;i++){
 
     linhas += `
     <tr>
 
-        <td class="td">&nbsp;</td>
-        <td class="td"></td>
-        <td class="td"></td>
-        <td class="td"></td>
-        <td class="td"></td>
-        <td class="td"></td>
+        <td style="border:1px solid #000;height:24px"></td>
+        <td style="border:1px solid #000"></td>
+        <td style="border:1px solid #000"></td>
+        <td style="border:1px solid #000"></td>
+        <td style="border:1px solid #000"></td>
+        <td style="border:1px solid #000"></td>
 
     </tr>
     `;
@@ -166,169 +171,98 @@ for(let i=0;i<18;i++){
 
 let saldo = entradas - saidas;
 
+// 🔵 HTML FINAL
 document.getElementById("res").innerHTML = `
 
 <div
-    id="doc"
-    style="
-        width:190mm;
-        min-height:277mm;
-        margin:auto;
-        background:white;
-        padding:6mm;
-        border:1px solid #000;
-        font-family:Arial;
-        color:#000;
-    "
+id="doc"
+style="
+width:190mm;
+margin:auto;
+background:white;
+padding:8mm;
+font-family:Arial;
+font-size:11px;
+color:#000;
+"
 >
-
-<style>
-
-#doc table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:11px;
-}
-
-#doc .td{
-    border:1px solid #000;
-    padding:3px;
-    height:24px;
-}
-
-#doc .center{
-    text-align:center;
-}
-
-#doc .right{
-    text-align:right;
-}
-
-#doc .green{
-    color:#15803d;
-}
-
-#doc .red{
-    color:#dc2626;
-}
-
-#doc .bold{
-    font-weight:bold;
-}
-
-#doc .subtotal{
-    font-size:18px;
-    font-weight:bold;
-}
-
-#doc .total{
-    font-size:24px;
-    font-weight:bold;
-    color:#1d4ed8;
-}
-
-</style>
 
 <!-- CABEÇALHO -->
 <div
-    style="
-        border:1px solid #000;
-        padding:8px;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-    "
+style="
+border:1px solid #000;
+padding:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+"
 >
 
     <img
         src="assets/logo.png"
-        style="height:70px"
+        style="height:60px"
     >
 
     <div style="text-align:center">
 
-        <div
-            style="
-                font-size:28px;
-                font-weight:bold;
-            "
-        >
-            COM. SÃO PADRE PIO
+        <h2 style="margin:0">
+            COMUNIDADE SÃO PADRE PIO
+        </h2>
+
+        <div style="margin-top:5px">
+            MOVIMENTO FINANCEIRO
         </div>
 
-        <div
-            style="
-                font-size:16px;
-                margin-top:5px;
-            "
-        >
-            RELATÓRIO FINANCEIRO
+        <div style="margin-top:5px;font-size:12px">
+
+            REFERÊNCIA:
+            <b style="text-transform:uppercase">
+                ${referencia}
+            </b>
+
         </div>
 
     </div>
 
     <img
         src="assets/diocese.png"
-        style="height:70px"
+        style="height:60px"
     >
 
 </div>
 
-<!-- INFO -->
-<div
-    style="
-        border:1px solid #000;
-        border-top:none;
-        padding:8px;
-        display:flex;
-        justify-content:space-between;
-        font-size:13px;
-        font-weight:bold;
-    "
+<!-- TABELA -->
+<table
+style="
+width:100%;
+border-collapse:collapse;
+margin-top:8px;
+"
 >
 
-    <div>
-        Relatório Nº:
-        ${numeroRelatorio}
-    </div>
+<tr style="background:#e5e7eb">
 
-    <div>
-        Referência:
-        ${mesReferencia}
-    </div>
+    <th style="border:1px solid #000;padding:5px">
+        Nº
+    </th>
 
-    <div>
-        ${ultimoDia}
-    </div>
-
-</div>
-
-<!-- TABELA -->
-<table>
-
-<tr style="background:#f1f5f9">
-
-    <th class="td">
+    <th style="border:1px solid #000;padding:5px">
         DATA
     </th>
 
-    <th class="td">
+    <th style="border:1px solid #000;padding:5px">
         HISTÓRICO
     </th>
 
-    <th class="td">
-        FORMA
+    <th style="border:1px solid #000;padding:5px">
+        RESPONSÁVEL
     </th>
 
-    <th class="td">
-        DIZIMISTA
-    </th>
-
-    <th class="td">
+    <th style="border:1px solid #000;padding:5px">
         ENTRADAS
     </th>
 
-    <th class="td">
+    <th style="border:1px solid #000;padding:5px">
         SAÍDAS
     </th>
 
@@ -336,52 +270,71 @@ document.getElementById("res").innerHTML = `
 
 ${linhas}
 
+<!-- SUBTOTAL -->
 <tr>
 
     <td
         colspan="4"
-        class="td subtotal green"
+        style="
+        border:1px solid #000;
+        padding:8px;
+        font-weight:bold;
+        "
     >
-        SUBTOTAL ENTRADAS
+        SUBTOTAL
     </td>
 
-    <td class="td subtotal right green">
+    <td
+        style="
+        border:1px solid #000;
+        padding:8px;
+        text-align:right;
+        font-weight:bold;
+        color:green;
+        "
+    >
         R$ ${entradas.toFixed(2)}
     </td>
 
-    <td class="td"></td>
-
-</tr>
-
-<tr>
-
     <td
-        colspan="4"
-        class="td subtotal red"
+        style="
+        border:1px solid #000;
+        padding:8px;
+        text-align:right;
+        font-weight:bold;
+        color:red;
+        "
     >
-        SUBTOTAL SAÍDAS
-    </td>
-
-    <td class="td"></td>
-
-    <td class="td subtotal right red">
         R$ ${saidas.toFixed(2)}
     </td>
 
 </tr>
 
+<!-- SALDO -->
 <tr>
 
     <td
         colspan="4"
-        class="td total"
+        style="
+        border:1px solid #000;
+        padding:10px;
+        font-size:14px;
+        font-weight:bold;
+        "
     >
-        TOTAL DO PERÍODO
+        SALDO FINAL
     </td>
 
     <td
         colspan="2"
-        class="td total right"
+        style="
+        border:1px solid #000;
+        padding:10px;
+        text-align:right;
+        font-size:16px;
+        font-weight:bold;
+        color:#2563eb;
+        "
     >
         R$ ${saldo.toFixed(2)}
     </td>
@@ -390,22 +343,33 @@ ${linhas}
 
 </table>
 
-<!-- RODAPÉ -->
+<!-- ASSINATURAS -->
 <div
-    style="
-        margin-top:10px;
-        display:flex;
-        justify-content:space-between;
-        font-size:12px;
-    "
+style="
+margin-top:60px;
+display:flex;
+justify-content:space-between;
+"
 >
 
-    <div>
-        Sistema Paroquial
+    <div style="text-align:center;width:250px">
+
+        ___________________________
+
+        <div style="margin-top:8px">
+            Tesouraria
+        </div>
+
     </div>
 
-    <div>
-        Página 1 de 1
+    <div style="text-align:center;width:250px">
+
+        ___________________________
+
+        <div style="margin-top:8px">
+            Coordenação
+        </div>
+
     </div>
 
 </div>
@@ -417,4 +381,5 @@ window.__RELATORIO_PRONTO__ = true;
 
 });
 }
+
 };

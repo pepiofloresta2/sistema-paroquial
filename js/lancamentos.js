@@ -1,53 +1,111 @@
-// js/lancamentos.js
-
 const Lancamentos = {
 
-    adicionar() {
+adicionar(){
 
-        let dataInput = document.getElementById("data").value;
+    let categoria =
+        document.getElementById("categoria").value;
 
-        if (!dataInput) {
-            alert("Informe a data");
-            return;
-        }
+    let tipo =
+        document.getElementById("tipo").value;
 
-        let partes = dataInput.split("-");
-        let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+    let dados = {
 
-        let tipo = document.getElementById("tipo").value;
-        let categoria = document.getElementById("categoria").value;
-        let forma = document.getElementById("forma").value;
-        let codigo = document.getElementById("codigo").value.trim();
-        let nome = document.getElementById("nomeLanc").value.trim();
-        let valor = document.getElementById("valor").value.trim();
+        acao: "salvar_lancamento",
 
-        if (!valor) {
-            alert("Informe o valor");
-            return;
-        }
+        data:
+            document.getElementById("data").value,
 
-        API.enviar({
-            acao: "salvar_lancamento",
-            data: dataFormatada,
-            tipo,
-            categoria,
-            forma,
-            codigo,
-            nome,
-            valor
-        }).then(res => {
+        tipo: tipo,
 
-            if (res && res.status === "ok") {
-                alert("Lançamento salvo com sucesso");
-                this.limpar();
-            }
-        });
-    },
+        categoria: categoria,
 
-    limpar() {
-        document.getElementById("valor").value = "";
-        document.getElementById("codigo").value = "";
-        document.getElementById("nomeLanc").value = "";
+        forma:
+            document.getElementById("forma").value,
+
+        valor:
+            document.getElementById("valor").value
+                .replace(",", "."),
+
+        // DÍZIMO
+        codigo:
+            document.getElementById("codigo")?.value || "",
+
+        nome:
+            document.getElementById("nomeLanc")?.value || "",
+
+        // SAÍDA
+        nota:
+            document.getElementById("notaFiscal")?.value || "",
+
+        fornecedor:
+            document.getElementById("fornecedor")?.value || "",
+
+        descricao:
+            document.getElementById("descricao")?.value || ""
+    };
+
+    // 🔵 VALIDAÇÕES
+
+    if(!dados.data){
+        return alert("Informe a data");
     }
+
+    if(!dados.valor){
+        return alert("Informe o valor");
+    }
+
+    // 🔵 DÍZIMO
+    if(categoria === "Dízimo"){
+
+        if(!dados.codigo){
+            return alert("Selecione o dizimista");
+        }
+    }
+
+    // 🔴 SAÍDA
+    if(categoria === "Saída"){
+
+        if(!dados.fornecedor){
+            return alert("Informe o fornecedor");
+        }
+
+        if(!dados.descricao){
+            return alert("Informe a descrição");
+        }
+    }
+
+    API.enviar(dados).then(res=>{
+
+        if(res.status === "ok"){
+
+            alert("Lançamento salvo");
+
+            // LIMPA CAMPOS
+            document.getElementById("valor").value = "";
+
+            document.getElementById("codigo").value = "";
+
+            document.getElementById("nomeLanc").value = "";
+
+            document.getElementById("buscaNome").value = "";
+
+            document.getElementById("notaFiscal").value = "";
+
+            document.getElementById("fornecedor").value = "";
+
+            document.getElementById("descricao").value = "";
+
+            document.getElementById("sugestoes").innerHTML = "";
+
+            UI.carregarDashboard();
+
+        } else {
+
+            alert("Erro ao salvar");
+        }
+
+    });
+
+}
 
 };

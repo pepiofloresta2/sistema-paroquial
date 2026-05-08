@@ -338,3 +338,53 @@ UI.botaoRelatorio = function(botao){
         "text-white"
     );
 };
+
+// 🔵 ALTERA FORMULÁRIO FINANCEIRO
+UI.alterarFormularioFinanceiro = function(){
+
+    let categoria =
+        document.getElementById("categoria").value;
+
+    let blocoDizimista =
+        document.getElementById("blocoDizimista");
+
+    let blocoSaida =
+        document.getElementById("blocoSaida");
+
+    let tipo =
+        document.getElementById("tipo");
+
+    // 🔵 DÍZIMO
+    if(categoria === "Dízimo"){
+
+        blocoDizimista.classList.remove("hidden");
+        blocoSaida.classList.add("hidden");
+
+        tipo.value = "Entrada";
+    }
+
+    // 🔵 DOAÇÃO
+    if(categoria === "Doação"){
+
+        blocoDizimista.classList.add("hidden");
+        blocoSaida.classList.add("hidden");
+
+        tipo.value = "Entrada";
+    }
+
+    // 🔴 SAÍDA
+    if(categoria === "Saída"){
+
+        blocoDizimista.classList.add("hidden");
+        blocoSaida.classList.remove("hidden");
+
+        tipo.value = "Saída";
+    }
+};
+
+// 🔵 INICIALIZA AO ABRIR
+window.addEventListener("load", ()=>{
+
+    UI.alterarFormularioFinanceiro();
+
+});
