@@ -103,16 +103,17 @@ buscarPorNome(){
 
 selecionar(i){
 
-    let d =
-        this.listaDizimistasCache[i];
+    let d = this.listaDizimistasCache[i];
 
-    document.getElementById("codigo").value =
-        d.codigo;    
+    document.getElementById("codigo").value = d.codigo;
 
-    document.getElementById("buscaNome").value =
-        d.nome;
+    document.getElementById("buscaNome").value = d.nome;
 
+    // ESCONDE SUGESTÕES
     document.getElementById("sugestoes").innerHTML = "";
+
+    // limpa índice
+    this.indiceSelecionado = -1;
 },
 
 navegarSugestoes(e){
