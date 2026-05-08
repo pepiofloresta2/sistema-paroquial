@@ -107,10 +107,7 @@ selecionar(i){
         this.listaDizimistasCache[i];
 
     document.getElementById("codigo").value =
-        d.codigo;
-
-    document.getElementById("nomeLanc").value =
-        d.nome;
+        d.codigo;    
 
     document.getElementById("buscaNome").value =
         d.nome;
