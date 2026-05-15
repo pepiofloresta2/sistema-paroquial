@@ -1,79 +1,88 @@
 const UI = {
 
-listaDizimistasCache: [],
-indiceSelecionado: -1,
+    listaDizimistasCache: [],
+    indiceSelecionado: -1,
 
-// 🔵 LIMPA ÁREA
-limparTela() {
+    /* ==============================
+            LIMPAR TELA
+    ============================== */
+    limparTela() {
 
-    let res = document.getElementById("res");
-    if (res) res.innerHTML = "";
+        let res = document.getElementById("res");
+        if (res) res.innerHTML = "";
 
-    let lista = document.getElementById("listaDizimistas");
-    if (lista) lista.innerHTML = "";
+        let lista = document.getElementById("listaDizimistas");
+        if (lista) lista.innerHTML = "";
 
-    let listaCad =
-        document.getElementById("listaDizimistasCadastro");
+        let listaCad =
+            document.getElementById(
+                "listaDizimistasCadastro"
+            );
 
-    if (listaCad) listaCad.innerHTML = "";
-},
+        if (listaCad) listaCad.innerHTML = "";
+    },
 
-// 🔵 BOTÃO ATIVO
-ativarBotao(el){
+    /* ==============================
+            BOTÃO ATIVO
+    ============================== */
+    ativarBotao(el) {
 
-    this.removerAtivo();
+        this.removerAtivo();
 
-    el.classList.add(
-        "bg-slate-900",
-        "text-white"
-    );
-},
-
-removerAtivo(){
-
-    document
-    .querySelectorAll("#modalRelatorios button")
-    .forEach(btn=>{
-
-        btn.classList.remove(
+        el.classList.add(
             "bg-slate-900",
             "text-white"
         );
-    });
-},
+    },
 
-// 🔵 AUTOCOMPLETE
-buscarPorNome(){
+    removerAtivo() {
 
-    let campo =
-        document.getElementById("buscaNome");
+        document
+        .querySelectorAll(".btnRelatorio")
+        .forEach(btn => {
 
-    if(!campo) return;
+            btn.classList.remove(
+                "bg-slate-900",
+                "text-white"
+            );
+        });
+    },
 
-    let termo =
-        campo.value.toLowerCase();
+    /* ==============================
+            AUTOCOMPLETE
+    ============================== */
+    buscarPorNome() {
 
-    let sugestoes =
-        document.getElementById("sugestoes");
+        let campo =
+            document.getElementById(
+                "buscaNome"
+            );
 
-    if(!termo){
+        if (!campo) return;
 
-        if(sugestoes){
+        let termo =
+            campo.value
+            .toLowerCase()
+            .trim();
+
+        let sugestoes =
+            document.getElementById(
+                "sugestoes"
+            );
+
+        if (!termo) {
+
             sugestoes.innerHTML = "";
+            sugestoes.classList.add(
+                "hidden"
+            );
+
+            return;
         }
 
-        return;
-    }
-
-    API.enviar({
-        acao:"listar_dizimistas"
-    }).then(res=>{
-
-        this.listaDizimistasCache =
-            res.lista || [];
-
         let filtrados =
-            this.listaDizimistasCache.filter(d =>
+            this.listaDizimistasCache
+            .filter(d =>
                 d.nome
                 .toLowerCase()
                 .includes(termo)
@@ -81,7 +90,7 @@ buscarPorNome(){
 
         let html = "";
 
-        filtrados.forEach((d,i)=>{
+        filtrados.forEach((d, i) => {
 
             html += `
             <div
@@ -93,240 +102,338 @@ buscarPorNome(){
             `;
         });
 
-        if(sugestoes){
-            sugestoes.innerHTML = html;
+        sugestoes.innerHTML = html;
+
+        if (html) {
+            sugestoes.classList.remove(
+                "hidden"
+            );
+        } else {
+            sugestoes.classList.add(
+                "hidden"
+            );
         }
 
         this.indiceSelecionado = -1;
-    });
-},
+    },
 
-selecionar(i){
+    selecionar(i) {
 
-    let d = this.listaDizimistasCache[i];
-
-    document.getElementById("codigo").value = d.codigo;
-
-    document.getElementById("buscaNome").value = d.nome;
-
-    // ESCONDE SUGESTÕES
-    let box = document.getElementById("sugestoes");
-
-    box.innerHTML = "";
-    box.classList.remove("hidden");
-
-    // limpa índice
-    this.indiceSelecionado = -1;
-},
-
-navegarSugestoes(e){
-
-    let itens =
-        document.querySelectorAll("#sugestoes div");
-
-    if(!itens.length) return;
-
-    if(e.key === "ArrowDown"){
-        this.indiceSelecionado++;
-    }
-
-    if(e.key === "ArrowUp"){
-        this.indiceSelecionado--;
-    }
-
-    if(e.key === "Enter"){
-
-        e.preventDefault();
-
-        if(this.indiceSelecionado >= 0){
-            itens[this.indiceSelecionado].click();
-        }
-    }
-
-    itens.forEach(el=>{
-        el.classList.remove("bg-slate-200");
-    });
-
-    if(itens[this.indiceSelecionado]){
-
-        itens[this.indiceSelecionado]
-        .classList.add("bg-slate-200");
-    }
-},
-
-// 🔵 MÁSCARA TELEFONE
-mascaraTelefone(input){
-
-    let valor = input.value;
-
-    valor = valor.replace(/\D/g,'');
-
-    valor = valor.replace(
-        /^(\d{2})(\d)/g,
-        '($1) $2'
-    );
-
-    valor = valor.replace(
-        /(\d{5})(\d)/,
-        '$1-$2'
-    );
-
-    input.value = valor;
-},
-
-// 🔵 DASHBOARD
-carregarDashboard(){
-
-    // TOTAL DIZIMISTAS
-    API.enviar({
-        acao:"listar_dizimistas"
-    }).then(res=>{
-
-        let total =
-            (res.lista || []).length;
-
-        let el =
+        let campo =
             document.getElementById(
-                "kpiDizimistas"
+                "buscaNome"
+            ).value
+            .toLowerCase()
+            .trim();
+
+        let filtrados =
+            this.listaDizimistasCache
+            .filter(d =>
+                d.nome
+                .toLowerCase()
+                .includes(campo)
             );
 
-        if(el){
-            el.innerText = total;
-        }
-    });
+        let d = filtrados[i];
 
-    // MÊS ATUAL
-    let hoje = new Date();
+        if (!d) return;
 
-    let mes =
-        String(hoje.getMonth()+1)
-        .padStart(2,"0");
+        document.getElementById(
+            "codigo"
+        ).value = d.codigo;
 
-    let ano =
-        hoje.getFullYear();
+        document.getElementById(
+            "buscaNome"
+        ).value = d.nome;
 
-    API.enviar({
-        acao:"buscar_relatorio",
-        mes,
-        ano
-    }).then(res=>{
-
-        let entradas = 0;
-        let saidas = 0;
-
-        (res.lista || []).forEach(item=>{
-
-            let valor = parseFloat(
-                String(item.valor || 0)
-                .replace(",", ".")
+        let box =
+            document.getElementById(
+                "sugestoes"
             );
 
-            if(String(item.tipo).trim() === "Entrada"){
-                entradas += valor;
+        box.innerHTML = "";
+        box.classList.add(
+            "hidden"
+        );
+
+        this.indiceSelecionado = -1;
+    },
+
+    navegarSugestoes(e) {
+
+        let itens =
+            document.querySelectorAll(
+                "#sugestoes div"
+            );
+
+        if (!itens.length) return;
+
+        if (e.key === "ArrowDown") {
+
+            this.indiceSelecionado++;
+
+            if (
+                this.indiceSelecionado >=
+                itens.length
+            ) {
+                this.indiceSelecionado = 0;
             }
+        }
 
-            if(String(item.tipo).trim() === "Saída"){
-                saidas += valor;
+        if (e.key === "ArrowUp") {
+
+            this.indiceSelecionado--;
+
+            if (
+                this.indiceSelecionado < 0
+            ) {
+                this.indiceSelecionado =
+                    itens.length - 1;
+            }
+        }
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            if (
+                this.indiceSelecionado >= 0
+            ) {
+                itens[
+                    this.indiceSelecionado
+                ].click();
+            }
+        }
+
+        itens.forEach(el => {
+
+            el.classList.remove(
+                "bg-slate-200"
+            );
+        });
+
+        if (
+            itens[
+                this.indiceSelecionado
+            ]
+        ) {
+            itens[
+                this.indiceSelecionado
+            ].classList.add(
+                "bg-slate-200"
+            );
+        }
+    },
+
+    /* ==============================
+            MÁSCARA TELEFONE
+    ============================== */
+    mascaraTelefone(input) {
+
+        let valor = input.value;
+
+        valor = valor.replace(
+            /\D/g,
+            ''
+        );
+
+        valor = valor.replace(
+            /^(\d{2})(\d)/g,
+            '($1) $2'
+        );
+
+        valor = valor.replace(
+            /(\d{5})(\d)/,
+            '$1-$2'
+        );
+
+        input.value = valor;
+    },
+
+    /* ==============================
+            DASHBOARD
+    ============================== */
+    carregarDashboard() {
+
+        API.enviar({
+            acao: "listar_dizimistas"
+        }).then(res => {
+
+            let total =
+                (res.lista || [])
+                .length;
+
+            let el =
+                document.getElementById(
+                    "kpiDizimistas"
+                );
+
+            if (el) {
+                el.innerText =
+                    total;
             }
         });
 
-        let saldo =
-            entradas - saidas;
+        let hoje = new Date();
 
-        let formatar = valor => {
+        let mes =
+            String(
+                hoje.getMonth() + 1
+            ).padStart(2, "0");
 
-            return valor.toLocaleString(
-                "pt-BR",
-                {
-                    style:"currency",
-                    currency:"BRL"
+        let ano =
+            hoje.getFullYear();
+
+        API.enviar({
+            acao:
+                "buscar_relatorio",
+            mes,
+            ano
+        }).then(res => {
+
+            let entradas = 0;
+            let saidas = 0;
+
+            (
+                res.lista || []
+            ).forEach(item => {
+
+                let valor =
+                    parseFloat(
+                        String(
+                            item.valor || 0
+                        )
+                        .replace(
+                            ",",
+                            "."
+                        )
+                    );
+
+                if (
+                    String(
+                        item.tipo
+                    ).trim()
+                    === "Entrada"
+                ) {
+                    entradas += valor;
                 }
-            );
-        };
 
-        let kEntradas =
-            document.getElementById(
+                if (
+                    String(
+                        item.tipo
+                    ).trim()
+                    === "Saída"
+                ) {
+                    saidas += valor;
+                }
+            });
+
+            let saldo =
+                entradas -
+                saidas;
+
+            let formatar =
+                valor =>
+                    valor
+                    .toLocaleString(
+                        "pt-BR",
+                        {
+                            style:
+                                "currency",
+                            currency:
+                                "BRL"
+                        }
+                    );
+
+            document
+            .getElementById(
                 "kpiEntradas"
-            );
+            ).innerText =
+                formatar(
+                    entradas
+                );
 
-        let kSaidas =
-            document.getElementById(
+            document
+            .getElementById(
                 "kpiSaidas"
-            );
+            ).innerText =
+                formatar(
+                    saidas
+                );
 
-        let kSaldo =
-            document.getElementById(
+            document
+            .getElementById(
                 "kpiSaldo"
+            ).innerText =
+                formatar(
+                    saldo
+                );
+
+        }).catch(err => {
+
+            console.error(
+                "Erro dashboard:",
+                err
+            );
+        });
+    },
+
+    /* ==============================
+            PDF
+    ============================== */
+    imprimir() {
+
+        let element =
+            document.getElementById(
+                "doc"
             );
 
-        if(kEntradas){
-            kEntradas.innerText =
-                formatar(entradas);
+        if (!element) {
+
+            alert(
+                "Gere um relatório primeiro"
+            );
+
+            return;
         }
 
-        if(kSaidas){
-            kSaidas.innerText =
-                formatar(saidas);
-        }
+        html2pdf()
+        .set({
 
-        if(kSaldo){
-            kSaldo.innerText =
-                formatar(saldo);
-        }
+            margin: 5,
 
-    }).catch(err=>{
+            filename:
+                "relatorio.pdf",
 
-        console.error(
-            "Erro dashboard:",
-            err
-        );
-    });
-},
+            html2canvas: {
+                scale: 2
+            },
 
-// 🔵 PDF
-imprimir(){
+            jsPDF: {
+                unit: "mm",
+                format: "a4",
+                orientation:
+                    "portrait"
+            }
 
-    let element =
-        document.getElementById("doc");
-
-    if (!element) {
-
-        alert(
-            "Gere um relatório primeiro"
-        );
-
-        return;
+        })
+        .from(element)
+        .save();
     }
-
-    html2pdf()
-    .set({
-
-        margin: 5,
-
-        filename: "relatorio.pdf",
-
-        html2canvas: {
-            scale: 2
-        },
-
-        jsPDF: {
-            unit: 'mm',
-            format: 'a4',
-            orientation: 'portrait'
-        }
-
-    })
-    .from(element)
-    .save();
-}
-
 };
 
-UI.botaoRelatorio = function(botao){
+
+/* ==============================
+        BOTÃO RELATÓRIO
+============================== */
+UI.botaoRelatorio =
+function(botao) {
 
     document
-    .querySelectorAll(".btnRelatorio")
-    .forEach(btn=>{
+    .querySelectorAll(
+        ".btnRelatorio"
+    )
+    .forEach(btn => {
 
         btn.classList.remove(
             "bg-slate-900",
@@ -340,53 +447,128 @@ UI.botaoRelatorio = function(botao){
     );
 };
 
-// 🔵 INICIALIZA AO ABRIR
-window.addEventListener("load", ()=>{
 
-    UI.alterarFormularioFinanceiro();
-
-});
-
-
-/* ============ ALTERA FORMULARIO ============ */
-UI.alterarFormularioFinanceiro = function(){
-
-    let tipo =
-        document.getElementById("tipo").value;
+/* ==============================
+        ALTERAR FORMULÁRIO
+============================== */
+UI.alterarFormularioFinanceiro =
+function() {
 
     let categoria =
-        document.getElementById("categoria");
+        document.getElementById(
+            "categoria"
+        ).value;
 
     let blocoDizimista =
-        document.getElementById("blocoDizimista");
+        document.getElementById(
+            "blocoDizimista"
+        );
 
     let blocoSaida =
-        document.getElementById("blocoSaida");
+        document.getElementById(
+            "blocoSaida"
+        );
 
-    categoria.innerHTML = "";
+    let tipo =
+        document.getElementById(
+            "tipo"
+        );
 
-    if(tipo === "Entrada"){
+    if (
+        categoria === "Dízimo"
+    ) {
 
-        categoria.innerHTML = `
-            <option>Dízimo</option>
-            <option>Coleta Missa</option>
-            <option>Doação</option>
-        `;
+        blocoDizimista
+        .classList.remove(
+            "hidden"
+        );
 
-        blocoDizimista.classList.remove("hidden");
-        blocoSaida.classList.add("hidden");
+        blocoSaida
+        .classList.add(
+            "hidden"
+        );
+
+        tipo.value =
+            "Entrada";
     }
 
-    if(tipo === "Saída"){
+    if (
+        categoria ===
+        "Coleta Missa"
+    ) {
 
-        categoria.innerHTML = `
-            <option>Aluguel</option>
-            <option>Compras</option>
-            <option>Energia</option>
-            <option>Água</option>
-        `;
+        blocoDizimista
+        .classList.add(
+            "hidden"
+        );
 
-        blocoDizimista.classList.add("hidden");
-        blocoSaida.classList.remove("hidden");
+        blocoSaida
+        .classList.add(
+            "hidden"
+        );
+
+        tipo.value =
+            "Entrada";
+    }
+
+    if (
+        categoria ===
+        "Doação"
+    ) {
+
+        blocoDizimista
+        .classList.add(
+            "hidden"
+        );
+
+        blocoSaida
+        .classList.add(
+            "hidden"
+        );
+
+        tipo.value =
+            "Entrada";
+    }
+
+    if (
+        categoria ===
+        "Saída"
+    ) {
+
+        blocoDizimista
+        .classList.add(
+            "hidden"
+        );
+
+        blocoSaida
+        .classList.remove(
+            "hidden"
+        );
+
+        tipo.value =
+            "Saída";
     }
 };
+
+
+/* ==============================
+            INICIALIZA
+============================== */
+window.addEventListener(
+    "load",
+    () => {
+
+        UI.alterarFormularioFinanceiro();
+
+        API.enviar({
+            acao:
+                "listar_dizimistas"
+        }).then(res => {
+
+            UI.listaDizimistasCache =
+                res.lista || [];
+        });
+
+        UI.carregarDashboard();
+    }
+);
