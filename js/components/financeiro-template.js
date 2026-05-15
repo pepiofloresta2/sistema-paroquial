@@ -13,7 +13,7 @@ const FinanceiroTemplate = {
 <div
 id="doc"
 style="
-width:190mm;
+width:180mm;
 max-width:100%;
 margin:auto;
 background:white;
@@ -67,14 +67,15 @@ align-items:center;
 </div>
 
 
-<div style="overflow-x:auto;">
+<div>
 
 <table
 style="
-min-width:700px;
 width:100%;
 border-collapse:collapse;
 margin-top:8px;
+table-layout:fixed;
+word-break:break-word;
 "
 >
 

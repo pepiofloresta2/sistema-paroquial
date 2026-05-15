@@ -111,71 +111,37 @@ const Dizimistas = {
 
                         <td class="border p-3">
 
-                            <div class="
-                                flex
-                                flex-col
-                                sm:flex-row
-                                gap-2
-                                justify-center
-                            ">
+                            <div class="flex justify-center gap-2">
 
-                                <button
-                                    onclick="
-                                        Dizimistas.abrirEditar(
-                                            '${item.codigo}',
-                                            '${item.nome}',
-                                            '${item.tel || ""}'
-                                        )
-                                    "
-                                    class="
-                                        bg-blue-600
-                                        text-white
-                                        px-4 py-2
-                                        rounded-lg
-                                        w-full
-                                        sm:w-auto
-                                    "
-                                >
-                                    Editar
-                                </button>
+                            <button
+                                onclick="Dizimistas.abrirEditar(
+                                    '${item.codigo}',
+                                    '${item.nome}',
+                                    '${item.tel || ""}'
+                                )"
+                                class="bg-blue-600 hover:bg-blue-700 text-white w-9 h-9 rounded-lg transition"
+                                title="Editar"
+                            >
+                                ✏️
+                            </button>
 
-                                <button
-                                    onclick="
-                                        Dizimistas.excluir(
-                                            '${item.codigo}'
-                                        )
-                                    "
-                                    class="
-                                        bg-red-600
-                                        text-white
-                                        px-4 py-2
-                                        rounded-lg
-                                        w-full
-                                        sm:w-auto
-                                    "
-                                >
-                                    Excluir
-                                </button>
+                            <button
+                                onclick="Dizimistas.excluir('${item.codigo}')"
+                                class="bg-red-600 hover:bg-red-700 text-white w-9 h-9 rounded-lg transition"
+                                title="Excluir"
+                            >
+                                🗑️
+                            </button>
 
-                                <button
-                                    onclick="
-                                        Dizimistas.historico(
-                                            '${item.codigo}'
-                                        )
-                                    "
-                                    class="
-                                        bg-slate-700
-                                        text-white
-                                        px-4 py-2
-                                        rounded-lg
-                                        w-full
-                                        sm:w-auto
-                                    "
-                                >
-                                    Histórico
-                                </button>
+                            <button
+                                onclick="Dizimistas.historico('${item.codigo}')"
+                                class="bg-slate-700 hover:bg-slate-800 text-white w-9 h-9 rounded-lg transition"
+                                title="Histórico"
+                            >
+                                📄
+                            </button>
 
-                            </div>
+                        </div>
 
                         </td>
 
@@ -375,7 +341,7 @@ const Dizimistas = {
 
                 this.listar();
 
-                UI.carregarDashboard();
+                Dashboard.carregar();
 
             } else {
 
@@ -416,7 +382,7 @@ const Dizimistas = {
 
                 this.listar();
 
-                UI.carregarDashboard();
+                Dashboard.carregar();
             }
         });
     },
