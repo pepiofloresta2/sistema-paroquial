@@ -97,6 +97,11 @@ adicionar(){
 
             document.getElementById("sugestoes").innerHTML = "";
 
+            document.getElementById("sugestoes").classList.add("hidden");
+
+            UI.listaDizimistasCache = [];
+            UI.indiceSelecionado = -1;            
+
             UI.carregarDashboard();
 
         } else {

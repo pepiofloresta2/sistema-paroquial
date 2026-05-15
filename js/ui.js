@@ -110,7 +110,10 @@ selecionar(i){
     document.getElementById("buscaNome").value = d.nome;
 
     // ESCONDE SUGESTÕES
-    document.getElementById("sugestoes").innerHTML = "";
+    let box = document.getElementById("sugestoes");
+
+    box.innerHTML = "";
+    box.classList.remove("hidden");
 
     // limpa índice
     this.indiceSelecionado = -1;
@@ -337,11 +340,22 @@ UI.botaoRelatorio = function(botao){
     );
 };
 
-// 🔵 ALTERA FORMULÁRIO FINANCEIRO
+// 🔵 INICIALIZA AO ABRIR
+window.addEventListener("load", ()=>{
+
+    UI.alterarFormularioFinanceiro();
+
+});
+
+
+/* ============ ALTERA FORMULARIO ============ */
 UI.alterarFormularioFinanceiro = function(){
 
+    let tipo =
+        document.getElementById("tipo").value;
+
     let categoria =
-        document.getElementById("categoria").value;
+        document.getElementById("categoria");
 
     let blocoDizimista =
         document.getElementById("blocoDizimista");
@@ -349,40 +363,30 @@ UI.alterarFormularioFinanceiro = function(){
     let blocoSaida =
         document.getElementById("blocoSaida");
 
-    let tipo =
-        document.getElementById("tipo");
+    categoria.innerHTML = "";
 
-    // 🔵 DÍZIMO
-    if(categoria === "Dízimo"){
+    if(tipo === "Entrada"){
+
+        categoria.innerHTML = `
+            <option>Dízimo</option>
+            <option>Coleta Missa</option>
+            <option>Doação</option>
+        `;
 
         blocoDizimista.classList.remove("hidden");
         blocoSaida.classList.add("hidden");
-
-        tipo.value = "Entrada";
     }
 
-    // 🔵 DOAÇÃO
-    if(categoria === "Doação"){
+    if(tipo === "Saída"){
 
-        blocoDizimista.classList.add("hidden");
-        blocoSaida.classList.add("hidden");
-
-        tipo.value = "Entrada";
-    }
-
-    // 🔴 SAÍDA
-    if(categoria === "Saída"){
+        categoria.innerHTML = `
+            <option>Aluguel</option>
+            <option>Compras</option>
+            <option>Energia</option>
+            <option>Água</option>
+        `;
 
         blocoDizimista.classList.add("hidden");
         blocoSaida.classList.remove("hidden");
-
-        tipo.value = "Saída";
     }
 };
-
-// 🔵 INICIALIZA AO ABRIR
-window.addEventListener("load", ()=>{
-
-    UI.alterarFormularioFinanceiro();
-
-});

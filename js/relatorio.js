@@ -31,7 +31,8 @@ let linhas = "";
 
 let entradas = 0;
 let saidas = 0;
-let totalDizimo = 0;
+let totalDizimoDinheiro = 0;
+let totalDizimoPix = 0;
 
 let contador = 1;
 
@@ -44,7 +45,16 @@ let contador = 1;
     // 🔵 DÍZIMO CONSOLIDADO
     if(item.categoria === "Dízimo"){
 
-        totalDizimo += valor;
+        let forma =
+            String(item.forma || "")
+            .toUpperCase();
+
+        if(forma === "PIX"){
+            totalDizimoPix += valor;
+        } else {
+            totalDizimoDinheiro += valor;
+        }
+
         return;
     }
 
@@ -118,10 +128,18 @@ let contador = 1;
 
 });
 
-// 🔵 LANÇA DÍZIMO CONSOLIDADO
-if(totalDizimo > 0){
+// 🔵 DATA FINAL DO MÊS
+let ultimoDia = new Date(
+    ano,
+    mes,
+    0
+).toLocaleDateString("pt-BR");
 
-    entradas += totalDizimo;
+
+// 🔵 DÍZIMO EM DINHEIRO
+if(totalDizimoDinheiro > 0){
+
+    entradas += totalDizimoDinheiro;
 
     linhas += `
     <tr style="background:#f8fafc">
@@ -131,11 +149,11 @@ if(totalDizimo > 0){
         </td>
 
         <td style="border:1px solid #000;padding:3px">
-            -
+            ${ultimoDia}
         </td>
 
         <td style="border:1px solid #000;padding:3px">
-            <b>DÍZIMO CONSOLIDADO</b>
+            <b>DÍZIMO</b>
         </td>
 
         <td style="border:1px solid #000;padding:3px">
@@ -143,7 +161,42 @@ if(totalDizimo > 0){
         </td>
 
         <td style="border:1px solid #000;padding:3px;text-align:right">
-            <b>R$ ${totalDizimo.toFixed(2)}</b>
+            <b>R$ ${totalDizimoDinheiro.toFixed(2)}</b>
+        </td>
+
+        <td style="border:1px solid #000"></td>
+
+    </tr>
+    `;
+}
+
+
+// 🔵 DÍZIMO PIX
+if(totalDizimoPix > 0){
+
+    entradas += totalDizimoPix;
+
+    linhas += `
+    <tr style="background:#f8fafc">
+
+        <td style="border:1px solid #000;padding:3px;text-align:center">
+            ${contador++}
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            ${ultimoDia}
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            <b>DÍZIMO (PIX)</b>
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000;padding:3px;text-align:right">
+            <b>R$ ${totalDizimoPix.toFixed(2)}</b>
         </td>
 
         <td style="border:1px solid #000"></td>

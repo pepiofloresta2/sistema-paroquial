@@ -66,7 +66,13 @@ listar(destino = "listaDizimistasCadastro") {
 
                 <td class="border p-3 text-center">
 
-                    <div class="flex justify-center gap-2">
+                    <div class="
+                        flex
+                        flex-col
+                        sm:flex-row
+                        gap-2
+                        mt-4
+                    ">
 
                         <button
                             onclick="Dizimistas.abrirEditar(
@@ -74,23 +80,44 @@ listar(destino = "listaDizimistasCadastro") {
                                 '${item.nome}',
                                 '${item.tel || ""}'
                             )"
-                            class="bg-blue-600 text-white px-3 py-2 rounded-lg"
+                            class="
+                                bg-blue-600
+                                text-white
+                                px-4 py-2
+                                rounded-lg
+                                w-full
+                                sm:w-auto
+                            "
                         >
                             Editar
                         </button>
 
                         <button
-                            onclick="Dizimistas.historico('${item.codigo}')"
-                            class="bg-emerald-600 text-white px-3 py-2 rounded-lg"
+                            onclick="Dizimistas.excluir('${item.codigo}')"
+                            class="
+                                bg-red-600
+                                text-white
+                                px-4 py-2
+                                rounded-lg
+                                w-full
+                                sm:w-auto
+                            "
                         >
-                            Histórico
+                            Excluir
                         </button>
 
                         <button
-                            onclick="Dizimistas.excluir('${item.codigo}')"
-                            class="bg-red-600 text-white px-3 py-2 rounded-lg"
+                            onclick="Dizimistas.historico('${item.codigo}')"
+                            class="
+                                bg-slate-700
+                                text-white
+                                px-4 py-2
+                                rounded-lg
+                                w-full
+                                sm:w-auto
+                            "
                         >
-                            Excluir
+                            Histórico
                         </button>
 
                     </div>

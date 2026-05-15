@@ -37,7 +37,7 @@
 
             <img
                 src="assets/logo.png"
-                class="w-14 h-14 object-contain"
+                class="w-20 h-20 md:w-24 md:h-24 object-contain"
             >
 
             <div>
@@ -54,7 +54,7 @@
 
         </div>
 
-        <div class="text-right text-sm text-slate-300">
+        <div class="text-right text-sm text-slate-400">
 
             <div id="dataHoje"></div>
 
@@ -71,26 +71,26 @@
 >
 
 <!-- KPIs -->
-<div class="grid md:grid-cols-4 gap-5 mb-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
 
-    <div class="bg-white rounded-3xl p-6 shadow-xl">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
 
-        <div class="text-sm text-slate-500 mb-2">
+        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
             Dizimistas
         </div>
 
         <div
             id="kpiDizimistas"
-            class="text-4xl font-bold"
+            class="text-2xl md:text-4xl font-bold"
         >
             0
         </div>
 
     </div>
 
-    <div class="bg-white rounded-3xl p-6 shadow-xl">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
 
-        <div class="text-sm text-slate-500 mb-2">
+        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
             Entradas
         </div>
 
@@ -103,9 +103,9 @@
 
     </div>
 
-    <div class="bg-white rounded-3xl p-6 shadow-xl">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
 
-        <div class="text-sm text-slate-500 mb-2">
+        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
             Saídas
         </div>
 
@@ -118,9 +118,9 @@
 
     </div>
 
-    <div class="bg-white rounded-3xl p-6 shadow-xl">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
 
-        <div class="text-sm text-slate-500 mb-2">
+        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
             Saldo
         </div>
 
@@ -135,23 +135,23 @@
 
 </div>   
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid gap-4 md:grid-cols-3 md:gap-6">
 
         <!-- CARD DIZIMISTAS -->
         <div
             onclick="abrirTela('telaDizimistas')"
-            class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:scale-105 duration-200"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
         >
 
-            <div class="text-5xl mb-5">
+            <div class="text-3xl md:text-5xl mb-3 md:mb-5">
                 👥
             </div>
 
-            <h2 class="text-2xl font-bold mb-2">
+            <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
                 Dizimistas
             </h2>
 
-            <p class="text-slate-500">
+            <p class="text-sm md:text-base text-slate-500">
                 Cadastro, edição e busca
             </p>
 
@@ -160,18 +160,18 @@
         <!-- CARD LANÇAMENTOS -->
         <div
             onclick="abrirTela('telaLancamentos')"
-            class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:scale-105 duration-200"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
         >
 
-            <div class="text-5xl mb-5">
+            <div class="text-3xl md:text-5xl mb-3 md:mb-5">
                 💰
             </div>
 
-            <h2 class="text-2xl font-bold mb-2">
+            <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
                 Lançamentos
             </h2>
 
-            <p class="text-slate-500">
+            <p class="text-sm md:text-base text-slate-500">
                 Entradas e saídas
             </p>
 
@@ -180,18 +180,18 @@
         <!-- CARD RELATÓRIOS -->
         <div
             onclick="abrirTela('telaRelatorios')"
-            class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:scale-105 duration-200"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
         >
 
-            <div class="text-5xl mb-5">
+            <div class="text-3xl md:text-5xl mb-3 md:mb-5">
                 📄
             </div>
 
-            <h2 class="text-2xl font-bold mb-2">
+            <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
                 Relatórios
             </h2>
 
-            <p class="text-slate-500">
+            <p class="text-sm md:text-base text-slate-500">
                 Financeiro e dízimo
             </p>
 
@@ -270,6 +270,22 @@
                 >
             </div>
 
+            <!-- TIPO -->
+            <div>
+                <label class="text-sm text-slate-500">
+                    Tipo
+                </label>
+
+                <select
+                    id="tipo"
+                    onchange="UI.alterarFormularioFinanceiro()"
+                    class="border p-3 rounded-xl w-full"
+                >
+                    <option value="Entrada">Entrada</option>
+                    <option value="Saída">Saída</option>
+                </select>
+            </div>
+
             <!-- CATEGORIA -->
             <div>
                 <label class="text-sm text-slate-500">
@@ -278,13 +294,8 @@
 
                 <select
                     id="categoria"
-                    onchange="UI.alterarFormularioFinanceiro()"
                     class="border p-3 rounded-xl w-full"
-                >
-                    <option value="Dízimo">Dízimo</option>
-                    <option value="Doação">Doação</option>
-                    <option value="Saída">Saída</option>
-                </select>
+                ></select>
             </div>
 
             <!-- FORMA -->
