@@ -37,7 +37,7 @@
 
             <img
                 src="assets/logo.png"
-                class="w-40 h-40 md:w-24 md:h-24 object-contain"
+                class="w-16 h-16 md:w-24 md:h-24 object-contain"
             >
 
             <div>
@@ -71,66 +71,58 @@
 >
 
 <!-- KPIs -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
-
-        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
+    <div class="bg-white p-5 rounded-2xl shadow">
+        <div class="text-sm text-slate-500">
             Dizimistas
         </div>
 
         <div
             id="kpiDizimistas"
-            class="text-2xl md:text-4xl font-bold"
+            class="text-2xl font-bold"
         >
             0
         </div>
-
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
-
-        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
+    <div class="bg-white p-5 rounded-2xl shadow">
+        <div class="text-sm text-slate-500">
             Entradas
         </div>
 
         <div
             id="kpiEntradas"
-            class="text-4xl font-bold text-green-600"
+            class="text-2xl font-bold text-green-600"
         >
             R$ 0,00
         </div>
-
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
-
-        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
+    <div class="bg-white p-5 rounded-2xl shadow">
+        <div class="text-sm text-slate-500">
             Saídas
         </div>
 
         <div
             id="kpiSaidas"
-            class="text-4xl font-bold text-red-600"
+            class="text-2xl font-bold text-red-600"
         >
             R$ 0,00
         </div>
-
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
-
-        <div class="text-xs md:text-sm text-slate-500 mb-1 md:mb-2">
+    <div class="bg-white p-5 rounded-2xl shadow">
+        <div class="text-sm text-slate-500">
             Saldo
         </div>
 
         <div
             id="kpiSaldo"
-            class="text-4xl font-bold text-blue-600"
+            class="text-2xl font-bold text-blue-600"
         >
             R$ 0,00
         </div>
-
     </div>
 
 </div>   
@@ -278,7 +270,7 @@
 
                 <select
                     id="tipo"
-                    onchange="UI.alterarFormularioFinanceiro()"
+                    onchange="Helpers.alterarFormularioFinanceiro()"
                     class="border p-3 rounded-xl w-full"
                 >
                     <option value="Entrada">Entrada</option>
@@ -347,15 +339,15 @@
                     <input
                         id="buscaNome"
                         placeholder="Digite o nome do dizimista"
-                        oninput="UI.buscarPorNome()"
-                        onkeydown="UI.navegarSugestoes(event)"
+                        oninput="Autocomplete.buscarPorNome()"
+                        onkeydown="Autocomplete.navegarSugestoes(event)"
                         class="border p-3 rounded-xl w-full"
                         autocomplete="off"
                     >
 
                     <div
                         id="sugestoes"
-                        class="border rounded-xl bg-white max-h-52 overflow-y-auto mt-1 shadow"
+                        class="hidden border rounded-xl bg-white max-h-52 overflow-y-auto mt-1 shadow"
                     ></div>
 
                 </div>
@@ -436,7 +428,7 @@
             </div>
 
         </div>
-        <input type="hidden" id="tipo" value="Entrada">
+        
         <!-- BOTÃO -->
         <button
             onclick="Lancamentos.adicionar()"
@@ -482,7 +474,7 @@
 
             <button
                 onclick="
-                UI.botaoRelatorio(this);
+                Helpers.botaoRelatorio(this);
                 Relatorio.gerar();
                 "
                 class="btnRelatorio border px-5 py-3 rounded-xl"
@@ -492,7 +484,7 @@
 
                 <button
                 onclick="
-                UI.botaoRelatorio(this);
+                Helpers.botaoRelatorio(this);
                 RelatorioDizimistas.gerar();
                 "
                 class="btnRelatorio border px-5 py-3 rounded-xl"
@@ -501,7 +493,7 @@
                 </button>
 
                 <button
-                onclick="UI.imprimir()"
+                onclick="PDF.imprimir()"
                 class="border px-5 py-3 rounded-xl"
                 >
                 PDF
@@ -561,7 +553,7 @@
                 id="formTel"
                 class="w-full border rounded-xl p-3"
                 placeholder="Telefone"
-                oninput="UI.mascaraTelefone(this)"
+                oninput="Helpers.mascaraTelefone(this)"
             >
 
         </div>
@@ -632,7 +624,9 @@ window.addEventListener("load", () => {
     document.getElementById("dataHoje").innerHTML =
         new Date().toLocaleDateString("pt-BR");
 
-    UI.carregarDashboard();
+    Dashboard.carregar();
+
+    Helpers.alterarFormularioFinanceiro();
 
 });
 
@@ -677,12 +671,21 @@ class="text-3xl"
 <!-- SCRIPTS -->
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
-<script src="js/app.js"></script>
+
+<script src="js/components/helpers.js"></script>
+<script src="js/components/autocomplete.js"></script>
+<script src="js/components/dashboard.js"></script>
+<script src="js/components/pdf.js"></script>
+<script src="js/components/financeiro-template.js"></script>
+<script src="js/components/dizimistas-template.js"></script>
+
 <script src="js/dizimistas.js"></script>
 <script src="js/lancamentos.js"></script>
 <script src="js/relatorio.js"></script>
 <script src="js/relatorio-dizimistas.js"></script>
-<script src="js/ui.js"></script>
+
+<script src="js/app.js"></script>
+
 
 </body>
 </html>

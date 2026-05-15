@@ -1,8 +1,6 @@
-// js/api.js
-
 const API = {
 
-    enviar(params) {
+    enviar(params){
 
         let url = CONFIG.API_URL + "?" + new URLSearchParams(params);
 

@@ -1,74 +1,107 @@
 const RelatorioDizimistas = {
 
-gerar(){
+    gerar() {
 
-let mesInput = document.getElementById("mesFiltro").value;
-if(!mesInput) return alert("Selecione o mês");
+        let mesInput =
+            document.getElementById(
+                "mesFiltro"
+            ).value;
 
-let [ano, mes] = mesInput.split("-");
+        if (!mesInput) {
+            return alert(
+                "Selecione o mês"
+            );
+        }
 
-API.enviar({
-    acao:"buscar_relatorio",
-    mes, ano
-}).then(res=>{
+        let [ano, mes] =
+            mesInput.split("-");
 
-let linhas="";
-let total=0;
+        let referencia =
+            new Date(
+                ano,
+                mes - 1
+            ).toLocaleDateString(
+                "pt-BR",
+                {
+                    month: "long",
+                    year: "numeric"
+                }
+            );
 
-(res.lista||[]).forEach(item=>{
+        API.enviar({
+            acao: "buscar_relatorio",
+            mes,
+            ano
+        }).then(res => {
 
-// ✅ CORREÇÃO AQUI
-if (!item.categoria || item.categoria.toLowerCase().trim() !== "dízimo") return;
+            let linhas = "";
+            let total = 0;
 
-let valor = parseFloat(item.valor||0);
-total+=valor;
+            (res.lista || [])
+            .forEach(item => {
 
-linhas+=`
-<tr>
-<td style="border:1px solid #000; padding:6px;">${item.codigo||""}</td>
-<td style="border:1px solid #000; padding:6px;">${item.nome||""}</td>
-<td style="border:1px solid #000; padding:6px;">${item.data||""}</td>
-<td style="border:1px solid #000; padding:6px;">${item.forma||""}</td>
-<td style="border:1px solid #000; padding:6px; text-align:right;">R$ ${valor.toFixed(2)}</td>
-</tr>`;
-});
+                if (
+                    !item.categoria ||
+                    item.categoria
+                        .toLowerCase()
+                        .trim() !== "dízimo"
+                ) {
+                    return;
+                }
 
-document.getElementById("res").innerHTML = `
-<div id="doc" style="font-family:Arial;">
+                let valor =
+                    parseFloat(
+                        item.valor || 0
+                    );
 
-<h2 style="text-align:center;">RELATÓRIO DE DÍZIMO</h2>
-<h4 style="text-align:center;">${mes}/${ano}</h4>
+                total += valor;
 
-<table style="width:100%; border-collapse:collapse; font-size:12px;">
-<thead>
-<tr style="background:#eee;">
-<th style="border:1px solid #000;">CÓDIGO</th>
-<th style="border:1px solid #000;">NOME</th>
-<th style="border:1px solid #000;">DATA</th>
-<th style="border:1px solid #000;">FORMA</th>
-<th style="border:1px solid #000;">VALOR</th>
-</tr>
-</thead>
+                linhas += `
+                <tr>
 
-<tbody>
-${linhas}
-</tbody>
+                    <td style="border:1px solid #000;padding:6px;">
+                        ${item.codigo || ""}
+                    </td>
 
-<tfoot>
-<tr>
-<td colspan="4" style="border:1px solid #000;"><strong>TOTAL</strong></td>
-<td style="border:1px solid #000; text-align:right;">
-<strong>R$ ${total.toFixed(2)}</strong>
-</td>
-</tr>
-</tfoot>
-</table>
+                    <td style="border:1px solid #000;padding:6px;">
+                        ${item.nome || ""}
+                    </td>
 
-</div>
-`;
+                    <td style="border:1px solid #000;padding:6px;">
+                        ${item.data || ""}
+                    </td>
 
-window.__RELATORIO_PRONTO__ = true;
+                    <td style="border:1px solid #000;padding:6px;">
+                        ${item.forma || ""}
+                    </td>
 
-});
-}
+                    <td style="
+                        border:1px solid #000;
+                        padding:6px;
+                        text-align:right;
+                    ">
+                        R$ ${valor.toFixed(2)}
+                    </td>
+
+                </tr>
+                `;
+            });
+
+            document.getElementById(
+                "res"
+            ).innerHTML =
+                DizimistasTemplate.montar({
+
+                    referencia,
+                    linhas,
+                    total
+                });
+
+            window.__RELATORIO_PRONTO__ =
+                true;
+
+        });
+
+    }
+
 };

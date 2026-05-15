@@ -1,0 +1,166 @@
+const Helpers = {
+
+    /* =========================
+       LIMPAR ÁREAS
+    ========================= */
+    limparTela() {
+
+        const res =
+            document.getElementById(
+                "res"
+            );
+
+        if (res)
+            res.innerHTML = "";
+
+        const listaCad =
+            document.getElementById(
+                "listaDizimistasCadastro"
+            );
+
+        if (listaCad)
+            listaCad.innerHTML = "";
+    },
+
+    /* =========================
+       MÁSCARA TELEFONE
+    ========================= */
+    mascaraTelefone(input) {
+
+        let valor =
+            input.value.replace(
+                /\D/g,
+                ""
+            );
+
+        valor = valor.replace(
+            /^(\d{2})(\d)/,
+            "($1) $2"
+        );
+
+        valor = valor.replace(
+            /(\d{5})(\d)/,
+            "$1-$2"
+        );
+
+        input.value = valor;
+    },
+
+    /* =========================
+       BOTÃO RELATÓRIO
+    ========================= */
+    botaoRelatorio(botao) {
+
+        document
+            .querySelectorAll(
+                ".btnRelatorio"
+            )
+            .forEach(btn => {
+
+                btn.classList.remove(
+                    "bg-slate-900",
+                    "text-white"
+                );
+            });
+
+        botao.classList.add(
+            "bg-slate-900",
+            "text-white"
+        );
+    },
+
+    /* =========================
+       FORMULÁRIO FINANCEIRO
+    ========================= */
+    alterarFormularioFinanceiro() {
+
+        const categoria =
+            document.getElementById(
+                "categoria"
+            ).value;
+
+        const blocoDizimista =
+            document.getElementById(
+                "blocoDizimista"
+            );
+
+        const blocoSaida =
+            document.getElementById(
+                "blocoSaida"
+            );
+
+        const tipo =
+            document.getElementById(
+                "tipo"
+            );
+
+        if (
+            categoria === "Dízimo"
+        ) {
+
+            blocoDizimista
+                .classList.remove(
+                    "hidden"
+                );
+
+            blocoSaida
+                .classList.add(
+                    "hidden"
+                );
+
+            tipo.value =
+                "Entrada";
+        }
+
+        else if (
+            categoria ===
+                "Coleta Missa" ||
+            categoria ===
+                "Doação"
+        ) {
+
+            blocoDizimista
+                .classList.add(
+                    "hidden"
+                );
+
+            blocoSaida
+                .classList.add(
+                    "hidden"
+                );
+
+            tipo.value =
+                "Entrada";
+        }
+
+        else {
+
+            blocoDizimista
+                .classList.add(
+                    "hidden"
+                );
+
+            blocoSaida
+                .classList.remove(
+                    "hidden"
+                );
+
+            tipo.value =
+                "Saída";
+        }
+    }
+
+};
+
+
+/* =========================
+   LOAD
+========================= */
+window.addEventListener(
+    "load",
+    () => {
+
+        Helpers
+            .alterarFormularioFinanceiro();
+    }
+);
