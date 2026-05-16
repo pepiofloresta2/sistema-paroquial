@@ -383,7 +383,8 @@ const Dizimistas = {
 
                 this.listar();
 
-                Dashboard.carregar();
+                Dashboard
+                .carregarDashboard();
             }
         });
     },

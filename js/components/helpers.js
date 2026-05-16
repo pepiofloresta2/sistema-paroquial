@@ -22,6 +22,8 @@ const Helpers = {
             listaCad.innerHTML = "";
     },
 
+
+
     /* =========================
        MÁSCARA TELEFONE
     ========================= */
@@ -46,6 +48,8 @@ const Helpers = {
         input.value = valor;
     },
 
+
+
     /* =========================
        BOTÃO RELATÓRIO
     ========================= */
@@ -69,6 +73,56 @@ const Helpers = {
         );
     },
 
+
+
+    /* =========================
+       CARREGAR CATEGORIAS
+    ========================= */
+    carregarCategorias() {
+
+        const tipo =
+            document.getElementById(
+                "tipo"
+            ).value;
+
+        const categoria =
+            document.getElementById(
+                "categoria"
+            );
+
+        if (!categoria) return;
+
+        let opcoes = [];
+
+        if (tipo === "Entrada") {
+
+            opcoes = [
+                "Dízimo",
+                "Coleta Missa",
+                "Doação"
+            ];
+
+        } else {
+
+            opcoes = [
+                "Aluguel",
+                "Compras",
+                "Energia",
+                "Água"
+            ];
+        }
+
+        categoria.innerHTML =
+            opcoes.map(item =>
+                `<option>${item}</option>`
+            ).join("");
+
+        Helpers
+            .alterarFormularioFinanceiro();
+    },
+
+
+
     /* =========================
        FORMULÁRIO FINANCEIRO
     ========================= */
@@ -77,7 +131,7 @@ const Helpers = {
         const categoria =
             document.getElementById(
                 "categoria"
-            ).value;
+            )?.value;
 
         const blocoDizimista =
             document.getElementById(
@@ -99,12 +153,12 @@ const Helpers = {
         ) {
 
             blocoDizimista
-                .classList.remove(
+                ?.classList.remove(
                     "hidden"
                 );
 
             blocoSaida
-                .classList.add(
+                ?.classList.add(
                     "hidden"
                 );
 
@@ -120,12 +174,12 @@ const Helpers = {
         ) {
 
             blocoDizimista
-                .classList.add(
+                ?.classList.add(
                     "hidden"
                 );
 
             blocoSaida
-                .classList.add(
+                ?.classList.add(
                     "hidden"
                 );
 
@@ -136,12 +190,12 @@ const Helpers = {
         else {
 
             blocoDizimista
-                .classList.add(
+                ?.classList.add(
                     "hidden"
                 );
 
             blocoSaida
-                .classList.remove(
+                ?.classList.remove(
                     "hidden"
                 );
 
@@ -153,14 +207,18 @@ const Helpers = {
 };
 
 
+
 /* =========================
    LOAD
-========================= */
+========================= *//*
 window.addEventListener(
     "load",
     () => {
 
         Helpers
+            .carregarCategorias();
+
+        Helpers
             .alterarFormularioFinanceiro();
     }
-);
+);*/

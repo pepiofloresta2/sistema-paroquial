@@ -101,30 +101,15 @@ const Lancamentos = {
         }
 
         // SAÍDAS
-        const categoriasSaida = [
-            "Aluguel",
-            "Compras",
-            "Energia",
-            "Água"
-        ];
+        if (tipo === "Saída") {
 
-        if (
-            categoriasSaida.includes(
-                categoria
-            )
-        ) {
-
-            if (
-                !dados.fornecedor
-            ) {
+            if (!dados.fornecedor) {
                 return alert(
                     "Informe o fornecedor"
                 );
             }
 
-            if (
-                !dados.descricao
-            ) {
+            if (!dados.descricao) {
                 return alert(
                     "Informe a descrição"
                 );
@@ -224,6 +209,14 @@ const Lancamentos = {
             Autocomplete
                 .indiceSelecionado = -1;
         }
+
+        document.getElementById(
+            "tipo"
+        ).value = "Entrada";
+
+        Helpers.carregarCategorias();
+
+        Helpers.alterarFormularioFinanceiro();
     }
 
 };
