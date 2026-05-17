@@ -96,7 +96,7 @@ let contador = 1;
             </td>
 
             <td style="border:1px solid #000;padding:3px">
-                NF ${item.nota || "_____"}
+                ${item.nota || ""}
             </td>
 
             <td style="border:1px solid #000"></td>
@@ -127,10 +127,19 @@ if(totalDizimoDinheiro > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
-            style="border:1px solid #000;padding:3px">
+        <td style="border:1px solid #000;padding:3px">
+            ${ultimoDia}
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
             DÍZIMO
         </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000"></td>
 
         <td style="
             border:1px solid #000;
@@ -141,8 +150,7 @@ if(totalDizimoDinheiro > 0){
             R$ ${totalDizimoDinheiro.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000;text-align:center;">
-            RECIBO _____
+        <td style="border:1px solid #000"></td>
         </td>
     </tr>
     `;
@@ -156,7 +164,7 @@ if(totalDizimoPix > 0){
     <tr>
         <td colspan="4"
             style="border:1px solid #000;padding:3px">
-            DÍZIMO PIX
+            ${ultimoDia}
         </td>
 
         <td style="
@@ -169,7 +177,7 @@ if(totalDizimoPix > 0){
         </td>
 
         <td style="border:1px solid #000;text-align:center;">
-            RECIBO _____
+            
         </td>
     </tr>
     `;
@@ -183,7 +191,7 @@ if(totalDoacao > 0){
     <tr>
         <td colspan="4"
             style="border:1px solid #000;padding:3px">
-            DOAÇÃO
+            ${ultimoDia}
         </td>
 
         <td style="
@@ -196,7 +204,7 @@ if(totalDoacao > 0){
         </td>
 
         <td style="border:1px solid #000;text-align:center;">
-            RECIBO _____
+            
         </td>
     </tr>
     `;
@@ -210,7 +218,7 @@ if(totalColeta > 0){
     <tr>
         <td colspan="4"
             style="border:1px solid #000;padding:3px">
-            COLETA MISSA
+            ${ultimoDia}
         </td>
 
         <td style="
@@ -223,7 +231,7 @@ if(totalColeta > 0){
         </td>
 
         <td style="border:1px solid #000;text-align:center;">
-            RECIBO _____
+            
         </td>
     </tr>
     `;
