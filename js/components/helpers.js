@@ -128,81 +128,67 @@ const Helpers = {
     ========================= */
     alterarFormularioFinanceiro() {
 
-        const categoria =
-            document.getElementById(
-                "categoria"
-            )?.value;
+    const categoria =
+        document.getElementById(
+            "categoria"
+        )?.value;
 
-        const blocoDizimista =
-            document.getElementById(
-                "blocoDizimista"
+    const blocoDizimista =
+        document.getElementById(
+            "blocoDizimista"
+        );
+
+    const blocoSaida =
+        document.getElementById(
+            "blocoSaida"
+        );
+
+    if (
+        categoria === "Dízimo"
+    ) {
+
+        blocoDizimista
+            ?.classList.remove(
+                "hidden"
             );
 
-        const blocoSaida =
-            document.getElementById(
-                "blocoSaida"
+        blocoSaida
+            ?.classList.add(
+                "hidden"
             );
-
-        const tipo =
-            document.getElementById(
-                "tipo"
-            );
-
-        if (
-            categoria === "Dízimo"
-        ) {
-
-            blocoDizimista
-                ?.classList.remove(
-                    "hidden"
-                );
-
-            blocoSaida
-                ?.classList.add(
-                    "hidden"
-                );
-
-            tipo.value =
-                "Entrada";
-        }
-
-        else if (
-            categoria ===
-                "Coleta Missa" ||
-            categoria ===
-                "Doação"
-        ) {
-
-            blocoDizimista
-                ?.classList.add(
-                    "hidden"
-                );
-
-            blocoSaida
-                ?.classList.add(
-                    "hidden"
-                );
-
-            tipo.value =
-                "Entrada";
-        }
-
-        else {
-
-            blocoDizimista
-                ?.classList.add(
-                    "hidden"
-                );
-
-            blocoSaida
-                ?.classList.remove(
-                    "hidden"
-                );
-
-            tipo.value =
-                "Saída";
-        }
     }
+
+    else if (
+        categoria ===
+            "Coleta Missa" ||
+        categoria ===
+            "Doação"
+    ) {
+
+        blocoDizimista
+            ?.classList.add(
+                "hidden"
+            );
+
+        blocoSaida
+            ?.classList.add(
+                "hidden"
+            );
+    }
+
+    else {
+
+        blocoDizimista
+            ?.classList.add(
+                "hidden"
+            );
+
+        blocoSaida
+            ?.classList.remove(
+                "hidden"
+            );
+    }
+}
 
 };
 
