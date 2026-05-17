@@ -124,7 +124,7 @@ if(totalDizimoDinheiro > 0){
 
     entradas += totalDizimoDinheiro;
 
-    linhas += `
+    linhasEntradas += `
     <tr style="background:#f8fafc">
 
         <td style="border:1px solid #000;padding:3px;text-align:center">
