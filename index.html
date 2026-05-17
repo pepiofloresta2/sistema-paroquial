@@ -125,6 +125,23 @@ class="max-w-7xl mx-auto p-6"
 </div>
 </div>
 
+</div>
+
+<div class="mb-6">
+    <button
+        onclick="Backup.exportar()"
+        class="
+            bg-green-600
+            text-white
+            px-5
+            py-3
+            rounded-xl
+            shadow
+            hover:bg-green-700
+        "
+    >
+        Fazer Backup
+    </button>
 </div>   
 
 <div class="grid gap-4 md:grid-cols-3 md:gap-6">
@@ -623,17 +640,21 @@ class="text-3xl"
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 
+<!-- components -->
 <script src="js/components/helpers.js"></script>
 <script src="js/components/autocomplete.js"></script>
 <script src="js/components/dashboard.js"></script>
 <script src="js/components/pdf.js"></script>
 <script src="js/components/financeiro-template.js"></script>
 <script src="js/components/dizimistas-template.js"></script>
+<script src="js/components/backup.js"></script>
 
-<script src="js/dizimistas.js"></script>
-<script src="js/lancamentos.js"></script>
-<script src="js/relatorio.js"></script>
-<script src="js/relatorio-dizimistas.js"></script>
+
+<!-- modules-->
+<script src="js/modules/dizimistas.js"></script>
+<script src="js/modules/lancamentos.js"></script>
+<script src="js/modules/relatorio.js"></script>
+<script src="js/modules/relatorio-dizimistas.js"></script>
 
 <script src="js/app.js"></script>
 
