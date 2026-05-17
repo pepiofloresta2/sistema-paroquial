@@ -127,7 +127,7 @@ if(totalDizimoDinheiro > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="3"
+        <td colspan="4"
             style="border:1px solid #000;padding:3px">
             DÍZIMO
         </td>
@@ -154,7 +154,7 @@ if(totalDizimoPix > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="3"
+        <td colspan="4"
             style="border:1px solid #000;padding:3px">
             DÍZIMO PIX
         </td>
@@ -181,7 +181,7 @@ if(totalDoacao > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="3"
+        <td colspan="4"
             style="border:1px solid #000;padding:3px">
             DOAÇÃO
         </td>
@@ -208,7 +208,7 @@ if(totalColeta > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="3"
+        <td colspan="4"
             style="border:1px solid #000;padding:3px">
             COLETA MISSA
         </td>
