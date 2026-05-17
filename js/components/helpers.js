@@ -76,9 +76,9 @@ const Helpers = {
 
 
     /* =========================
-       CARREGAR CATEGORIAS
-    ========================= */
-    carregarCategorias() {
+   CARREGAR CATEGORIAS
+========================= */
+carregarCategorias() {
 
     const tipo =
         document.getElementById("tipo").value;
@@ -90,19 +90,45 @@ const Helpers = {
         acao: "listar_categorias"
     }).then(res => {
 
-        select.innerHTML = "";
+        // limpa tudo
+        select.innerHTML = `
+            <option value="">
+                Selecione...
+            </option>
+        `;
+
+        let encontrou = false;
 
         (res.lista || []).forEach(cat => {
 
-            if (cat.tipo !== tipo) return;
+            if (cat.tipo !== tipo)
+                return;
+
+            encontrou = true;
 
             select.innerHTML += `
-                <option>
+                <option value="${cat.nome}">
                     ${cat.nome}
                 </option>
             `;
         });
 
+        // caso não tenha categoria
+        if (!encontrou) {
+
+            select.innerHTML += `
+                <option disabled>
+                    Nenhuma categoria cadastrada
+                </option>
+            `;
+        }
+
+    }).catch(err => {
+
+        console.error(
+            "Erro ao carregar categorias:",
+            err
+        );
     });
 },
 
