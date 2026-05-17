@@ -32,10 +32,8 @@ let linhasSaidas = "";
 
 let entradas = 0;
 let saidas = 0;
-let totalDizimoDinheiro = 0;
-let totalDizimoPix = 0;
-let totalDoacao = 0;
-let totalColeta = 0;
+
+let entradasAgrupadas = {};
 
 let contador = 1;
 
@@ -45,32 +43,23 @@ let contador = 1;
     let valor =
         parseFloat(item.valor || 0);
 
-    // 🔵 DÍZIMO CONSOLIDADO
-    if(item.categoria === "Dízimo"){
+    // 🔵 TODAS AS ENTRADAS AGRUPADAS
+if(item.tipo === "Entrada"){
 
-        let forma =
-            String(item.forma || "")
-            .toUpperCase();
+    let categoria =
+        item.categoria || "Outros";
 
-        if(forma === "PIX"){
-            totalDizimoPix += valor;
-        } else {
-            totalDizimoDinheiro += valor;
-        }
+    let forma =
+        item.forma || "Dinheiro";
 
-        return;
+    let chave =
+        `${categoria} (${forma})`;
+
+    if(!entradasAgrupadas[chave]){
+        entradasAgrupadas[chave] = 0;
     }
 
-    // 🔵 ENTRADAS
-    if(item.tipo === "Entrada"){
-
-    if(item.categoria === "Doação"){
-        totalDoacao += valor;
-    }
-
-    if(item.categoria === "Coleta Missa"){
-        totalColeta += valor;
-    }
+    entradasAgrupadas[chave] += valor;
 
     return;
 }
@@ -120,19 +109,22 @@ let ultimoDia = new Date(
 
 
 // RESUMO ENTRADAS
+for(let chave in entradasAgrupadas){
 
-if(totalDizimoDinheiro > 0){
+    let total =
+        entradasAgrupadas[chave];
 
-    entradas += totalDizimoDinheiro;
+    entradas += total;
 
     linhasEntradas += `
     <tr>
+
         <td style="border:1px solid #000;padding:3px">
             ${ultimoDia}
         </td>
 
         <td style="border:1px solid #000;padding:3px">
-            DÍZIMO
+            ${chave}
         </td>
 
         <td style="border:1px solid #000;padding:3px">
@@ -147,112 +139,11 @@ if(totalDizimoDinheiro > 0){
             text-align:right;
             font-weight:bold;
         ">
-            R$ ${totalDizimoDinheiro.toFixed(2)}
-        </td>
-
-        <td style="border:1px solid #000"></td>
-    </tr>
-    `;
-}
-
-if(totalDizimoPix > 0){
-
-    entradas += totalDizimoPix;
-
-    linhasEntradas += `
-    <tr>
-        <td style="border:1px solid #000;padding:3px">
-            ${ultimoDia}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            DÍZIMO PIX
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            Comunidade
+            R$ ${total.toFixed(2)}
         </td>
 
         <td style="border:1px solid #000"></td>
 
-        <td style="
-            border:1px solid #000;
-            padding:3px;
-            text-align:right;
-            font-weight:bold;
-        ">
-            R$ ${totalDizimoPix.toFixed(2)}
-        </td>
-
-        <td style="border:1px solid #000"></td>
-    </tr>
-    `;
-}
-
-if(totalDoacao > 0){
-
-    entradas += totalDoacao;
-
-    linhasEntradas += `
-    <tr>
-        <td style="border:1px solid #000;padding:3px">
-            ${ultimoDia}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            DOAÇÃO
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            Comunidade
-        </td>
-
-        <td style="border:1px solid #000"></td>
-
-        <td style="
-            border:1px solid #000;
-            padding:3px;
-            text-align:right;
-            font-weight:bold;
-        ">
-            R$ ${totalDoacao.toFixed(2)}
-        </td>
-
-        <td style="border:1px solid #000"></td>
-    </tr>
-    `;
-}
-
-if(totalColeta > 0){
-
-    entradas += totalColeta;
-
-    linhasEntradas += `
-    <tr>
-        <td style="border:1px solid #000;padding:3px">
-            ${ultimoDia}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            COLETA MISSA
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            Comunidade
-        </td>
-
-        <td style="border:1px solid #000"></td>
-
-        <td style="
-            border:1px solid #000;
-            padding:3px;
-            text-align:right;
-            font-weight:bold;
-        ">
-            R$ ${totalColeta.toFixed(2)}
-        </td>
-
-        <td style="border:1px solid #000"></td>
     </tr>
     `;
 }
@@ -288,13 +179,7 @@ let linhas =
     </tr>
     ` +
 
-    linhasSaidas;
-
-    entradas =
-    totalDizimoDinheiro +
-    totalDizimoPix +
-    totalDoacao +
-    totalColeta;
+    linhasSaidas;    
 
 let saldo = entradas - saidas;
 
