@@ -119,75 +119,6 @@ let ultimoDia = new Date(
 ).toLocaleDateString("pt-BR");
 
 
-// 🔵 DÍZIMO EM DINHEIRO
-if(totalDizimoDinheiro > 0){
-
-    entradas += totalDizimoDinheiro;
-
-    linhasEntradas += `
-    <tr style="background:#f8fafc">
-
-        <td style="border:1px solid #000;padding:3px;text-align:center">
-            ${contador++}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            ${ultimoDia}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            <b>DÍZIMO</b>
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            Comunidade
-        </td>
-
-        <td style="border:1px solid #000;padding:3px;text-align:right">
-            <b>R$ ${totalDizimoDinheiro.toFixed(2)}</b>
-        </td>
-
-        <td style="border:1px solid #000"></td>
-
-    </tr>
-    `;
-}
-
-
-// 🔵 DÍZIMO PIX
-if(totalDizimoPix > 0){
-
-    entradas += totalDizimoPix;
-
-    linhas += `
-    <tr style="background:#f8fafc">
-
-        <td style="border:1px solid #000;padding:3px;text-align:center">
-            ${contador++}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            ${ultimoDia}
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            <b>DÍZIMO (PIX)</b>
-        </td>
-
-        <td style="border:1px solid #000;padding:3px">
-            Comunidade
-        </td>
-
-        <td style="border:1px solid #000;padding:3px;text-align:right">
-            <b>R$ ${totalDizimoPix.toFixed(2)}</b>
-        </td>
-
-        <td style="border:1px solid #000"></td>
-
-    </tr>
-    `;
-}
-
 // RESUMO ENTRADAS
 
 if(totalDizimoDinheiro > 0){
@@ -301,7 +232,7 @@ if(totalColeta > 0){
 // 🔵 LINHAS VAZIAS ESTILO LIVRO CAIXA
 for(let i=0;i<15;i++){
 
-    linhas += `
+    linhasSaidas += `
     <tr>
 
         <td style="border:1px solid #000;height:24px"></td>
@@ -331,7 +262,14 @@ let linhas =
 
     linhasSaidas;
 
+    entradas =
+    totalDizimoDinheiro +
+    totalDizimoPix +
+    totalDoacao +
+    totalColeta;
+
 let saldo = entradas - saidas;
+
 
 // 🔵 HTML FINAL
 document.getElementById("res").innerHTML =
