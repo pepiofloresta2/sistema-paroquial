@@ -57,7 +57,7 @@ const Lancamentos = {
             nota:
                 document
                     .getElementById(
-                        "numeroDocumento"
+                        "notaFiscal"
                     )?.value || "",
 
             fornecedor:
@@ -161,7 +161,7 @@ const Lancamentos = {
             "valor",
             "codigo",
             "buscaNome",
-            "numeroDocumento",
+            "notaFiscal",
             "fornecedor",
             "descricao"
 

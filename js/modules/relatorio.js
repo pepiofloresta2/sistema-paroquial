@@ -27,12 +27,15 @@ API.enviar({
     ano
 }).then(res=>{
 
-let linhas = "";
+let linhasEntradas = "";
+let linhasSaidas = "";
 
 let entradas = 0;
 let saidas = 0;
 let totalDizimoDinheiro = 0;
 let totalDizimoPix = 0;
+let totalDoacao = 0;
+let totalColeta = 0;
 
 let contador = 1;
 
@@ -61,43 +64,23 @@ let contador = 1;
     // 🔵 ENTRADAS
     if(item.tipo === "Entrada"){
 
-        entradas += valor;
-
-        linhas += `
-        <tr>
-
-            <td style="border:1px solid #000;padding:3px;text-align:center">
-                ${contador++}
-            </td>
-
-            <td style="border:1px solid #000;padding:3px">
-                ${item.data || ""}
-            </td>
-
-            <td style="border:1px solid #000;padding:3px">
-                ${item.categoria || ""}
-            </td>
-
-            <td style="border:1px solid #000;padding:3px">
-                ${item.nome || "-"}
-            </td>
-
-            <td style="border:1px solid #000;padding:3px;text-align:right">
-                R$ ${valor.toFixed(2)}
-            </td>
-
-            <td style="border:1px solid #000"></td>
-
-        </tr>
-        `;
+    if(item.categoria === "Doação"){
+        totalDoacao += valor;
     }
+
+    if(item.categoria === "Coleta Missa"){
+        totalColeta += valor;
+    }
+
+    return;
+}
 
     // 🔴 SAÍDAS
     if(item.tipo === "Saída"){
 
         saidas += valor;
 
-        linhas += `
+        linhasSaidas += `
         <tr>
 
             <td style="border:1px solid #000;padding:3px;text-align:center">
@@ -205,6 +188,116 @@ if(totalDizimoPix > 0){
     `;
 }
 
+// RESUMO ENTRADAS
+
+if(totalDizimoDinheiro > 0){
+
+    entradas += totalDizimoDinheiro;
+
+    linhasEntradas += `
+    <tr>
+        <td colspan="4"
+            style="border:1px solid #000;padding:3px">
+            DÍZIMO
+        </td>
+
+        <td style="
+            border:1px solid #000;
+            padding:3px;
+            text-align:right;
+            font-weight:bold;
+        ">
+            R$ ${totalDizimoDinheiro.toFixed(2)}
+        </td>
+
+        <td style="border:1px solid #000">
+            RECIBO _____
+        </td>
+    </tr>
+    `;
+}
+
+if(totalDizimoPix > 0){
+
+    entradas += totalDizimoPix;
+
+    linhasEntradas += `
+    <tr>
+        <td colspan="4"
+            style="border:1px solid #000;padding:3px">
+            DÍZIMO PIX
+        </td>
+
+        <td style="
+            border:1px solid #000;
+            padding:3px;
+            text-align:right;
+            font-weight:bold;
+        ">
+            R$ ${totalDizimoPix.toFixed(2)}
+        </td>
+
+        <td style="border:1px solid #000">
+            RECIBO _____
+        </td>
+    </tr>
+    `;
+}
+
+if(totalDoacao > 0){
+
+    entradas += totalDoacao;
+
+    linhasEntradas += `
+    <tr>
+        <td colspan="4"
+            style="border:1px solid #000;padding:3px">
+            DOAÇÃO
+        </td>
+
+        <td style="
+            border:1px solid #000;
+            padding:3px;
+            text-align:right;
+            font-weight:bold;
+        ">
+            R$ ${totalDoacao.toFixed(2)}
+        </td>
+
+        <td style="border:1px solid #000">
+            RECIBO _____
+        </td>
+    </tr>
+    `;
+}
+
+if(totalColeta > 0){
+
+    entradas += totalColeta;
+
+    linhasEntradas += `
+    <tr>
+        <td colspan="4"
+            style="border:1px solid #000;padding:3px">
+            COLETA MISSA
+        </td>
+
+        <td style="
+            border:1px solid #000;
+            padding:3px;
+            text-align:right;
+            font-weight:bold;
+        ">
+            R$ ${totalColeta.toFixed(2)}
+        </td>
+
+        <td style="border:1px solid #000">
+            RECIBO _____
+        </td>
+    </tr>
+    `;
+}
+
 // 🔵 LINHAS VAZIAS ESTILO LIVRO CAIXA
 for(let i=0;i<15;i++){
 
@@ -221,6 +314,22 @@ for(let i=0;i<15;i++){
     </tr>
     `;
 }
+
+let linhas =
+    linhasEntradas +
+
+    `
+    <tr>
+        <td colspan="6"
+            style="
+                height:20px;
+                background:#fff;
+            ">
+        </td>
+    </tr>
+    ` +
+
+    linhasSaidas;
 
 let saldo = entradas - saidas;
 
