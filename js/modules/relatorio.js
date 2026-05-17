@@ -151,7 +151,6 @@ if(totalDizimoDinheiro > 0){
         </td>
 
         <td style="border:1px solid #000"></td>
-        </td>
     </tr>
     `;
 }
@@ -162,10 +161,19 @@ if(totalDizimoPix > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
-            style="border:1px solid #000;padding:3px">
+        <td style="border:1px solid #000;padding:3px">
             ${ultimoDia}
         </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            DÍZIMO PIX
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000"></td>
 
         <td style="
             border:1px solid #000;
@@ -176,9 +184,7 @@ if(totalDizimoPix > 0){
             R$ ${totalDizimoPix.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000;text-align:center;">
-            
-        </td>
+        <td style="border:1px solid #000"></td>
     </tr>
     `;
 }
@@ -189,10 +195,19 @@ if(totalDoacao > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
-            style="border:1px solid #000;padding:3px">
+        <td style="border:1px solid #000;padding:3px">
             ${ultimoDia}
         </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            DOAÇÃO
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000"></td>
 
         <td style="
             border:1px solid #000;
@@ -203,9 +218,7 @@ if(totalDoacao > 0){
             R$ ${totalDoacao.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000;text-align:center;">
-            
-        </td>
+        <td style="border:1px solid #000"></td>
     </tr>
     `;
 }
@@ -216,10 +229,19 @@ if(totalColeta > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
-            style="border:1px solid #000;padding:3px">
+        <td style="border:1px solid #000;padding:3px">
             ${ultimoDia}
         </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            COLETA MISSA
+        </td>
+
+        <td style="border:1px solid #000;padding:3px">
+            Comunidade
+        </td>
+
+        <td style="border:1px solid #000"></td>
 
         <td style="
             border:1px solid #000;
@@ -230,9 +252,7 @@ if(totalColeta > 0){
             R$ ${totalColeta.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000;text-align:center;">
-            
-        </td>
+        <td style="border:1px solid #000"></td>
     </tr>
     `;
 }
