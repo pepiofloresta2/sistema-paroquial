@@ -269,14 +269,16 @@ class="hidden max-w-5xl mx-auto p-4 md:p-6"
             </label>
 
             <select
-            id="tipo"
-            onchange="Helpers.alterarFormularioFinanceiro();
-            Helpers.alterarFormularioFinanceiro();"            
-            class="border p-3 rounded-xl w-full"
+                id="tipo"
+                onchange="
+                    Helpers.carregarCategorias();
+                    Helpers.alterarFormularioFinanceiro();
+                "
+                class="border p-3 rounded-xl w-full"
             >
-            <option value="Entrada">Entrada</option>
-            <option value="Saída">Saída</option>
-        </select>
+                <option value="Entrada">Entrada</option>
+                <option value="Saída">Saída</option>
+            </select>
     </div>
 
     <!-- CATEGORIA -->
@@ -286,15 +288,10 @@ class="hidden max-w-5xl mx-auto p-4 md:p-6"
         </label>
 
         <select
-        id="categoria"
-        onchange="Helpers.alterarFormularioFinanceiro();
-        Helpers.alterarFormularioFinanceiro();" 
-        class="border p-3 rounded-xl w-full"
-        >
-            <option value="Entrada">Entrada</option>
-            <option value="Saída">Saída</option>   
-
-        </select>
+            id="categoria"
+            onchange="Helpers.alterarFormularioFinanceiro()"
+            class="border p-3 rounded-xl w-full"
+        ></select>
     </div>
 
     <!-- FORMA -->
