@@ -75,53 +75,58 @@ const Helpers = {
 
 
 
-    /* =========================
+ /* =========================
+   CACHE DE CATEGORIAS
+========================= */
+categoriasCache: null,
+
+
+/* =========================
    CARREGAR CATEGORIAS
 ========================= */
 carregarCategorias() {
 
     const tipo =
-        document.getElementById("tipo").value;
+        document.getElementById(
+            "tipo"
+        ).value;
 
     const select =
-        document.getElementById("categoria");
+        document.getElementById(
+            "categoria"
+        );
 
+    // mostra carregando
+    select.innerHTML = `
+        <option>
+            Carregando categorias...
+        </option>
+    `;
+
+    // se já carregou antes,
+    // usa cache
+    if (this.categoriasCache) {
+
+        this.preencherCategorias(
+            tipo,
+            select
+        );
+
+        return;
+    }
+
+    // busca só 1 vez
     API.enviar({
         acao: "listar_categorias"
     }).then(res => {
 
-        // limpa tudo
-        select.innerHTML = `
-            <option value="">
-                Selecione...
-            </option>
-        `;
+        this.categoriasCache =
+            res.lista || [];
 
-        let encontrou = false;
-
-        (res.lista || []).forEach(cat => {
-
-            if (cat.tipo !== tipo)
-                return;
-
-            encontrou = true;
-
-            select.innerHTML += `
-                <option value="${cat.nome}">
-                    ${cat.nome}
-                </option>
-            `;
-        });
-
-        // caso não tenha categoria
-        if (!encontrou) {
-
-            select.innerHTML += `
-                <option disabled>
-                    Nenhuma categoria cadastrada
-                </option>
-            `;
-        }
+        this.preencherCategorias(
+            tipo,
+            select
+        );
 
     }).catch(err => {
 
@@ -129,6 +134,45 @@ carregarCategorias() {
             "Erro ao carregar categorias:",
             err
         );
+
+        select.innerHTML = `
+            <option>
+                Erro ao carregar
+            </option>
+        `;
+    });
+},
+
+
+/* =========================
+   PREENCHER SELECT
+========================= */
+preencherCategorias(
+    tipo,
+    select
+) {
+
+    select.innerHTML = `
+        <option value="">
+            Selecione...
+        </option>
+    `;
+
+    this.categoriasCache
+    .forEach(cat => {
+
+        if (
+            String(cat.tipo)
+            .toLowerCase() !==
+            String(tipo)
+            .toLowerCase()
+        ) return;
+
+        select.innerHTML += `
+            <option value="${cat.nome}">
+                ${cat.nome}
+            </option>
+        `;
     });
 },
 
@@ -176,7 +220,8 @@ carregarCategorias() {
 
     // SE FOR ENTRADA + DÍZIMO
     if (
-        categoria === "Dízimo"
+        categoria === "Dízimo" ||
+        categoria === "Dízimo PIX"
     ) {
 
         blocoDizimista
