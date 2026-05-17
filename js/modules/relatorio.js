@@ -81,11 +81,7 @@ let contador = 1;
         saidas += valor;
 
         linhasSaidas += `
-        <tr>
-
-            <td style="border:1px solid #000;padding:3px;text-align:center">
-                ${contador++}
-            </td>
+        <tr style="color:red;">
 
             <td style="border:1px solid #000;padding:3px">
                 ${item.data || ""}
@@ -99,9 +95,13 @@ let contador = 1;
                 ${item.fornecedor || "-"}
             </td>
 
+            <td style="border:1px solid #000;padding:3px">
+                NF ${item.nota || "_____"}
+            </td>
+
             <td style="border:1px solid #000"></td>
 
-            <td style="border:1px solid #000;padding:3px;text-align:right;color:red">
+            <td style="border:1px solid #000;padding:3px;text-align:right">
                 R$ ${valor.toFixed(2)}
             </td>
 
@@ -127,7 +127,7 @@ if(totalDizimoDinheiro > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
+        <td colspan="3"
             style="border:1px solid #000;padding:3px">
             DÍZIMO
         </td>
@@ -141,7 +141,7 @@ if(totalDizimoDinheiro > 0){
             R$ ${totalDizimoDinheiro.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000">
+        <td style="border:1px solid #000;text-align:center;">
             RECIBO _____
         </td>
     </tr>
@@ -154,7 +154,7 @@ if(totalDizimoPix > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
+        <td colspan="3"
             style="border:1px solid #000;padding:3px">
             DÍZIMO PIX
         </td>
@@ -168,7 +168,7 @@ if(totalDizimoPix > 0){
             R$ ${totalDizimoPix.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000">
+        <td style="border:1px solid #000;text-align:center;">
             RECIBO _____
         </td>
     </tr>
@@ -181,7 +181,7 @@ if(totalDoacao > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
+        <td colspan="3"
             style="border:1px solid #000;padding:3px">
             DOAÇÃO
         </td>
@@ -195,7 +195,7 @@ if(totalDoacao > 0){
             R$ ${totalDoacao.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000">
+        <td style="border:1px solid #000;text-align:center;">
             RECIBO _____
         </td>
     </tr>
@@ -208,7 +208,7 @@ if(totalColeta > 0){
 
     linhasEntradas += `
     <tr>
-        <td colspan="4"
+        <td colspan="3"
             style="border:1px solid #000;padding:3px">
             COLETA MISSA
         </td>
@@ -222,7 +222,7 @@ if(totalColeta > 0){
             R$ ${totalColeta.toFixed(2)}
         </td>
 
-        <td style="border:1px solid #000">
+        <td style="border:1px solid #000;text-align:center;">
             RECIBO _____
         </td>
     </tr>
@@ -233,7 +233,7 @@ if(totalColeta > 0){
 for(let i=0;i<15;i++){
 
     linhasSaidas += `
-    <tr>
+    <tr style="color:red">
 
         <td style="border:1px solid #000;height:24px"></td>
         <td style="border:1px solid #000"></td>
@@ -251,12 +251,12 @@ let linhas =
 
     `
     <tr>
-        <td colspan="6"
-            style="
-                height:20px;
-                background:#fff;
-            ">
-        </td>
+        <td style="height:20px;border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
     </tr>
     ` +
 

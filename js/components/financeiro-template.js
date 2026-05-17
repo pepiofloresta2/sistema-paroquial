@@ -80,11 +80,11 @@ word-break:break-word;
 >
 
 <tr style="background:#e5e7eb">
-
-    <th style="border:1px solid #000;padding:5px">Nº</th>
+    
     <th style="border:1px solid #000;padding:5px">DATA</th>
-    <th style="border:1px solid #000;padding:5px">HISTÓRICO</th>
-    <th style="border:1px solid #000;padding:5px">RESPONSÁVEL</th>
+    <th style="border:1px solid #000;padding:5px">DESCRIÇÃO</th>
+    <th style="border:1px solid #000;padding:5px">FAVORECIDO</th>
+    <th style="border:1px solid #000;padding:5px">DOC</th>        
     <th style="border:1px solid #000;padding:5px">ENTRADAS</th>
     <th style="border:1px solid #000;padding:5px">SAÍDAS</th>
 
