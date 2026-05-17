@@ -80,48 +80,31 @@ const Helpers = {
     ========================= */
     carregarCategorias() {
 
-        const tipo =
-            document.getElementById(
-                "tipo"
-            ).value;
+    const tipo =
+        document.getElementById("tipo").value;
 
-        const categoria =
-            document.getElementById(
-                "categoria"
-            );
+    const select =
+        document.getElementById("categoria");
 
-        if (!categoria) return;
+    API.enviar({
+        acao: "listar_categorias"
+    }).then(res => {
 
-        let opcoes = [];
+        select.innerHTML = "";
 
-        if (tipo === "Entrada") {
+        (res.lista || []).forEach(cat => {
 
-            opcoes = [
-                "Dízimo",
-                "Coleta Missa",
-                "Doação"
-            ];
+            if (cat.tipo !== tipo) return;
 
-        } else {
+            select.innerHTML += `
+                <option>
+                    ${cat.nome}
+                </option>
+            `;
+        });
 
-            opcoes = [
-                "Aluguel",
-                "Compras",
-                "Energia",
-                "Água"
-            ];
-        }
-
-        categoria.innerHTML =
-            opcoes.map(item =>
-                `<option>${item}</option>`
-            ).join("");
-
-        Helpers
-            .alterarFormularioFinanceiro();
-    },
-
-
+    });
+},
 
     /* =========================
        FORMULÁRIO FINANCEIRO
