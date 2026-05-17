@@ -2,14 +2,28 @@ const Backup = {
 
     exportar() {
 
+        const hoje = new Date();
+
+        const mes =
+            String(
+                hoje.getMonth() + 1
+            ).padStart(2, "0");
+
+        const ano =
+            hoje.getFullYear();
+
         Promise.all([
 
             API.enviar({
-                acao: "listar_dizimistas"
+                acao:
+                    "listar_dizimistas"
             }),
 
             API.enviar({
-                acao: "buscar_relatorio"
+                acao:
+                    "buscar_relatorio",
+                mes,
+                ano
             })
 
         ])
@@ -44,7 +58,7 @@ const Backup = {
                     ],
                     {
                         type:
-                        "application/json"
+                            "application/json"
                     }
                 );
 
