@@ -128,6 +128,11 @@ const Helpers = {
     ========================= */
     alterarFormularioFinanceiro() {
 
+    const tipo =
+        document.getElementById(
+            "tipo"
+        )?.value;
+
     const categoria =
         document.getElementById(
             "categoria"
@@ -143,6 +148,24 @@ const Helpers = {
             "blocoSaida"
         );
 
+    // SE FOR SAÍDA:
+    // sempre mostra bloco de saída
+    if (tipo === "Saída") {
+
+        blocoDizimista
+            ?.classList.add(
+                "hidden"
+            );
+
+        blocoSaida
+            ?.classList.remove(
+                "hidden"
+            );
+
+        return;
+    }
+
+    // SE FOR ENTRADA + DÍZIMO
     if (
         categoria === "Dízimo"
     ) {
@@ -156,55 +179,18 @@ const Helpers = {
             ?.classList.add(
                 "hidden"
             );
+
+        return;
     }
 
-    else if (
-        categoria ===
-            "Coleta Missa" ||
-        categoria ===
-            "Doação"
-    ) {
+    // ENTRADA NORMAL
+    blocoDizimista
+        ?.classList.add(
+            "hidden"
+        );
 
-        blocoDizimista
-            ?.classList.add(
-                "hidden"
-            );
-
-        blocoSaida
-            ?.classList.add(
-                "hidden"
-            );
-    }
-
-    else {
-
-        blocoDizimista
-            ?.classList.add(
-                "hidden"
-            );
-
-        blocoSaida
-            ?.classList.remove(
-                "hidden"
-            );
-    }
+    blocoSaida
+        ?.classList.add(
+            "hidden"
+        );
 }
-
-};
-
-
-
-/* =========================
-   LOAD
-========================= *//*
-window.addEventListener(
-    "load",
-    () => {
-
-        Helpers
-            .carregarCategorias();
-
-        Helpers
-            .alterarFormularioFinanceiro();
-    }
-);*/
