@@ -1,5 +1,29 @@
 const Categorias = {
 
+abrirModal() {
+
+    document
+        .getElementById(
+            "modalCategorias"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+    this.listar();
+},
+
+fecharModal() {
+
+    document
+        .getElementById(
+            "modalCategorias"
+        )
+        .classList.add(
+            "hidden"
+        );
+},    
+
 listar() {
 
     API.enviar({

@@ -142,91 +142,72 @@ class="max-w-7xl mx-auto p-6"
     >
         Fazer Backup
     </button>
-</div>  
-
-<!-- CARD CATEGORIAS -->
-<div
-onclick="abrirTela('telaCategorias')"
-class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
->
-
-<div class="text-3xl md:text-5xl mb-3 md:mb-5">
-📂
 </div>
 
-<h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-Categorias
-</h2>
-
-<p class="text-sm md:text-base text-slate-500">
-Gerenciar categorias
-</p>
-
-</div> 
-
-<div class="grid gap-4 md:grid-cols-4 md:gap-6">
+<div class="grid gap-4 md:grid-cols-3 md:gap-6">
 
     <!-- CARD DIZIMISTAS -->
     <div
-    onclick="abrirTela('telaDizimistas')"
-    class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
-    >
+        onclick="abrirTela('telaDizimistas')"
+        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
+        >
 
-    <div class="text-3xl md:text-5xl mb-3 md:mb-5">
-        👥
+        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+            👥
+        </div>
+
+        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+            Dizimistas
+        </h2>
+
+        <p class="text-sm md:text-base text-slate-500">
+            Cadastro, edição e busca
+        </p>
+
     </div>
 
-    <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-        Dizimistas
-    </h2>
+    <!-- CARD LANÇAMENTOS -->
+    <div
+        onclick="abrirTela('telaLancamentos')"
+        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
+        >
 
-    <p class="text-sm md:text-base text-slate-500">
-        Cadastro, edição e busca
-    </p>
+        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+            💰
+        </div>
 
-</div>
+        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+            Lançamentos
+        </h2>
 
-<!-- CARD LANÇAMENTOS -->
-<div
-onclick="abrirTela('telaLancamentos')"
-class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
->
+        <p class="text-sm md:text-base text-slate-500">
+            Entradas e saídas
+        </p>
 
-<div class="text-3xl md:text-5xl mb-3 md:mb-5">
-    💰
-</div>
+    </div>
 
-<h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-    Lançamentos
-</h2>
+    <!-- CARD RELATÓRIOS -->
+    <div
+        onclick="abrirTela('telaRelatorios')"
+        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
+        >
 
-<p class="text-sm md:text-base text-slate-500">
-    Entradas e saídas
-</p>
+        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+            📄
+        </div>
 
-</div>
+        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+            Relatórios
+        </h2>
 
-<!-- CARD RELATÓRIOS -->
-<div
-onclick="abrirTela('telaRelatorios')"
-class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
->
+        <p class="text-sm md:text-base text-slate-500">
+            Financeiro e dízimo
+        </p>
 
-<div class="text-3xl md:text-5xl mb-3 md:mb-5">
-    📄
-</div>
-
-<h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-    Relatórios
-</h2>
-
-<p class="text-sm md:text-base text-slate-500">
-    Financeiro e dízimo
-</p>
+    </div>
 
 </div>
 
-</div>
 
 </section>
 
@@ -326,11 +307,28 @@ class="hidden max-w-5xl mx-auto p-4 md:p-6"
             Categoria
         </label>
 
-        <select
-            id="categoria"
-            onchange="Helpers.alterarFormularioFinanceiro()"
-            class="border p-3 rounded-xl w-full"
-        ></select>
+        <div class="flex gap-2">
+
+            <select
+                id="categoria"
+                onchange="Helpers.alterarFormularioFinanceiro()"
+                class="border p-3 rounded-xl w-full"
+            ></select>
+
+            <button
+                onclick="Categorias.abrirModal()"
+                class="
+                    w-12
+                    rounded-xl
+                    border
+                    text-xl
+                    hover:bg-slate-100
+                "
+            >
+                +
+            </button>
+
+        </div>
     </div>
 
     <!-- FORMA -->
@@ -550,60 +548,6 @@ PDF
 
 </section>
 
-<!-- 🔵 TELA CATEGORIAS -->
-<section
-id="telaCategorias"
-class="hidden max-w-5xl mx-auto p-6"
->
-
-<div class="flex justify-between items-center mb-6">
-
-<h2 class="text-3xl font-bold">
-Categorias
-</h2>
-
-<button
-onclick="voltarDashboard()"
-class="border px-5 py-3 rounded-xl"
->
-← Voltar
-</button>
-
-</div>
-
-<div class="bg-white rounded-3xl shadow-xl p-6">
-
-<div class="grid md:grid-cols-3 gap-4 mb-6">
-
-<select
-id="novaCategoriaTipo"
-class="border p-3 rounded-xl"
->
-<option>Entrada</option>
-<option>Saída</option>
-</select>
-
-<input
-id="novaCategoriaNome"
-placeholder="Nome da categoria"
-class="border p-3 rounded-xl"
->
-
-<button
-onclick="Categorias.salvar()"
-class="bg-slate-900 text-white rounded-xl px-5"
->
-Salvar
-</button>
-
-</div>
-
-<div id="listaCategorias"></div>
-
-</div>
-
-</section>
-
 <!-- MODAL FORM DIZIMISTA -->
 <div
 id="modalFormDizimista"
@@ -707,6 +651,55 @@ class="text-3xl"
 </div>
 
 <div id="conteudoHistorico"></div>
+
+</div>
+
+</div>
+
+<!-- MODAL CATEGORIAS -->
+<div
+id="modalCategorias"
+class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+>
+
+<div class="bg-white rounded-2xl p-6 w-full max-w-md">
+
+    <div class="flex justify-between mb-4">
+
+        <h2 class="text-xl font-bold">
+            Categorias
+        </h2>
+
+        <button
+            onclick="Categorias.fecharModal()"
+            class="text-2xl"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div class="flex gap-2 mb-4">
+
+        <input
+            id="novaCategoriaNome"
+            placeholder="Nova categoria"
+            class="border p-3 rounded-xl w-full"
+        >
+
+        <button
+            onclick="Categorias.salvar()"
+            class="bg-slate-900 text-white px-4 rounded-xl"
+        >
+            +
+        </button>
+
+    </div>
+
+    <div
+        id="listaCategorias"
+        class="max-h-64 overflow-auto"
+    ></div>
 
 </div>
 
