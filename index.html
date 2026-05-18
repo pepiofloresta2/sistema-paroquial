@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Paroquial</title>
@@ -8,747 +8,622 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
+        <style>
         @media print {
-            body * { visibility: hidden; }
-            #doc, #doc * { visibility: visible; }
+        body * { visibility: hidden; }
+        #doc, #doc * { visibility: visible; }
 
-            #doc {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 190mm;
-                background: white;
-            }
+        #doc {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 190mm;
+        background: white;
         }
-    </style>
-</head>
+        }
+        </style>
 
-<!-- SUBSTITUA TODO O <body> PELO CÓDIGO ABAIXO -->
+    </head>
 
-    <body class="bg-slate-100 min-h-screen">
+<body class="bg-slate-100 min-h-screen">
 
-<!-- HEADER -->
-<header class="bg-slate-900 text-white p-5 shadow-lg">
+<!-- ============================================
+                        HEADER
+============================================= -->
+    <header class="bg-slate-900 text-white p-5 shadow-lg">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <img
+                src="assets/logo.png"
+                class="w-16 h-16 md:w-24 md:h-24 object-contain"
+                >
 
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold">
+                        Sistema Paroquial
+                    </h1>
 
-        <div class="flex items-center gap-4">
+                    <p class="text-sm text-slate-300">
+                        Gestão Paroquial
+                    </p>
+                </div>
+            </div>
 
-            <img
-            src="assets/logo.png"
-            class="w-16 h-16 md:w-24 md:h-24 object-contain"
+            <div class="text-right text-sm text-slate-400">
+                <div id="dataHoje"></div>
+            </div>
+        </div>
+    </header>
+
+<!-- ============================================
+                        DASHBOARD                
+============================================= -->
+    <section id="dashboard" class="max-w-7xl mx-auto p-6">
+
+        <!-- ================= KPIs ================= -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow">
+                <div class="text-sm text-slate-500">
+                    Dizimistas
+                </div>
+
+                <div id="kpiDizimistas" class="text-2xl font-bold">
+                    0
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow">
+                <div class="text-sm text-slate-500">
+                    Entradas
+                </div>
+
+                <div id="kpiEntradas" class="text-2xl font-bold text-blue-600">
+                    R$ 0,00
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow">
+                <div class="text-sm text-slate-500">
+                    Saídas
+                </div>
+
+                <div id="kpiSaidas" class="text-2xl font-bold text-red-600">
+                    R$ 0,00
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow">
+                <div class="text-sm text-slate-500">
+                    Saldo
+                </div>
+
+                <div id="kpiSaldo" class="text-2xl font-bold text-red-600">
+                    R$ 0,00
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= BUTTON ================= -->
+        <div class="mb-6">
+            <button onclick="Backup.exportar()" class="bg-green-600 text-white px-5 py-3 rounded-xl shadow hover:bg-green-700 ">
+                Fazer Backup
+            </button>
+        </div>
+
+
+        <!-- ============================================
+                            CARDS                
+        ============================================= -->
+        <div class="grid gap-4 md:grid-cols-3 md:gap-6">
+
+
+            <!-- ========== CARD DIZIMISTA ========== -->
+            <div
+            onclick="abrirTela('telaDizimistas')"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200">
+                <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+                    👥
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+                    Dizimistas
+                </h2>
+
+                <p class="text-sm md:text-base text-slate-500">
+                    Cadastro, edição e busca
+                </p>
+            </div>
+
+
+            <!-- ========= CARD LANÇAMENTOS ========= -->
+            <div
+            onclick="abrirTela('telaLancamentos')"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200">
+                <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+                    💰
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+                    Lançamentos
+                </h2>
+
+                <p class="text-sm md:text-base text-slate-500">
+                    Entradas e saídas
+                </p>
+            </div>
+
+
+            <!-- ========== CARD RELATÓRIO ========== -->
+            <div
+            onclick="abrirTela('telaRelatorios')"
+            class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200">
+                <div class="text-3xl md:text-5xl mb-3 md:mb-5">
+                    📄
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+                    Relatórios
+                </h2>
+
+                <p class="text-sm md:text-base text-slate-500">
+                    Financeiro e dízimo
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+                        TELAS                
+    ============================================= -->
+        <!-- ========== TELA DIZIMISTA ========== -->  
+    <section id="telaDizimistas" class="hidden max-w-7xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold">
+                Dizimistas
+            </h2>
+
+            <button
+            onclick="voltarDashboard()"
+            class="border px-5 py-3 rounded-xl"
+            >
+                ← Voltar
+            </button>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-6">
+            <div id="listaDizimistasCadastro">
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TELA LANÇAMENTOS ========== -->
+    <section id="telaLancamentos" class="hidden max-w-5xl mx-auto p-4 md:p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold">
+                Lançamentos
+            </h2>
+
+            <button
+            onclick="voltarDashboard()"
+            class="border px-5 py-3 rounded-xl"
+            >
+                ← Voltar
+            </button>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-6">
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- DATA -->
+                <div>
+                    <label class="text-sm text-slate-500">
+                        Data
+                    </label>
+
+                    <input
+                    id="data"
+                    type="date"
+                    class="border p-3 rounded-xl w-full"
+                    >
+                </div>
+
+                <!-- ========== TIPO ========== -->            
+                <div>
+                    <label class="text-sm text-slate-500">
+                        Tipo
+                    </label>
+
+                    <select
+                    id="tipo"
+                    onchange="
+                    Helpers.carregarCategorias();
+                    Helpers.alterarFormularioFinanceiro();
+                    "
+                    class="border p-3 rounded-xl w-full">
+                        <option value="Entrada">Entrada</option>
+                        <option value="Saída">Saída</option>
+                    </select>
+                </div>
+
+                <!-- ========== CATEGORIA ========== -->            
+                <div>
+                    <label class="text-sm text-slate-500">
+                        Categoria
+                    </label>
+
+                    <div class="flex gap-2">
+                        <select
+                        id="categoria"
+                        onchange="Helpers.alterarFormularioFinanceiro()"
+                        class="border p-3 rounded-xl w-full"
+                        >                        
+                        </select>
+
+                        <button
+                        onclick="Categorias.abrirModal()"
+                        class="
+                        w-12
+                        rounded-xl
+                        border
+                        text-xl
+                        hover:bg-slate-100">
+                            +
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- ========== FORMA ========== -->
+                <div>
+                    <label class="text-sm text-slate-500">
+                        Forma de pagamento
+                    </label>
+
+                    <select
+                    id="forma"
+                    class="border p-3 rounded-xl w-full"
+                    >
+                        <option>Dinheiro</option>
+                        <option>PIX</option>
+                        <option>Cartão</option>
+                        <option>Transferência</option>
+                    </select>
+                </div>
+
+                <!-- ========== VALOR ========== -->
+                <div>
+                    <label class="text-sm text-slate-500">
+                        Valor
+                    </label>
+
+                    <input
+                    id="valor"
+                    placeholder="0,00"
+                    class="border p-3 rounded-xl w-full"
+                    >
+                </div>
+            </div>
+
+            <!-- ========== BLOCO DÍZIMO ========== -->
+            <div id="blocoDizimista" class="mt-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm text-slate-500">
+                            Buscar dizimista
+                        </label>
+
+                        <input
+                        id="buscaNome"
+                        placeholder="Digite o nome do dizimista"
+                        oninput="Autocomplete.buscarPorNome()"
+                        onkeydown="Autocomplete.navegarSugestoes(event)"
+                        class="border p-3 rounded-xl w-full"
+                        autocomplete="off"
+                        >
+
+                        <div
+                        id="sugestoes"
+                        class="hidden border rounded-xl bg-white max-h-52 overflow-y-auto mt-1 shadow"
+                        >
+                            
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-sm text-slate-500">
+                                Código
+                            </label>
+
+                            <input
+                            id="codigo"
+                            readonly
+                            class="border p-3 rounded-xl bg-slate-100 w-full max-w-[220px]"
+                            >
+
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== BLOCO SAÍDA ========== -->
+            <div id="blocoSaida" class="hidden mt-6" >
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm text-slate-500">
+                            Número da Nota
+                        </label>
+
+                        <input
+                        id="notaFiscal"
+                        placeholder="NF ou Recibo"
+                        class="border p-3 rounded-xl w-full"
+                        >
+
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-slate-500">
+                            Fornecedor
+                        </label>
+
+                        <input
+                        id="fornecedor"
+                        placeholder="Nome da empresa"
+                        class="border p-3 rounded-xl w-full"
+                        >
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-sm text-slate-500">
+                        Descrição
+                    </label>
+
+                    <textarea
+                    id="descricao"
+                    rows="4"
+                    placeholder="Descrição do lançamento"
+                    class="border p-3 rounded-xl w-full"
+                    >
+                        
+                    </textarea>
+                </div>
+            </div>
+
+            <!-- BOTÃO -->
+            <button
+            onclick="Lancamentos.adicionar()"
+            class="mt-8 bg-slate-900 text-white px-6 py-4 rounded-2xl w-full md:w-auto"
+            >
+                Salvar Lançamento
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== TELA RELATÓRIOS ========== -->
+    <section id="telaRelatorios" class="hidden max-w-7xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold">
+                Relatórios
+            </h2>
+
+            <button
+            onclick="voltarDashboard()"
+            class="border px-5 py-3 rounded-xl"
+            >
+                ← Voltar
+            </button>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-6">
+
+            <input
+            type="month"
+            id="mesFiltro"
+            class="border p-3 rounded-xl mb-5"
             >
 
-            <div>
+            <div class="flex flex-wrap gap-3 mb-6">
 
-                <h1 class="text-2xl font-bold">
-                    Sistema Paroquial
-                </h1>
+                <button
+                onclick="
+                Helpers.botaoRelatorio(this);
+                Relatorio.gerar();
+                "
+                class="btnRelatorio border px-5 py-3 rounded-xl">
+                    Financeiro
+                </button>
 
-                <p class="text-sm text-slate-300">
-                    Gestão Paroquial
-                </p>
+                <button
+                onclick="
+                Helpers.botaoRelatorio(this);
+                RelatorioDizimistas.gerar();
+                "
+                class="btnRelatorio border px-5 py-3 rounded-xl">
+                    Dízimo
+                </button>
+
+                <button
+                onclick="PDF.imprimir()"
+                class="border px-5 py-3 rounded-xl">
+                    PDF
+                </button>
+
+                <button
+                onclick="Fechamento.fecharMes()"
+                class="bg-green-700 text-white px-5 py-3 rounded-xl">
+                    Fechar Mês
+                </button> 
+            </div>
+
+            <div id="res">
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+                        MODALS                
+    ============================================= -->
+    <!-- ============ FORM DIZIMISTA ============ -->
+    <div
+    id="modalFormDizimista"
+    class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="tituloModalDizimista" class="text-2xl font-bold">
+                    Novo Dizimista
+                </h2>
+
+                <button
+                onclick="Dizimistas.fecharForm()"
+                class="text-3xl">
+                    ×
+                </button>
+            </div>
+
+            <input type="hidden" id="codigoAntigo">
+
+            <div class="space-y-4">
+
+                <input
+                id="formCodigo"
+                class="w-full border rounded-xl p-3"
+                placeholder="Código"
+                >
+
+                <input
+                id="formNome"
+                class="w-full border rounded-xl p-3"
+                placeholder="Nome"
+                >
+
+                <input
+                id="formTel"
+                class="w-full border rounded-xl p-3"
+                placeholder="Telefone"
+                oninput="Helpers.mascaraTelefone(this)"
+                >
 
             </div>
 
+            <div class="flex justify-end gap-3 mt-8">
+                <button
+                onclick="Dizimistas.fecharForm()"
+                class="border px-5 py-3 rounded-xl">
+                    Cancelar
+                </button>
+
+                <button
+                onclick="Dizimistas.salvar()"
+                class="bg-slate-900 text-white px-5 py-3 rounded-xl" >
+                    Salvar
+                </button>
+            </div>
         </div>
-
-        <div class="text-right text-sm text-slate-400">
-
-            <div id="dataHoje"></div>
-
-        </div>
-
     </div>
 
-</header>
-
-<!-- DASHBOARD -->
-<section
-id="dashboard"
-class="max-w-7xl mx-auto p-6"
->
-
-<!-- KPIs -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-
-    <div class="bg-white p-5 rounded-2xl shadow">
-        <div class="text-sm text-slate-500">
-            Dizimistas
-        </div>
-
+    <!-- ============ MODAL HISTÓRICO ============ -->
+    <div
+    id="modalHistorico"
+    class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
         <div
-        id="kpiDizimistas"
-        class="text-2xl font-bold"
-        >
-        0
-    </div>
-</div>
+        class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl p-6 max-h-[90vh] overflow-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="tituloHistorico" class="text-2xl font-bold">
+                    Histórico
+                </h2>
 
-<div class="bg-white p-5 rounded-2xl shadow">
-    <div class="text-sm text-slate-500">
-        Entradas
-    </div>
+                <button
+                onclick="document.getElementById('modalHistorico').classList.add('hidden')"
+                class="text-3xl">
+                    ×
+                </button>
+            </div>
 
-    <div
-    id="kpiEntradas"
-    class="text-2xl font-bold text-blue-600"
-    >
-    R$ 0,00
-</div>
-</div>
-
-<div class="bg-white p-5 rounded-2xl shadow">
-    <div class="text-sm text-slate-500">
-        Saídas
-    </div>
-
-    <div
-    id="kpiSaidas"
-    class="text-2xl font-bold text-red-600"
-    >
-    R$ 0,00
-</div>
-</div>
-
-<div class="bg-white p-5 rounded-2xl shadow">
-    <div class="text-sm text-slate-500">
-        Saldo
-    </div>
-
-    <div
-    id="kpiSaldo"
-    class="text-2xl font-bold text-red-600"
-    >
-    R$ 0,00
-</div>
-</div>
-
-</div>
-
-<div class="mb-6">
-    <button
-        onclick="Backup.exportar()"
-        class="
-            bg-green-600
-            text-white
-            px-5
-            py-3
-            rounded-xl
-            shadow
-            hover:bg-green-700
-        "
-    >
-        Fazer Backup
-    </button>
-</div>
-
-<div class="grid gap-4 md:grid-cols-3 md:gap-6">
-
-    <!-- CARD DIZIMISTAS -->
-    <div
-        onclick="abrirTela('telaDizimistas')"
-        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
-        >
-
-        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
-            👥
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-            Dizimistas
-        </h2>
-
-        <p class="text-sm md:text-base text-slate-500">
-            Cadastro, edição e busca
-        </p>
-
-    </div>
-
-    <!-- CARD LANÇAMENTOS -->
-    <div
-        onclick="abrirTela('telaLancamentos')"
-        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
-        >
-
-        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
-            💰
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-            Lançamentos
-        </h2>
-
-        <p class="text-sm md:text-base text-slate-500">
-            Entradas e saídas
-        </p>
-
-    </div>
-
-    <!-- CARD RELATÓRIOS -->
-    <div
-        onclick="abrirTela('telaRelatorios')"
-        class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
-        >
-
-        <div class="text-3xl md:text-5xl mb-3 md:mb-5">
-            📄
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
-            Relatórios
-        </h2>
-
-        <p class="text-sm md:text-base text-slate-500">
-            Financeiro e dízimo
-        </p>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- 🔵 TELA DIZIMISTAS -->
-<section
-id="telaDizimistas"
-class="hidden max-w-7xl mx-auto p-6"
->
-
-<div class="flex justify-between items-center mb-6">
-
-    <h2 class="text-3xl font-bold">
-        Dizimistas
-    </h2>
-
-    <button
-    onclick="voltarDashboard()"
-    class="border px-5 py-3 rounded-xl"
-    >
-    ← Voltar
-</button>
-
-</div>
-
-<div
-class="bg-white rounded-3xl shadow-xl p-6"
->
-
-<div id="listaDizimistasCadastro"></div>
-
-</div>
-
-</section>
-
-
-
-<!-- 🔵 TELA LANÇAMENTOS -->
-<section
-id="telaLancamentos"
-class="hidden max-w-5xl mx-auto p-4 md:p-6"
->
-
-<div class="flex justify-between items-center mb-6">
-
-    <h2 class="text-3xl font-bold">
-        Lançamentos
-    </h2>
-
-    <button
-    onclick="voltarDashboard()"
-    class="border px-5 py-3 rounded-xl"
-    >
-    ← Voltar
-</button>
-
-</div>
-
-<div class="bg-white rounded-3xl shadow-xl p-6">
-
-    <div class="grid md:grid-cols-2 gap-4">
-
-        <!-- DATA -->
-        <div>
-            <label class="text-sm text-slate-500">
-                Data
-            </label>
-
-            <input
-            id="data"
-            type="date"
-            class="border p-3 rounded-xl w-full"
-            >
-        </div>
-
-        <!-- TIPO -->
-        <div>
-            <label class="text-sm text-slate-500">
-                Tipo
-            </label>
-
-            <select
-                id="tipo"
-                onchange="
-                    Helpers.carregarCategorias();
-                    Helpers.alterarFormularioFinanceiro();
-                "
-                class="border p-3 rounded-xl w-full"
-            >
-                <option value="Entrada">Entrada</option>
-                <option value="Saída">Saída</option>
-            </select>
-    </div>
-
-    <!-- CATEGORIA -->
-    <div>
-        <label class="text-sm text-slate-500">
-            Categoria
-        </label>
-
-        <div class="flex gap-2">
-
-            <select
-                id="categoria"
-                onchange="Helpers.alterarFormularioFinanceiro()"
-                class="border p-3 rounded-xl w-full"
-            ></select>
-
-            <button
-                onclick="Categorias.abrirModal()"
-                class="
-                    w-12
-                    rounded-xl
-                    border
-                    text-xl
-                    hover:bg-slate-100
-                "
-            >
-                +
-            </button>
-
+            <div id="conteudoHistorico">
+                
+            </div>
         </div>
     </div>
 
-    <!-- FORMA -->
-    <div>
-        <label class="text-sm text-slate-500">
-            Forma de pagamento
-        </label>
+    <!-- ============ MODAL CATEGORIAS ============ -->
+    <div id="modalCategorias" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+            <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-bold">
+                    Categorias
+                </h2>
 
-        <select
-        id="forma"
-        class="border p-3 rounded-xl w-full"
-        >
-        <option>Dinheiro</option>
-        <option>PIX</option>
-        <option>Cartão</option>
-        <option>Transferência</option>
-    </select>
-</div>
+                <button
+                onclick="Categorias.fecharModal()"
+                class="text-2xl">
+                    ×
+                </button>
+            </div>
 
-<!-- VALOR -->
-<div>
-    <label class="text-sm text-slate-500">
-        Valor
-    </label>
+            <div class="space-y-3 mb-4">
+                <select
+                id="novaCategoriaTipo"
+                class="border p-3 rounded-xl w-full">
+                    <option value="Entrada">Entrada</option>
+                    <option value="Saída">Saída</option>
+                </select>
 
-    <input
-    id="valor"
-    placeholder="0,00"
-    class="border p-3 rounded-xl w-full"
-    >
-</div>
+                <div class="flex gap-2">
+                    <input
+                    id="novaCategoriaNome"
+                    placeholder="Nova categoria"
+                    class="border p-3 rounded-xl w-full">
 
-</div>
+                    <button
+                    onclick="Categorias.salvar()"
+                    class="bg-slate-900 text-white px-4 rounded-xl">
+                        +
+                    </button>
+                </div>
+            </div>
 
-<!-- 🔵 BLOCO DÍZIMO -->
-<div
-id="blocoDizimista"
-class="mt-6"
->
-
-<div class="grid md:grid-cols-2 gap-4">
-
-    <div>
-
-        <label class="text-sm text-slate-500">
-            Buscar dizimista
-        </label>
-
-        <input
-        id="buscaNome"
-        placeholder="Digite o nome do dizimista"
-        oninput="Autocomplete.buscarPorNome()"
-        onkeydown="Autocomplete.navegarSugestoes(event)"
-        class="border p-3 rounded-xl w-full"
-        autocomplete="off"
-        >
-
-        <div
-        id="sugestoes"
-        class="hidden border rounded-xl bg-white max-h-52 overflow-y-auto mt-1 shadow"
-        ></div>
-
+            <div
+            id="listaCategorias"
+            class="max-h-64 overflow-auto">
+                
+            </div>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-        <div>
-
-            <label class="text-sm text-slate-500">
-                Código
-            </label>
-
-            <input
-            id="codigo"
-            readonly
-            class="border p-3 rounded-xl bg-slate-100 w-full max-w-[220px]"
-            >
-
-        </div>                    
-
-    </div>
-
-</div>
-
-</div>
-
-<!-- 🔵 BLOCO SAÍDA -->
-<div
-id="blocoSaida"
-class="hidden mt-6"
->
-
-<div class="grid md:grid-cols-2 gap-4">
-
-    <div>
-
-        <label class="text-sm text-slate-500">
-            Número da Nota
-        </label>
-
-        <input
-            id="notaFiscal"
-            placeholder="NF ou Recibo"
-            class="border p-3 rounded-xl w-full"
-        >
-
-    </div>
-
-    <div>
-
-        <label class="text-sm text-slate-500">
-            Fornecedor
-        </label>
-
-        <input
-        id="fornecedor"
-        placeholder="Nome da empresa"
-        class="border p-3 rounded-xl w-full"
-        >
-
-    </div>
-
-</div>
-
-<div class="mt-4">
-
-    <label class="text-sm text-slate-500">
-        Descrição
-    </label>
-
-    <textarea
-    id="descricao"
-    rows="4"
-    placeholder="Descrição do lançamento"
-    class="border p-3 rounded-xl w-full"
-    ></textarea>
-
-</div>
-
-</div>
-
-<!-- BOTÃO -->
-<button
-onclick="Lancamentos.adicionar()"
-class="mt-8 bg-slate-900 text-white px-6 py-4 rounded-2xl w-full md:w-auto"
->
-Salvar Lançamento
-</button>
-
-</div>
-
-</section>
-
-<!-- 🔵 TELA RELATÓRIOS -->
-<section
-id="telaRelatorios"
-class="hidden max-w-7xl mx-auto p-6"
->
-
-<div class="flex justify-between items-center mb-6">
-
-    <h2 class="text-3xl font-bold">
-        Relatórios
-    </h2>
-
-    <button
-    onclick="voltarDashboard()"
-    class="border px-5 py-3 rounded-xl"
-    >
-    ← Voltar
-</button>
-
-</div>
-
-<div class="bg-white rounded-3xl shadow-xl p-6">
-
-    <input
-    type="month"
-    id="mesFiltro"
-    class="border p-3 rounded-xl mb-5"
-    >
-
-    <div class="flex flex-wrap gap-3 mb-6">
-
-        <button
-        onclick="
-        Helpers.botaoRelatorio(this);
-        Relatorio.gerar();
-        "
-        class="btnRelatorio border px-5 py-3 rounded-xl"
-        >
-        Financeiro
-    </button>
-
-    <button
-    onclick="
-    Helpers.botaoRelatorio(this);
-    RelatorioDizimistas.gerar();
-    "
-    class="btnRelatorio border px-5 py-3 rounded-xl"
-    >
-    Dízimo
-</button>
-
-<button
-onclick="PDF.imprimir()"
-class="border px-5 py-3 rounded-xl"
->
-PDF
-</button>            
-
-</div>
-
-<div id="res"></div>
-
-</div>
-
-</section>
-
-<!-- MODAL FORM DIZIMISTA -->
-<div
-id="modalFormDizimista"
-class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center"
->
-
-<div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6">
-
-    <div class="flex justify-between items-center mb-6">
-
-        <h2
-        id="tituloModalDizimista"
-        class="text-2xl font-bold"
-        >
-        Novo Dizimista
-    </h2>
-
-    <button
-    onclick="Dizimistas.fecharForm()"
-    class="text-3xl"
-    >
-    ×
-</button>
-
-</div>
-
-<input type="hidden" id="codigoAntigo">
-
-<div class="space-y-4">
-
-    <input
-    id="formCodigo"
-    class="w-full border rounded-xl p-3"
-    placeholder="Código"
-    >
-
-    <input
-    id="formNome"
-    class="w-full border rounded-xl p-3"
-    placeholder="Nome"
-    >
-
-    <input
-    id="formTel"
-    class="w-full border rounded-xl p-3"
-    placeholder="Telefone"
-    oninput="Helpers.mascaraTelefone(this)"
-    >
-
-</div>
-
-<div class="flex justify-end gap-3 mt-8">
-
-    <button
-    onclick="Dizimistas.fecharForm()"
-    class="border px-5 py-3 rounded-xl"
-    >
-    Cancelar
-</button>
-
-<button
-onclick="Dizimistas.salvar()"
-class="bg-slate-900 text-white px-5 py-3 rounded-xl"
->
-Salvar
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- 🔵 MODAL HISTÓRICO -->
-<div
-id="modalHistorico"
-class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center"
->
-
-<div
-class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl p-6 max-h-[90vh] overflow-auto"
->
-
-<div class="flex justify-between items-center mb-6">
-
-<h2
-id="tituloHistorico"
-class="text-2xl font-bold"
->
-Histórico
-</h2>
-
-<button
-onclick="document.getElementById('modalHistorico').classList.add('hidden')"
-class="text-3xl"
->
-×
-</button>
-
-</div>
-
-<div id="conteudoHistorico"></div>
-
-</div>
-
-</div>
-
-<!-- MODAL CATEGORIAS -->
-<div
-id="modalCategorias"
-class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
->
-
-<div class="bg-white rounded-2xl p-6 w-full max-w-md">
-
-    <div class="flex justify-between mb-4">
-
-        <h2 class="text-xl font-bold">
-            Categorias
-        </h2>
-
-        <button
-            onclick="Categorias.fecharModal()"
-            class="text-2xl"
-        >
-            ×
-        </button>
-
-    </div>
-
-    <div class="space-y-3 mb-4">
-
-    <select
-        id="novaCategoriaTipo"
-        class="border p-3 rounded-xl w-full"
-    >
-        <option value="Entrada">
-            Entrada
-        </option>
-
-        <option value="Saída">
-            Saída
-        </option>
-    </select>
-
-    <div class="flex gap-2">
-
-        <input
-            id="novaCategoriaNome"
-            placeholder="Nova categoria"
-            class="border p-3 rounded-xl w-full"
-        >
-
-        <button
-            onclick="Categorias.salvar()"
-            class="
-                bg-slate-900
-                text-white
-                px-4
-                rounded-xl
-            "
-        >
-            +
-        </button>
-
-    </div>
-
-</div>
-
-    <div
-        id="listaCategorias"
-        class="max-h-64 overflow-auto"
-    ></div>
-
-</div>
-
-</div>
-
-<!-- SCRIPTS -->
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-
-<!-- components -->
-<script src="js/components/helpers.js"></script>
-<script src="js/components/autocomplete.js"></script>
-<script src="js/components/pdf.js"></script>
-<script src="js/components/financeiro-template.js"></script>
-<script src="js/components/dizimistas-template.js"></script>
-
-<!-- modules-->
-<script src="js/modules/categorias.js"></script>
-<script src="js/modules/dashboard.js"></script>
-<script src="js/modules/dizimistas.js"></script>
-<script src="js/modules/lancamentos.js"></script>
-<script src="js/modules/relatorio.js"></script>
-<script src="js/modules/relatorio-dizimistas.js"></script>
-<script src="js/modules/backup.js"></script>
-
-<script src="js/app.js"></script>
-
+    <!-- ============================================
+                        SCRIPTS
+    ============================================  -->
+
+    <!-- core -->
+    <script src="js/core/config.js"></script>
+
+    <!-- utils -->
+    <script src="js/utils/helpers.js"></script>
+
+    <!-- api -->
+    <script src="js/api/api.js"></script>
+
+    <!-- components -->
+    <script src="js/components/autocomplete.js"></script>
+    <script src="js/components/pdf.js"></script>
+    <script src="js/components/financeiro-template.js"></script>
+    <script src="js/components/dizimistas-template.js"></script>
+
+    <!-- modules-->
+    <script src="js/modules/categorias.js"></script>
+    <script src="js/modules/dashboard.js"></script>
+    <script src="js/modules/dizimistas.js"></script>
+    <script src="js/modules/lancamentos.js"></script>
+    <script src="js/modules/relatorio.js"></script>
+    <script src="js/modules/relatorio-dizimistas.js"></script>
+    <script src="js/modules/backup.js"></script>
+    <script src="js/modules/fechamento.js"></script>
+
+    <script src="js/app.js"></script>
+    <!-- ======================================== -->
 
 </body>
 </html>
