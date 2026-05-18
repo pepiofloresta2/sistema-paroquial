@@ -2,6 +2,17 @@ const Categorias = {
 
 abrirModal() {
 
+    const tipoAtual =
+        document.getElementById(
+            "tipo"
+        ).value;
+
+    document
+        .getElementById(
+            "novaCategoriaTipo"
+        )
+        .value = tipoAtual;
+
     document
         .getElementById(
             "modalCategorias"
@@ -11,7 +22,7 @@ abrirModal() {
         );
 
     this.listar();
-},
+}
 
 fecharModal() {
 
@@ -82,7 +93,7 @@ salvar() {
     const nome =
         document.getElementById(
             "novaCategoriaNome"
-        ).value;
+        ).value.trim();
 
     if (!nome) {
         return alert(
@@ -91,11 +102,22 @@ salvar() {
     }
 
     API.enviar({
-        acao: "salvar_categoria",
+        acao:
+            "salvar_categoria",
+
         tipo,
         nome
     })
-    .then(() => {
+    .then(res => {
+
+        if (
+            res.status !== "ok"
+        ) {
+            return alert(
+                res.mensagem ||
+                "Erro ao salvar"
+            );
+        }
 
         document
             .getElementById(
@@ -103,11 +125,15 @@ salvar() {
             )
             .value = "";
 
+        Helpers
+            .categoriasCache = null;
+
         this.listar();
 
-        Helpers.categoriasCache = null;
+        Helpers
+            .carregarCategorias();
     });
-},
+}
 
 excluir(nome) {
 

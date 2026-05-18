@@ -679,7 +679,22 @@ class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
 
     </div>
 
-    <div class="flex gap-2 mb-4">
+    <div class="space-y-3 mb-4">
+
+    <select
+        id="novaCategoriaTipo"
+        class="border p-3 rounded-xl w-full"
+    >
+        <option value="Entrada">
+            Entrada
+        </option>
+
+        <option value="Saída">
+            Saída
+        </option>
+    </select>
+
+    <div class="flex gap-2">
 
         <input
             id="novaCategoriaNome"
@@ -689,12 +704,19 @@ class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
 
         <button
             onclick="Categorias.salvar()"
-            class="bg-slate-900 text-white px-4 rounded-xl"
+            class="
+                bg-slate-900
+                text-white
+                px-4
+                rounded-xl
+            "
         >
             +
         </button>
 
     </div>
+
+</div>
 
     <div
         id="listaCategorias"
