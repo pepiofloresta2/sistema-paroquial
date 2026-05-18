@@ -6,12 +6,20 @@ const Fechamento = {
             document
             .getElementById(
                 "mesFiltro"
-            )
-            .value;
+            ).value;
 
         if (!mes) {
             return alert(
-                "Selecione o mês"
+                "Selecione o mês."
+            );
+        }
+
+        // obrigar gerar relatório antes
+        if (
+            !window.__RELATORIO_PRONTO__
+        ) {
+            return alert(
+                "Gere o relatório financeiro antes de fechar o mês."
             );
         }
 
@@ -32,7 +40,7 @@ const Fechamento = {
 
         if (
             !confirm(
-                `Fechar ${mesNum}/${ano}?`
+                `Confirma fechar ${mesNum}/${ano}?`
             )
         ) return;
 
@@ -64,6 +72,10 @@ const Fechamento = {
             );
 
             PDF.imprimir();
+
+            // trava novo fechamento
+            window.__RELATORIO_PRONTO__ =
+                false;
         });
     }
 
