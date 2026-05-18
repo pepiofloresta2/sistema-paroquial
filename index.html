@@ -142,9 +142,29 @@ class="max-w-7xl mx-auto p-6"
     >
         Fazer Backup
     </button>
-</div>   
+</div>  
 
-<div class="grid gap-4 md:grid-cols-3 md:gap-6">
+<!-- CARD CATEGORIAS -->
+<div
+onclick="abrirTela('telaCategorias')"
+class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-5 md:p-8 cursor-pointer hover:scale-105 duration-200"
+>
+
+<div class="text-3xl md:text-5xl mb-3 md:mb-5">
+📂
+</div>
+
+<h2 class="text-xl md:text-2xl font-bold mb-1 md:mb-2">
+Categorias
+</h2>
+
+<p class="text-sm md:text-base text-slate-500">
+Gerenciar categorias
+</p>
+
+</div> 
+
+<div class="grid gap-4 md:grid-cols-4 md:gap-6">
 
     <!-- CARD DIZIMISTAS -->
     <div
@@ -240,6 +260,8 @@ class="bg-white rounded-3xl shadow-xl p-6"
 </div>
 
 </section>
+
+
 
 <!-- 🔵 TELA LANÇAMENTOS -->
 <section
@@ -528,6 +550,60 @@ PDF
 
 </section>
 
+<!-- 🔵 TELA CATEGORIAS -->
+<section
+id="telaCategorias"
+class="hidden max-w-5xl mx-auto p-6"
+>
+
+<div class="flex justify-between items-center mb-6">
+
+<h2 class="text-3xl font-bold">
+Categorias
+</h2>
+
+<button
+onclick="voltarDashboard()"
+class="border px-5 py-3 rounded-xl"
+>
+← Voltar
+</button>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow-xl p-6">
+
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+
+<select
+id="novaCategoriaTipo"
+class="border p-3 rounded-xl"
+>
+<option>Entrada</option>
+<option>Saída</option>
+</select>
+
+<input
+id="novaCategoriaNome"
+placeholder="Nome da categoria"
+class="border p-3 rounded-xl"
+>
+
+<button
+onclick="Categorias.salvar()"
+class="bg-slate-900 text-white rounded-xl px-5"
+>
+Salvar
+</button>
+
+</div>
+
+<div id="listaCategorias"></div>
+
+</div>
+
+</section>
+
 <!-- MODAL FORM DIZIMISTA -->
 <div
 id="modalFormDizimista"
@@ -648,6 +724,7 @@ class="text-3xl"
 <script src="js/components/dizimistas-template.js"></script>
 
 <!-- modules-->
+<script src="js/modules/categorias.js"></script>
 <script src="js/modules/dashboard.js"></script>
 <script src="js/modules/dizimistas.js"></script>
 <script src="js/modules/lancamentos.js"></script>
