@@ -1,158 +1,166 @@
 const Categorias = {
 
-abrirModal() {
+    abrirModal() {
 
-    const tipoAtual =
-        document.getElementById(
-            "tipo"
-        ).value;
-
-    document
-        .getElementById(
-            "novaCategoriaTipo"
-        )
-        .value = tipoAtual;
-
-    document
-        .getElementById(
-            "modalCategorias"
-        )
-        .classList.remove(
-            "hidden"
-        );
-
-    this.listar();
-}
-
-fecharModal() {
-
-    document
-        .getElementById(
-            "modalCategorias"
-        )
-        .classList.add(
-            "hidden"
-        );
-},    
-
-listar() {
-
-    API.enviar({
-        acao: "listar_categorias"
-    })
-    .then(res => {
-
-        let html = "";
-
-        (res.lista || []).forEach(cat => {
-
-            html += `
-            <div class="
-                flex
-                justify-between
-                border-b
-                py-3
-            ">
-
-                <div>
-                    ${cat.tipo} —
-                    ${cat.nome}
-                </div>
-
-                <button
-                    onclick="
-                        Categorias.excluir(
-                            '${cat.nome}'
-                        )
-                    "
-                    class="text-red-600"
-                >
-                    Excluir
-                </button>
-
-            </div>
-            `;
-        });
+        const tipoAtual =
+            document.getElementById(
+                "tipo"
+            ).value;
 
         document
             .getElementById(
-                "listaCategorias"
+                "novaCategoriaTipo"
+            ).value = tipoAtual;
+
+        document
+            .getElementById(
+                "modalCategorias"
             )
-            .innerHTML = html;
-    });
+            .classList.remove(
+                "hidden"
+            );
 
-},
+        this.listar();
+    },
 
-salvar() {
+    fecharModal() {
 
-    const tipo =
-        document.getElementById(
-            "novaCategoriaTipo"
-        ).value;
+        document
+            .getElementById(
+                "modalCategorias"
+            )
+            .classList.add(
+                "hidden"
+            );
+    },
 
-    const nome =
-        document.getElementById(
-            "novaCategoriaNome"
-        ).value.trim();
+    listar() {
 
-    if (!nome) {
-        return alert(
-            "Informe o nome"
-        );
-    }
+        API.enviar({
+            acao:
+                "listar_categorias"
+        })
+        .then(res => {
 
-    API.enviar({
-        acao:
-            "salvar_categoria",
+            const lista =
+                document.getElementById(
+                    "listaCategorias"
+                );
 
-        tipo,
-        nome
-    })
-    .then(res => {
+            lista.innerHTML = "";
 
-        if (
-            res.status !== "ok"
-        ) {
+            (res.lista || [])
+            .forEach(cat => {
+
+                lista.innerHTML += `
+                    <div class="flex justify-between border-b py-3">
+                        <span>
+                            ${cat.tipo}
+                            —
+                            ${cat.nome}
+                        </span>
+
+                        <button
+                            onclick="
+                            Categorias.excluir(
+                                '${cat.nome}'
+                            )
+                            "
+                            class="
+                                text-red-500
+                            "
+                        >
+                            Excluir
+                        </button>
+                    </div>
+                `;
+            });
+
+        });
+    },
+
+    salvar() {
+
+        const tipo =
+            document.getElementById(
+                "novaCategoriaTipo"
+            ).value;
+
+        const nome =
+            document.getElementById(
+                "novaCategoriaNome"
+            ).value.trim();
+
+        if (!nome) {
             return alert(
-                res.mensagem ||
-                "Erro ao salvar"
+                "Informe o nome"
             );
         }
 
-        document
-            .getElementById(
-                "novaCategoriaNome"
+        API.enviar({
+
+            acao:
+                "salvar_categoria",
+
+            tipo,
+            nome
+
+        }).then(res => {
+
+            if (
+                res.status !== "ok"
+            ) {
+                return alert(
+                    res.mensagem
+                );
+            }
+
+            document
+                .getElementById(
+                    "novaCategoriaNome"
+                )
+                .value = "";
+
+            Helpers
+                .categoriasCache = null;
+
+            this.listar();
+
+            Helpers
+                .carregarCategorias();
+        });
+    },
+
+    excluir(nome) {
+
+        if (
+            !confirm(
+                "Excluir categoria?"
             )
-            .value = "";
+        ) return;
 
-        Helpers
-            .categoriasCache = null;
+        API.enviar({
 
-        this.listar();
+            acao:
+                "excluir_categoria",
 
-        Helpers
-            .carregarCategorias();
-    });
-}
+            nome
 
-excluir(nome) {
+        }).then(res => {
 
-    if (
-        !confirm(
-            "Excluir categoria?"
-        )
-    ) return;
+            if (
+                res.status === "ok"
+            ) {
 
-    API.enviar({
-        acao: "excluir_categoria",
-        nome
-    })
-    .then(() => {
+                Helpers
+                    .categoriasCache = null;
 
-        this.listar();
+                this.listar();
 
-        Helpers.categoriasCache = null;
-    });
-}
+                Helpers
+                    .carregarCategorias();
+            }
+        });
+    }
 
 };
