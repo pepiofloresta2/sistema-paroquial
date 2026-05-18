@@ -19,15 +19,16 @@ const Fechamento = {
             mes.split("-");
 
         const entradas =
-            Dashboard
+            Relatorio
             .totalEntradas || 0;
 
         const saidas =
-            Dashboard
+            Relatorio
             .totalSaidas || 0;
 
         const saldo =
-            entradas - saidas;
+            Relatorio
+            .totalSaldo || 0;
 
         if (
             !confirm(

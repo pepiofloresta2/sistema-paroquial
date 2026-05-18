@@ -1,4 +1,6 @@
 const Relatorio = {
+    totalEntradas: 0,
+    totalSaidas: 0,    
 
 gerar(){
 
@@ -182,6 +184,10 @@ let linhas =
     linhasSaidas;    
 
 let saldo = entradas - saidas;
+
+Relatorio.totalEntradas = entradas;
+Relatorio.totalSaidas = saidas;
+Relatorio.totalSaldo = saldo;
 
 
 // 🔵 HTML FINAL
